@@ -1,6 +1,6 @@
 ---
 title: Test
-published: 2026-2-6
+published: 2026-02-06
 description: Test
 tags: [TS]
 category: Examples
