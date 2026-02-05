@@ -1,14 +1,8 @@
 ---
-title: Test Post
-published: 2026-02-06
-tags: [TypeScript, Test]
-category: Test
+title: Test
+published: 2026-2-6
+description: Test
+tags: [Markdown, Blogging, Demo]
+category: Examples
+draft: false
 ---
-
-# TypeScript Hello World
-
-```ts
-console.log("Hello, World!");
-```
-
-This is a simple TypeScript hello world example.
