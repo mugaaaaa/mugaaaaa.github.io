@@ -2,7 +2,13 @@
 title: Test
 published: 2026-2-6
 description: Test
-tags: [Markdown, Blogging, Demo]
+tags: [TS]
 category: Examples
 draft: false
 ---
+
+This is a test post.
+
+```ts
+console.log("Hello World!")
+```
