@@ -1,0 +1,60 @@
+import { LiquidGlass } from './LiquidGlass';
+
+function DockIcon({ type }: { type: 'home' | 'posts' | 'search' | 'top' }) {
+  const paths = {
+    home: 'M4 11.5 12 5l8 6.5V20h-5v-5H9v5H4z',
+    posts: 'M6 5h12M6 10h12M6 15h8M6 20h10',
+    search: 'm20 20-4.5-4.5M18 11a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z',
+    top: 'M12 19V5m0 0 6 6M12 5l-6 6',
+  };
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="size-5">
+      <path
+        d={paths[type]}
+        fill={type === 'home' ? 'currentColor' : 'none'}
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+export default function MobileGlassDock() {
+  const openSearch = () => {
+    window.dispatchEvent(new CustomEvent('open-command-palette'));
+  };
+
+  return (
+    <LiquidGlass
+      className="pointer-events-auto fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-full px-2 py-2 text-stone-950 shadow-[0_24px_70px_-34px_rgba(10,10,10,0.72)] md:hidden"
+      chroma={0.36}
+      blur={2.4}
+      distort={28}
+      bezelRatio={0.86}
+      tintColor="#ffffff"
+      tintAlpha={0.1}
+      saturate={160}
+    >
+      <a href="/" aria-label="Home" className="grid size-11 place-items-center rounded-full bg-transparent transition hover:bg-white/45 focus-visible:bg-white/45">
+        <DockIcon type="home" />
+      </a>
+      <a href="/#notes" aria-label="Latest posts" className="grid size-11 place-items-center rounded-full bg-transparent transition hover:bg-white/45 focus-visible:bg-white/45">
+        <DockIcon type="posts" />
+      </a>
+      <button
+        type="button"
+        aria-label="Search"
+        className="grid size-11 place-items-center rounded-full bg-stone-950 text-white"
+        onClick={openSearch}
+      >
+        <DockIcon type="search" />
+      </button>
+      <a href="#top" aria-label="Back to top" className="grid size-11 place-items-center rounded-full bg-transparent transition hover:bg-white/45 focus-visible:bg-white/45">
+        <DockIcon type="top" />
+      </a>
+    </LiquidGlass>
+  );
+}

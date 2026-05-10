@@ -1,0 +1,347 @@
+---
+import { getCollection } from 'astro:content';
+import CommandPalette from '../components/CommandPalette';
+import FloatingGlass from '../components/FloatingGlass';
+import { LiquidGlass } from '../components/LiquidGlass';
+import MobileGlassDock from '../components/MobileGlassDock';
+import NowQueueGlass from '../components/NowQueueGlass';
+import PostFilterGlass from '../components/PostFilterGlass';
+import ProgressGlass from '../components/ProgressGlass';
+import { formatDate, postHref, readingTime, sortPosts, toSearchItems } from '../lib/posts';
+import '../styles/global.css';
+
+const heroImage = '/images/blog/hero-ptilopsis.jpeg';
+const latestPostsImage = '/images/blog/visual-01.jpg';
+const allPosts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
+const latestPosts = allPosts.slice(0, 3);
+const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
+const tagCount = allTags.length;
+const totalMinutes = allPosts.reduce((sum, post) => sum + readingTime(post), 0);
+const searchItems = toSearchItems(allPosts);
+
+const volumePriority = ['Paper Notes', 'Anime', 'Linguists'];
+
+const volumes = [
+  {
+    title: 'Paper Notes',
+    image: '/images/blog/visual-01.jpg',
+    description: '论文阅读、方法摘要和实验笔记。',
+    href: '/posts/?tag=Paper%20Notes',
+  },
+  {
+    title: 'Anime',
+    image: '/images/blog/visual-02.jpg',
+    description: '动画、角色和观看记录。',
+    href: '/posts/?tag=Anime',
+  },
+  {
+    title: 'Linguists',
+    image: '/images/blog/visual-03.jpg',
+    description: '语言学片段、阅读摘录和问题清单。',
+    href: '/posts/?tag=Linguists',
+  },
+];
+
+const featuredVolumes = volumePriority
+  .map((title) => volumes.find((volume) => volume.title === title))
+  .filter((volume): volume is (typeof volumes)[number] => Boolean(volume));
+const moreVolumes = volumes.filter((volume) => !volumePriority.includes(volume.title));
+
+const socialLinks = [
+  {
+    name: 'GitHub',
+    meta: 'Code / Repo',
+    initials: 'GH',
+    avatar: '/images/social/github-avatar.jpeg',
+    label: 'github.com/mugaaaaa',
+    href: 'https://github.com/mugaaaaa',
+    text: '代码、实验项目和公开仓库会优先放在这里。',
+  },
+  {
+    name: 'QQ',
+    meta: 'Chat',
+    initials: 'QQ',
+    avatar: '/images/social/qq-avatar.jpg',
+    label: 'QQ 2650009090',
+    href: 'tencent://message/?uin=2650009090&Site=MugaaaaaBlog&Menu=yes',
+    text: '更即时的联络入口，QQ 号可以直接从这里看到。',
+  },
+  {
+    name: 'Bilibili',
+    meta: 'Video / Feed',
+    initials: 'BL',
+    avatar: '/images/social/bilibili-avatar.jpg',
+    label: 'space.bilibili.com/402171062',
+    href: 'https://space.bilibili.com/402171062?spm_id_from=333.1007.0.0',
+    text: '视频、动态和收藏清单可以放在这个入口。',
+  },
+  {
+    name: 'Reserved',
+    meta: 'Open Slot',
+    initials: '+',
+    avatar: '',
+    label: 'To be added',
+    href: '',
+    text: '预留给之后新增的社交媒体或邮箱入口。',
+  },
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Mugaaaaa's Blog, a personal notebook for code, linguistics, research notes, and daily writing."
+    />
+    <title>Mugaaaaa's Blog</title>
+  </head>
+  <body>
+    <div id="top" class="min-h-screen overflow-x-hidden">
+      <FloatingGlass client:load />
+      <MobileGlassDock client:load />
+      <CommandPalette posts={searchItems} client:load />
+      <ProgressGlass client:load />
+      <NowQueueGlass
+        currentTitle={latestPosts[0]?.data.title ?? 'New draft'}
+        nextTitle={latestPosts[1]?.data.title}
+        postCount={allPosts.length}
+        tagCount={tagCount}
+        client:load
+      />
+
+      <header class="hero-screen relative isolate min-h-screen min-h-[100svh] bg-stone-950 text-white">
+        <img
+          src={heroImage}
+          alt="A sharp illustrated banner for Mugaaaaa's Blog"
+          class="absolute inset-0 -z-20 h-full w-full object-cover object-top"
+        />
+        <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(0,0,0,0.78),rgba(0,0,0,0.2)_48%,rgba(0,0,0,0.68))]"></div>
+        <div class="absolute inset-x-0 bottom-0 -z-10 h-36 bg-gradient-to-t from-black/58 to-transparent"></div>
+        <div class="mx-auto flex min-h-screen min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-8 pt-28 md:px-8 lg:px-10 lg:pr-56">
+          <div class="max-w-6xl">
+            <p class="mb-5 inline-flex border border-white/45 bg-white px-3 py-1 text-xs font-black uppercase text-stone-950">
+              Personal notebook / Since 2026
+            </p>
+            <h1 class="hero-title max-w-6xl font-black uppercase">
+              Mugaaaaa's<br />
+              Blog
+            </h1>
+            <div class="mt-6 grid min-w-0 gap-5 md:grid-cols-[minmax(0,620px)_minmax(220px,1fr)] md:items-end">
+              <p class="hero-subtitle max-w-2xl font-black leading-8 text-white/90">
+                记录代码、语言学和生活。写一点论文笔记，也写一点界面实验。
+              </p>
+              <LiquidGlass
+                className="hidden w-full min-w-0 grid-cols-3 gap-1 rounded-full px-2 py-2 text-center text-white shadow-[0_24px_80px_-42px_rgba(0,0,0,0.86)] md:grid"
+                chroma={0.36}
+                blur={2.4}
+                distort={28}
+                bezelRatio={0.88}
+                tintColor="#ffffff"
+                tintAlpha={0.16}
+                saturate={155}
+                client:load
+              >
+                <div class="rounded-full bg-stone-950 px-4 py-2 text-white">
+                  <p class="text-3xl font-black tabular-nums">{allPosts.length}</p>
+                  <p class="text-xs font-bold text-white/72">Posts</p>
+                </div>
+                <div class="rounded-full bg-stone-950 px-4 py-2 text-white">
+                  <p class="text-3xl font-black tabular-nums">{tagCount}</p>
+                  <p class="text-xs font-bold text-white/72">Tags</p>
+                </div>
+                <div class="rounded-full bg-stone-950 px-4 py-2 text-white">
+                  <p class="text-3xl font-black tabular-nums">{totalMinutes}</p>
+                  <p class="text-xs font-bold text-white/72">Min</p>
+                </div>
+              </LiquidGlass>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section id="volume" class="border-y border-stone-300 bg-[#edf5f4] px-5 py-16 md:px-8 lg:px-10">
+          <div class="mx-auto max-w-7xl">
+            <div class="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <h2 class="section-title font-black uppercase">Volume</h2>
+              <p class="max-w-md font-semibold leading-7 text-[var(--muted)]">
+                合集会优先显示固定的三个入口，更多专栏之后收进 More。
+              </p>
+            </div>
+            <div class="grid gap-4 md:grid-cols-3">
+              {featuredVolumes.map((volume, index) => (
+                <article class="flat-card overflow-hidden">
+                  <a href={volume.href} class="block h-full">
+                    <div class="aspect-[5/4] bg-stone-200">
+                      <img src={volume.image} alt={volume.title} class="image-cover" />
+                    </div>
+                    <div class="p-4">
+                      <p class="mb-2 text-xs font-black uppercase text-stone-500">Volume 0{index + 1}</p>
+                      <h3 class="text-lg font-black">{volume.title}</h3>
+                      <p class="mt-2 text-sm font-semibold leading-6 text-stone-600">{volume.description}</p>
+                    </div>
+                  </a>
+                </article>
+              ))}
+            </div>
+            {moreVolumes.length > 0 && (
+              <div class="mt-4 flat-card p-4">
+                <p class="text-xs font-black uppercase text-stone-500">More</p>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  {moreVolumes.map((volume) => (
+                    <a href={volume.href} class="rounded-full border border-stone-300 px-3 py-2 text-xs font-black uppercase text-stone-700 hover:border-stone-950">
+                      {volume.title}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section id="notes" class="relative isolate overflow-hidden border-b border-stone-900 bg-stone-950 px-5 py-16 text-white md:px-8 lg:px-10">
+          <img
+            src={latestPostsImage}
+            alt=""
+            class="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+          />
+          <div class="absolute inset-0 -z-10 bg-black/56"></div>
+          <div class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(0,0,0,0.32),rgba(0,0,0,0.68))]"></div>
+          <div class="mx-auto max-w-7xl">
+            <div class="mb-10 grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+              <div>
+                <h2 class="section-title font-black uppercase">Latest Posts</h2>
+                <p class="mt-5 max-w-2xl font-semibold leading-7 text-white/76">
+                  Markdown 文章会被渲染成独立页面。筛选条和搜索层使用玻璃，正文卡片保持平面化。
+                </p>
+              </div>
+              <LiquidGlass
+                className="w-fit rounded-full px-1 py-1 text-white shadow-[0_24px_70px_-38px_rgba(0,0,0,0.9)] md:justify-self-end"
+                chroma={0.28}
+                blur={2.2}
+                distort={22}
+                bezelRatio={0.88}
+                tintColor="#050505"
+                tintAlpha={0.54}
+                saturate={130}
+                client:load
+              >
+                <a href="/posts/" class="inline-flex rounded-full px-5 py-3 text-sm font-black uppercase text-white">
+                  View all posts
+                </a>
+              </LiquidGlass>
+            </div>
+            <PostFilterGlass tags={allTags} baseHref="/posts/" tone="dark" client:load />
+            <div class="grid gap-4 md:grid-cols-3">
+              {latestPosts.map((post, index) => (
+                <article class:list={['flat-card p-5 text-stone-950 transition hover:-translate-y-1 hover:border-stone-950', index === 0 && 'md:col-span-1']}>
+                  <a href={postHref(post)} class="block h-full">
+                    <div class="mb-8 flex items-center justify-between gap-4">
+                      <span class="border border-stone-950 px-2 py-1 text-xs font-black uppercase text-stone-950">
+                        {post.data.category ?? 'Note'}
+                      </span>
+                      <time class="text-sm font-bold text-stone-500" datetime={post.data.published.toISOString()}>
+                        {formatDate(post.data.published)}
+                      </time>
+                    </div>
+                    <h3 class="text-2xl font-black leading-tight">{post.data.title}</h3>
+                    <p class="mt-4 text-sm font-semibold leading-6 text-stone-600">
+                      {post.data.description || '一篇还在继续补充的笔记。'}
+                    </p>
+                    <div class="mt-8 flex flex-wrap gap-2">
+                      {post.data.tags.slice(0, 3).map((tag) => (
+                        <span class="bg-stone-100 px-2 py-1 text-[11px] font-black uppercase text-stone-600">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="socials" class="paper-grid px-5 py-16 md:px-8 lg:px-10">
+          <div class="mx-auto max-w-7xl">
+            <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div>
+              <h2 class="section-title font-black uppercase">Socials</h2>
+              <p class="mt-5 max-w-xl font-semibold leading-7 text-[var(--muted)]">
+                这里放一些站外联系方式。真实账号可以集中在首页顶部的 socialLinks 里维护。
+              </p>
+              </div>
+              <p class="max-w-sm text-sm font-bold leading-6 text-stone-500">
+                GitHub / QQ / Bilibili / Reserved
+              </p>
+            </div>
+            <div class="grid max-w-4xl gap-4 sm:grid-cols-2">
+              {socialLinks.map((social, index) => (
+                <article class="flat-card p-4 text-stone-950">
+                  <div class="mb-4 flex items-center justify-between gap-4">
+                    <div class="flex gap-1.5" aria-hidden="true">
+                      <span class="size-2.5 rounded-full bg-[#ff5f57]"></span>
+                      <span class="size-2.5 rounded-full bg-[#ffbd2e]"></span>
+                      <span class="size-2.5 rounded-full bg-[#28c840]"></span>
+                    </div>
+                    <span class="text-[10px] font-black uppercase text-stone-400">0{index + 1}</span>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <div class="grid size-14 shrink-0 place-items-center overflow-hidden rounded-full border border-stone-300 bg-stone-100 text-sm font-black text-stone-500">
+                      {social.avatar ? (
+                        <img src={social.avatar} alt={`${social.name} avatar`} class="h-full w-full object-cover" />
+                      ) : (
+                        social.initials
+                      )}
+                    </div>
+                    <div class="min-w-0">
+                      <p class="text-[11px] font-black uppercase text-stone-500">{social.meta}</p>
+                      <h3 class="mt-1 truncate text-2xl font-black leading-none">{social.name}</h3>
+                    </div>
+                  </div>
+                  <p class="mt-4 min-h-12 text-sm font-semibold leading-6 text-stone-600">{social.text}</p>
+                  {social.href ? (
+                    <a
+                      href={social.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      class="mt-4 inline-flex max-w-full rounded-full border border-stone-950 px-3 py-2 text-xs font-black uppercase text-stone-950"
+                    >
+                      {social.label}
+                    </a>
+                  ) : (
+                    <p class="mt-4 inline-flex max-w-full rounded-full border border-stone-300 px-3 py-2 text-xs font-black uppercase text-stone-600">
+                      {social.label}
+                    </p>
+                  )}
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-[var(--ink)] px-5 py-16 text-[var(--paper)] md:px-8 lg:px-10">
+          <div class="mx-auto grid max-w-7xl gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-center">
+            <div>
+              <p class="mb-4 inline-flex bg-[var(--gold)] px-3 py-1 text-xs font-black uppercase text-stone-950">
+                Next draft
+              </p>
+              <h2 class="text-5xl font-black leading-none md:text-7xl">Keep the notes rough, readable, and searchable.</h2>
+            </div>
+            <div class="flat-card bg-[#fffdf8] p-5 text-stone-950">
+              <p class="text-sm font-black uppercase text-[var(--red)]">Queue</p>
+              <ul class="mt-4 space-y-3 text-base font-bold leading-6">
+                <li>Tag index and RSS</li>
+                <li>Volume index page</li>
+                <li>Image metadata captions</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

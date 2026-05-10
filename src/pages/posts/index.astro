@@ -1,0 +1,163 @@
+---
+import { getCollection } from 'astro:content';
+import CommandPalette from '../../components/CommandPalette';
+import FloatingGlass from '../../components/FloatingGlass';
+import MobileGlassDock from '../../components/MobileGlassDock';
+import PostFilterGlass from '../../components/PostFilterGlass';
+import ProgressGlass from '../../components/ProgressGlass';
+import {
+  formatDate,
+  groupPostsByMonth,
+  postHref,
+  readingTime,
+  sortPosts,
+  toSearchItems,
+} from '../../lib/posts';
+import '../../styles/global.css';
+
+const allPosts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
+const activeTag = Astro.url.searchParams.get('tag');
+const visiblePosts = activeTag
+  ? allPosts.filter((post) => post.data.tags.includes(activeTag))
+  : allPosts;
+const groupedPosts = groupPostsByMonth(visiblePosts);
+const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
+const searchItems = toSearchItems(allPosts);
+const timelineSections = [
+  { id: 'posts-top', label: 'Top' },
+  ...groupedPosts.map((group) => ({ id: group.id, label: group.label })),
+];
+const totalMinutes = visiblePosts.reduce((sum, post) => sum + readingTime(post), 0);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="All posts from Mugaaaaa's Blog arranged as a chronological timeline."
+    />
+    <title>Posts | Mugaaaaa's Blog</title>
+  </head>
+  <body>
+    <div id="top" class="paper-grid min-h-screen overflow-x-hidden">
+      <FloatingGlass client:load />
+      <MobileGlassDock client:load />
+      <CommandPalette posts={searchItems} client:load />
+      <ProgressGlass
+        title="Index"
+        sections={timelineSections}
+        details={[
+          { label: 'Total', value: String(allPosts.length) },
+          { label: 'Tags', value: String(allTags.length) },
+          { label: 'Read', value: `${totalMinutes} min` },
+        ]}
+        links={[{ label: 'Home', href: '/' }]}
+        client:load
+      />
+
+      <main id="posts-top" class="px-5 pb-20 pt-32 md:px-8 lg:px-10 lg:pr-56">
+        <section class="mx-auto max-w-7xl">
+          <p class="mb-4 inline-flex border border-stone-950 bg-stone-950 px-3 py-1 text-xs font-black uppercase text-white">
+            All posts
+          </p>
+          <div class="grid gap-5 md:grid-cols-[1fr_360px] md:items-end">
+            <h1 class="section-title max-w-4xl font-black uppercase">
+              Timeline
+            </h1>
+            <p class="font-semibold leading-7 text-[var(--muted)]">
+              所有 Markdown 文章按发布时间倒序排列，每个月分成一个节点。右侧玻璃窗可以快速跳转月份。
+              {activeTag && ` 当前筛选：${activeTag}。`}
+            </p>
+          </div>
+        </section>
+
+        <PostFilterGlass tags={allTags} baseHref="/posts/" activeTag={activeTag ?? 'All'} client:load />
+
+        <section class="mx-auto max-w-5xl">
+          {visiblePosts.length === 0 ? (
+            <div class="flat-card p-8 text-center">
+              <p class="text-xl font-black">没有找到这个标签下的文章。</p>
+              <a href="/posts/" class="mt-5 inline-flex border border-stone-950 bg-stone-950 px-4 py-2 text-sm font-black uppercase text-white">
+                Show all posts
+              </a>
+            </div>
+          ) : (
+          <div class="timeline-line relative">
+            {groupedPosts.map((group) => (
+              <section id={group.id} class="timeline-month relative pb-12 pl-8 md:pl-12" data-month-section>
+                <div class="absolute left-0 top-1 size-4 rounded-full border-4 border-[var(--paper)] bg-stone-950 shadow-[0_0_0_1px_var(--line)]"></div>
+                <div class="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+                  <h2 class="text-3xl font-black leading-none md:text-5xl">{group.label}</h2>
+                  <p class="text-sm font-black uppercase text-stone-500" data-month-count>
+                    {group.posts.length} posts
+                  </p>
+                </div>
+
+                <div class="grid gap-4">
+                  {group.posts.map((post) => (
+                    <article
+                      class="flat-card p-5 transition hover:-translate-y-1 hover:border-stone-950 md:p-6"
+                      data-timeline-post
+                      data-tags={post.data.tags.join('|')}
+                    >
+                      <a href={postHref(post)} class="block">
+                        <div class="mb-4 flex flex-wrap items-center gap-3">
+                          <time class="border border-stone-300 bg-stone-100 px-2 py-1 text-xs font-black uppercase text-stone-600" datetime={post.data.published.toISOString()}>
+                            {formatDate(post.data.published)}
+                          </time>
+                          <span class="border border-stone-950 px-2 py-1 text-xs font-black uppercase text-stone-950">
+                            {post.data.category ?? 'Note'}
+                          </span>
+                          <span class="text-xs font-black uppercase text-stone-500">
+                            {readingTime(post)} min read
+                          </span>
+                        </div>
+                        <h3 class="text-2xl font-black leading-tight md:text-3xl">{post.data.title}</h3>
+                        <p class="mt-3 max-w-3xl text-sm font-semibold leading-6 text-stone-600">
+                          {post.data.description || '一篇还在继续补充的笔记。'}
+                        </p>
+                        <div class="mt-5 flex flex-wrap gap-2">
+                          {post.data.tags.map((tag) => (
+                            <span class="bg-stone-100 px-2 py-1 text-[11px] font-black uppercase text-stone-600">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </a>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+          )}
+        </section>
+      </main>
+      <script>
+        const params = new URLSearchParams(window.location.search);
+        const activeTag = params.get('tag');
+
+        if (activeTag) {
+          const posts = Array.from(document.querySelectorAll('[data-timeline-post]'));
+
+          for (const post of posts) {
+            const tags = post.getAttribute('data-tags')?.split('|') ?? [];
+            post.toggleAttribute('hidden', !tags.includes(activeTag));
+          }
+
+          for (const section of document.querySelectorAll('[data-month-section]')) {
+            const visibleCount = section.querySelectorAll('[data-timeline-post]:not([hidden])').length;
+            section.toggleAttribute('hidden', visibleCount === 0);
+            const count = section.querySelector('[data-month-count]');
+            if (count) {
+              count.textContent = `${visibleCount} posts`;
+            }
+          }
+        }
+      </script>
+    </div>
+  </body>
+</html>

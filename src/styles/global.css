@@ -1,0 +1,362 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+:root {
+  --ink: #101014;
+  --paper: #f7f4ee;
+  --muted: #6f6b62;
+  --line: #ded7ca;
+  --red: #d53c32;
+  --cyan: #00a6b2;
+  --leaf: #4f8b45;
+  --violet: #7856c7;
+  --gold: #d99b21;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 5.75rem;
+  }
+}
+
+body::selection {
+  background: var(--red);
+  color: white;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.hero-title {
+  max-width: 100%;
+  overflow-wrap: normal;
+  font-size: 2.85rem;
+  line-height: 0.9;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+}
+
+.hero-screen {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.flat-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fffdf8;
+}
+
+.flat-card-dark {
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.paper-grid {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(rgba(16, 16, 20, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 16, 20, 0.055) 1px, transparent 1px);
+  background-position: -1px -1px;
+  background-size: 34px 34px;
+}
+
+.timeline-line::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 0.25rem;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+
+.article-shell {
+  border-radius: 8px;
+}
+
+.prose-content {
+  color: #242018;
+  font-size: 1.03rem;
+  font-weight: 550;
+  line-height: 1.88;
+}
+
+.prose-content h1,
+.prose-content h2,
+.prose-content h3,
+.prose-content h4 {
+  color: var(--ink);
+  font-weight: 950;
+  line-height: 1.12;
+}
+
+.prose-content h1 {
+  margin-top: 2.8rem;
+  margin-bottom: 1rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.35rem;
+  font-size: 2.35rem;
+}
+
+.prose-content h1:first-child {
+  margin-top: 0;
+  border-top: 0;
+  padding-top: 0;
+}
+
+.prose-content h2 {
+  margin-top: 2.8rem;
+  margin-bottom: 1rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.35rem;
+  font-size: 2rem;
+}
+
+.prose-content h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.45rem;
+}
+
+.prose-content p,
+.prose-content ul,
+.prose-content ol,
+.prose-content blockquote,
+.prose-content pre,
+.prose-content table {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.prose-content ul,
+.prose-content ol {
+  padding-left: 1.35rem;
+}
+
+.prose-content li + li {
+  margin-top: 0.35rem;
+}
+
+.prose-content a {
+  border-bottom: 2px solid var(--cyan);
+  font-weight: 850;
+}
+
+.prose-content blockquote {
+  border-left: 4px solid var(--red);
+  background: #f4efe6;
+  padding: 0.9rem 1rem;
+  color: #4f483e;
+}
+
+.prose-content code {
+  border: 1px solid #ded7ca;
+  background: #f5efe4;
+  padding: 0.12rem 0.28rem;
+  font-family:
+    "SFMono-Regular", "Cascadia Code", "Liberation Mono", Menlo, Consolas,
+    monospace;
+  font-size: 0.92em;
+  font-weight: 800;
+}
+
+.prose-content pre {
+  position: relative;
+  overflow-x: auto;
+  border: 1px solid #29251f;
+  border-radius: 8px;
+  background: #15120f;
+  padding: 3.05rem 1rem 1rem;
+  color: #fff8ec;
+}
+
+.prose-content pre::before {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 999px;
+  background: #ff5f57;
+  box-shadow:
+    1.08rem 0 0 #ffbd2e,
+    2.16rem 0 0 #28c840;
+  content: "";
+}
+
+.prose-content pre code {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font-weight: 700;
+}
+
+.prose-content .copy-code-button {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.75rem;
+  cursor: pointer;
+  border: 1px solid rgba(255, 248, 236, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 248, 236, 0.08);
+  padding: 0.35rem 0.68rem;
+  color: #fff8ec;
+  font-size: 0.72rem;
+  font-weight: 950;
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+.prose-content pre:hover .copy-code-button,
+.prose-content pre:focus-within .copy-code-button {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.prose-content .copy-code-button:hover,
+.prose-content .copy-code-button[data-copied="true"] {
+  background: rgba(255, 248, 236, 0.2);
+}
+
+.prose-content .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 0;
+}
+
+.prose-content ruby {
+  ruby-align: center;
+}
+
+.prose-content rt {
+  color: var(--muted);
+  font-size: 0.58em;
+  font-weight: 850;
+  line-height: 1.12;
+}
+
+.prose-content .return-ruby {
+  ruby-position: under;
+}
+
+.prose-content .return-ruby rt {
+  color: var(--red);
+  font-size: 0.58em;
+  font-weight: 950;
+}
+
+.prose-content .vertical-text,
+.prose-content .kanbun {
+  max-height: 36rem;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbf7ef;
+  padding: 1.25rem;
+  line-height: 2.1;
+  text-orientation: mixed;
+  writing-mode: vertical-rl;
+}
+
+.prose-content .kanbun {
+  text-orientation: upright;
+}
+
+.prose-content .return-mark {
+  color: var(--red);
+  display: inline-block;
+  font-size: 0.58em;
+  font-weight: 950;
+  left: -0.65em;
+  line-height: 1;
+  position: relative;
+  vertical-align: super;
+}
+
+.prose-content .okurigana {
+  color: var(--muted);
+  font-size: 0.72em;
+  font-weight: 800;
+}
+
+.prose-content table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.prose-content th,
+.prose-content td {
+  border: 1px solid var(--line);
+  padding: 0.55rem 0.7rem;
+}
+
+.prose-content th {
+  background: #f0e8dc;
+  font-weight: 950;
+}
+
+.image-cover {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 7rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+  }
+
+  .section-title {
+    font-size: 4rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-title {
+    font-size: 9.5rem;
+  }
+}
