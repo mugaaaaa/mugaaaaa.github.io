@@ -51,6 +51,19 @@ img {
   max-width: 100%;
 }
 
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.glass-ink-lock,
+.glass-ink-lock * {
+  color: #050505 !important;
+}
+
 .hero-title {
   max-width: 100%;
   overflow-wrap: normal;
