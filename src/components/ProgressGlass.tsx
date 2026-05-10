@@ -70,7 +70,7 @@ export default function ProgressGlass({
       distort={30}
       bezelRatio={0.84}
       tintColor="#ffffff"
-      tintAlpha={0.16}
+      tintAlpha={0.3}
       saturate={155}
     >
       <div className="flex items-start justify-between gap-4">

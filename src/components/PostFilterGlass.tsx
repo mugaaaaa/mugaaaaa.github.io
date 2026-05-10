@@ -37,7 +37,7 @@ export default function PostFilterGlass({
       distort={26}
       bezelRatio={0.88}
       tintColor="#ffffff"
-      tintAlpha={0.16}
+      tintAlpha={0.3}
       saturate={155}
     >
       <span className="shrink-0 rounded-full bg-stone-950 px-3 py-2 text-xs font-black uppercase text-white">

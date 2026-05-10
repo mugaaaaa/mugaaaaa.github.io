@@ -196,7 +196,7 @@ export default function FloatingGlass({ locale = 'zh', currentPath = '/' }: Floa
         distort={28}
         bezelRatio={0.86}
         tintColor="#ffffff"
-        tintAlpha={0.08}
+        tintAlpha={0.3}
         saturate={155}
       >
         <a href={localizedPath(locale, '/')} className="max-w-[42vw] shrink-0 truncate rounded-full bg-transparent px-3 py-2 text-sm font-black transition hover:bg-white/45 focus-visible:bg-white/45 sm:max-w-none sm:px-4">
@@ -264,7 +264,7 @@ export default function FloatingGlass({ locale = 'zh', currentPath = '/' }: Floa
             distort={36}
             bezelRatio={0.8}
             tintColor="#ffffff"
-            tintAlpha={0.28}
+            tintAlpha={0.3}
             saturate={170}
           >
             <div role="menu" aria-label={t.nav.language} className="grid gap-1">
@@ -356,7 +356,7 @@ export default function FloatingGlass({ locale = 'zh', currentPath = '/' }: Floa
         distort={30}
         bezelRatio={0.88}
         tintColor="#ffffff"
-        tintAlpha={0.16}
+        tintAlpha={0.3}
         saturate={150}
       >
         <a

@@ -106,7 +106,7 @@ export default function CommandPalette({ posts, locale = 'zh' }: CommandPaletteP
         distort={32}
         bezelRatio={0.82}
         tintColor="#ffffff"
-        tintAlpha={0.58}
+        tintAlpha={0.3}
         saturate={155}
       >
         <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-white/72" />

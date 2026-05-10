@@ -9,7 +9,7 @@ export default function HeroGlass() {
       distort={30}
       bezelRatio={0.84}
       tintColor="#ffffff"
-      tintAlpha={0.18}
+      tintAlpha={0.3}
       saturate={160}
     >
       <p className="text-[11px] font-black uppercase text-stone-700">Now drafting</p>

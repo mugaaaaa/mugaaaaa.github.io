@@ -26,7 +26,7 @@ export default function NowQueueGlass({
       distort={30}
       bezelRatio={0.84}
       tintColor="#ffffff"
-      tintAlpha={0.16}
+      tintAlpha={0.3}
       saturate={160}
     >
       <p className="inline-flex rounded-full bg-white px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-black">
