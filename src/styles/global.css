@@ -97,6 +97,17 @@ img {
   color: var(--paper);
 }
 
+.volume-rail {
+  --volume-gutter: 1.25rem;
+  --volume-content-width: min(calc(100vw - (var(--volume-gutter) * 2)), 80rem);
+  padding-inline: var(--volume-gutter);
+  scroll-padding-inline: var(--volume-gutter);
+}
+
+.volume-card {
+  width: 82vw;
+}
+
 .paper-grid {
   background-color: var(--paper);
   background-image:
@@ -366,6 +377,14 @@ img {
 }
 
 @media (min-width: 768px) {
+  .volume-rail {
+    --volume-gutter: 2rem;
+  }
+
+  .volume-card {
+    width: calc((var(--volume-content-width) - 2rem) / 3);
+  }
+
   .hero-title {
     font-size: 7rem;
   }
@@ -376,6 +395,18 @@ img {
 
   .section-title {
     font-size: 4rem;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 767px) {
+  .volume-card {
+    width: 24rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .volume-rail {
+    --volume-gutter: 2.5rem;
   }
 }
 

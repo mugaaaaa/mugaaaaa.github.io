@@ -194,30 +194,32 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
       </header>
 
       <main>
-        <section id="volume" class="border-y border-stone-300 bg-[#edf5f4] px-5 py-16 md:px-8 lg:px-10">
-          <div class="mx-auto max-w-7xl">
+        <section id="volume" class="border-y border-stone-300 bg-[#edf5f4] py-16">
+          <div class="mx-auto max-w-7xl px-5 md:px-8 lg:px-10">
             <div class="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <h2 class="section-title font-black uppercase">{t.nav.volume}</h2>
               <p class="max-w-md font-semibold leading-7 text-[var(--muted)]">
                 {t.home.volumeIntro}
               </p>
             </div>
-            <div class="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1">
-              {featuredVolumes.map((volume, index) => (
-                <article class="flat-card w-[82vw] shrink-0 snap-start overflow-hidden sm:w-[24rem] md:w-[calc((100%-2rem)/3)]">
-                  <a href={volume.href} class="block h-full">
-                    <div class="aspect-[5/4] bg-stone-200">
-                      <img src={volume.image} alt={volume.title} class="image-cover" />
-                    </div>
-                    <div class="p-4">
-                      <p class="mb-2 text-xs font-black uppercase text-stone-500">{t.nav.volume} 0{index + 1}</p>
-                      <h3 class="text-lg font-black">{volume.title}</h3>
-                      <p class="mt-2 text-sm font-semibold leading-6 text-stone-600">{volume.description}</p>
-                    </div>
-                  </a>
-                </article>
-              ))}
-            </div>
+          </div>
+          <div class="volume-rail no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1">
+            {featuredVolumes.map((volume, index) => (
+              <article class="volume-card flat-card shrink-0 snap-start overflow-hidden">
+                <a href={volume.href} class="block h-full">
+                  <div class="aspect-[5/4] bg-stone-200">
+                    <img src={volume.image} alt={volume.title} class="image-cover" />
+                  </div>
+                  <div class="p-4">
+                    <p class="mb-2 text-xs font-black uppercase text-stone-500">{t.nav.volume} 0{index + 1}</p>
+                    <h3 class="text-lg font-black">{volume.title}</h3>
+                    <p class="mt-2 text-sm font-semibold leading-6 text-stone-600">{volume.description}</p>
+                  </div>
+                </a>
+              </article>
+            ))}
+          </div>
+          <div class="mx-auto max-w-7xl px-5 md:px-8 lg:px-10">
             {moreVolumes.length > 0 && (
               <div class="mt-4 flat-card p-4">
                 <p class="text-xs font-black uppercase text-stone-500">More</p>
