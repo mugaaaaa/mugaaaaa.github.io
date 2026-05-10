@@ -1,57 +1,43 @@
 ---
-title: "直排与训点测试"
+title: "横排文章中的直排块测试"
 published: 2026-05-10
-description: "用于检查直排、振假名和返点样式的测试文章。"
+description: "用于检查横排正文里插入直排、振假名、返点和送假名块的测试文章。"
 tags: [Linguists, Test, Layout]
 category: linguists
 draft: false
 lang: zh_CN
 ---
 
-# 直排测试
+# 横排正文里的直排块
 
-这篇文章用于测试正文里的竖排、振假名、返点和送假名标注。正式写文章时可以直接复用这些 HTML 片段。
+这篇文章保持普通横排版式，只在正文中插入少量直排块。它适合测试真实文章里的局部引用：正文仍然按现代博客的阅读方式展开，古典文献、日语文语或训点材料则作为独立块放入页面。
 
-## 日语文语与振假名
+在横排文章中，直排块会作为一个独立盒子出现。盒子宽度不足时优先向右靠，阅读起点也更接近传统的直排视觉习惯。
 
-<div class="vertical-text">
-  <p>
-    <ruby>春<rt>はる</rt></ruby>は
-    <ruby>曙<rt>あけぼの</rt></ruby>。
-    やうやう<ruby>白<rt>しろ</rt></ruby>くなりゆく
-    <ruby>山際<rt>やまぎは</rt></ruby>、すこしあかりて。
-  </p>
-</div>
+## 日语文语片段
 
-## 古汉语与返点
+<div class="vertical-text"><p><ruby>春<rt>はる</rt></ruby>は<ruby>曙<rt>あけぼの</rt></ruby>。やうやう<ruby>白<rt>しろ</rt></ruby>くなりゆく<ruby>山際<rt>やまぎは</rt></ruby>、すこしあかりて。</p></div>
 
-<div class="kanbun">
-  <p>
-    <ruby class="return-ruby">學<rt>レ</rt></ruby>而
-    <ruby class="return-ruby">時習<rt>レ</rt></ruby>之、
-    <ruby class="return-ruby">不<rt>二</rt></ruby>亦
-    <ruby class="return-ruby">説<rt>一</rt></ruby>乎。
-  </p>
-</div>
+这一段之后回到横排正文。这里可以继续写评论、解释版本差异，或者把文献语句拆开说明。普通 Markdown 段落不受直排块影响，链接、粗体、公式等内容仍然按标准横排显示。
 
-## 送假名示例
+## 古汉语与返点块
 
-<div class="kanbun">
-  <p>
-    讀<span class="okurigana">ミ</span>
-    <ruby class="return-ruby">書<rt>ヲ</rt></ruby>
-    <ruby class="return-ruby">以<rt>テ</rt></ruby>
-    養<span class="okurigana">フ</span>
-    <ruby class="return-ruby">氣<rt>ヲ</rt></ruby>。
-  </p>
-</div>
+<div class="kanbun kanbun-source"><p>學[レ]而時習フ[レ]之、不[二]亦説[一]乎。</p></div>
+
+上面的写法会由页面脚本转换成排版单元：方括号里的内容作为返点，假名会作为送假名贴近对应汉字。这个方案比直接手写一堆嵌套标签更适合在 Markdown 里长期维护。
+
+## 送假名块
+
+<div class="kanbun kanbun-source"><p>讀ミ書ヲ以テ養フ氣ヲ。</p></div>
 
 ## 横排回退
 
-普通段落仍然保持横排。公式也照常渲染：$E = mc^2$。
+这一节专门确认“退出直排块之后页面回到横排”。比如这里的行内公式仍然横排渲染：$E = mc^2$。代码块也保持横排，方便把可复用片段直接放在文章里：
 
 ```html
-<div class="vertical-text">
-  <ruby>物語<rt>ものがたり</rt></ruby>のはじめ
+<div class="kanbun kanbun-source">
+  <p>欲ス[三]東渡。</p>
 </div>
 ```
+
+最后再补一段普通说明文字，用来观察直排块前后的间距。理想效果是：直排块像一段特殊引文，但不会把整篇文章拖进竖排语境。

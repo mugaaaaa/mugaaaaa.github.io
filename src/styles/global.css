@@ -11,6 +11,9 @@
   --leaf: #4f8b45;
   --violet: #7856c7;
   --gold: #d99b21;
+  --body-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "DengXian", "PingFang SC", "Hiragino Sans GB", "Yu Gothic", "Noto Sans CJK SC",
+    "Microsoft YaHei", sans-serif;
 }
 
 * {
@@ -25,9 +28,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-family: var(--body-font);
 }
 
 @media (max-width: 767px) {
@@ -129,7 +130,52 @@ img {
 }
 
 .article-shell {
+  max-width: 100%;
+  min-width: 0;
   border-radius: 8px;
+}
+
+.post-back-link {
+  color: #050505 !important;
+}
+
+.vertical-post-root {
+  overflow-x: auto;
+}
+
+.vertical-page-main {
+  --vertical-frame-width: min(72rem, calc(100vw - 2.5rem));
+  --vertical-frame-height: calc(100svh - 7rem);
+  --vertical-content-offset: clamp(4.75rem, 10svh, 5.75rem);
+  direction: rtl;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-left: max(1.25rem, calc((100vw - var(--vertical-frame-width)) / 2));
+  padding-right: max(1.25rem, calc((100vw - var(--vertical-frame-width)) / 2));
+}
+
+.vertical-page-shell {
+  direction: ltr;
+  margin-left: 0;
+  margin-right: 0;
+  max-width: none;
+  min-width: var(--vertical-frame-width);
+  width: max-content;
+}
+
+.vertical-article-shell {
+  max-width: none;
+  max-height: var(--vertical-frame-height);
+  min-height: min(76svh, var(--vertical-frame-height));
+  min-width: var(--vertical-frame-width);
+  overflow-x: visible;
+  overflow-y: hidden;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  width: max-content;
+}
+
+.vertical-article-shell > .mb-8 {
+  margin-bottom: 1rem;
 }
 
 .prose-content {
@@ -137,6 +183,12 @@ img {
   font-size: 1.03rem;
   font-weight: 550;
   line-height: 1.88;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.prose-content > * {
+  max-width: 100%;
 }
 
 .prose-content h1,
@@ -310,19 +362,15 @@ img {
   line-height: 1;
 }
 
-.prose-content .return-ruby {
-  ruby-position: under;
-}
-
-.prose-content .return-ruby rt {
-  color: var(--red);
-  font-size: 0.58em;
-  font-weight: 950;
-}
-
 .prose-content .vertical-text,
 .prose-content .kanbun {
+  box-sizing: border-box;
+  display: block;
+  font-family: var(--body-font);
+  margin-left: auto;
+  margin-right: 0;
   max-height: 36rem;
+  max-width: min(100%, calc(100vw - 4rem));
   overflow-x: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -330,28 +378,167 @@ img {
   padding: 1.25rem;
   line-height: 2.1;
   text-orientation: mixed;
+  width: max-content;
   writing-mode: vertical-rl;
 }
 
+.prose-content .vertical-text p,
+.prose-content .kanbun p {
+  margin: 0;
+}
+
+.prose-content .vertical-text p + p,
+.prose-content .kanbun p + p {
+  margin-block-start: 0.85rem;
+}
+
 .prose-content .kanbun {
+  font-weight: 850;
   text-orientation: upright;
 }
 
-.prose-content .return-mark {
-  color: var(--red);
-  display: inline-block;
-  font-size: 0.58em;
-  font-weight: 950;
-  left: -0.65em;
-  line-height: 1;
-  position: relative;
-  vertical-align: super;
+.prose-content-vertical-page {
+  height: calc(var(--vertical-frame-height) - var(--vertical-content-offset));
+  max-height: calc(var(--vertical-frame-height) - var(--vertical-content-offset));
+  min-height: 0;
+  min-width: calc(var(--vertical-frame-width) - clamp(2rem, 6vw, 3rem));
+  overflow: visible;
+  font-family: var(--body-font);
+  font-weight: 650;
+  line-height: 2.05;
+  text-orientation: mixed;
+  width: max-content;
+  writing-mode: vertical-rl;
 }
 
-.prose-content .okurigana {
+.prose-content-vertical-page > * {
+  margin: 0 0 0 1.6rem;
+}
+
+.prose-content-vertical-page h1,
+.prose-content-vertical-page h2,
+.prose-content-vertical-page h3 {
+  border-top: 0;
+  border-left: 1px solid var(--line);
+  margin: 0 0 0 2rem;
+  padding: 0 0 0 1rem;
+}
+
+.prose-content-vertical-page pre,
+.prose-content-vertical-page table,
+.prose-content-vertical-page .katex-display {
+  max-width: min(42rem, calc(100vw - 3rem));
+  max-height: none;
+  overflow-x: auto;
+  writing-mode: horizontal-tb;
+}
+
+@media (max-width: 640px) {
+  .vertical-page-main {
+    --vertical-frame-width: calc(100vw - 2rem);
+    --vertical-frame-height: calc(100svh - 3rem);
+    --vertical-content-offset: 4.5rem;
+    padding: 1.5rem 1rem;
+  }
+
+  .prose-content {
+    font-size: 0.98rem;
+    line-height: 1.82;
+  }
+
+  .prose-content h1 {
+    font-size: 1.85rem;
+  }
+
+  .prose-content h2 {
+    font-size: 1.55rem;
+  }
+
+  .prose-content h3 {
+    font-size: 1.25rem;
+  }
+
+  .prose-content .vertical-text,
+  .prose-content .kanbun {
+    max-height: min(30rem, 70svh);
+    max-width: min(100%, calc(100vw - 3.5rem));
+    padding: 1rem;
+  }
+
+  .prose-content-vertical-page {
+    font-size: 1rem;
+    line-height: 1.95;
+    min-height: 34rem;
+  }
+}
+
+.prose-content .kanbun-source {
+  font-family: var(--body-font);
+  font-weight: 850;
+}
+
+.prose-content .kanbun-source .kanbun-unit {
+  display: inline-grid;
+  font-family: var(--body-font);
+  font-weight: 900;
+  grid-template-columns: 0.48em 0.48em 0.16em 0.88em;
+  grid-template-rows: 0.54em 1em 0.46em;
+  line-height: 1;
+  margin: 0 0.04em;
+  text-orientation: upright;
+  vertical-align: middle;
+}
+
+.prose-content .kanbun-source .kanbun-base {
+  display: block;
+  grid-column: 1 / 3;
+  grid-row: 2;
+  text-align: center;
+}
+
+.prose-content .kanbun-source .kanbun-furigana,
+.prose-content .kanbun-source .kanbun-okuri,
+.prose-content .kanbun-source .kanbun-kaeri {
+  font-family: var(--body-font);
+  font-size: 0.5em;
+  font-weight: 900;
+  height: max-content;
+  line-height: 1;
+  text-orientation: upright;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+}
+
+.prose-content .kanbun-source .kanbun-furigana {
   color: var(--muted);
-  font-size: 0.72em;
-  font-weight: 800;
+  grid-column: 1 / 4;
+  grid-row: 1;
+  justify-self: center;
+}
+
+.prose-content .kanbun-source .kanbun-okuri {
+  color: var(--muted);
+  grid-column: 2 / 5;
+  grid-row: 1;
+  justify-self: start;
+}
+
+.prose-content .kanbun-source .has-furigana .kanbun-okuri {
+  grid-column: 4;
+}
+
+.prose-content .kanbun-source .kanbun-kaeri {
+  align-self: end;
+  color: var(--red);
+  grid-column: 3 / 5;
+  grid-row: 2;
+  justify-self: start;
+  z-index: 1;
+}
+
+.prose-content .kanbun-source .kanbun-punctuation {
+  display: inline-block;
+  text-orientation: upright;
 }
 
 .prose-content table {

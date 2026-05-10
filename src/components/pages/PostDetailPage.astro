@@ -17,6 +17,7 @@ const currentPath = `${Astro.url.pathname}${Astro.url.search}`;
 const allPosts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
 const searchItems = toSearchItems(allPosts, locale);
 const { Content, headings } = await render(post);
+const isVerticalLayout = post.data.layout === 'vertical';
 const fallbackHeroImage = await getImage({ src: heroSource, width: 1920, format: 'webp', quality: 78 });
 const heroImage = post.data.image || fallbackHeroImage.src;
 const sectionHeadings = headings
@@ -44,7 +45,7 @@ const copiedCodeLabel = t.postDetail.copiedCode;
     <title>{post.data.title} | Mugaaaaa's Blog</title>
   </head>
   <body>
-    <div id="top" class="paper-grid min-h-screen overflow-x-hidden">
+    <div id="top" class:list={['paper-grid min-h-screen', isVerticalLayout ? 'vertical-post-root' : 'overflow-x-hidden']}>
       <FloatingGlass locale={locale} currentPath={currentPath} client:load />
       <MobileGlassDock locale={locale} client:load />
       <CommandPalette posts={searchItems} locale={locale} client:load />
@@ -76,7 +77,7 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         <div class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-black/64 to-transparent"></div>
 
         <div class="mx-auto flex min-h-[72svh] max-w-6xl flex-col justify-end px-5 pb-10 pt-28 md:px-8 lg:px-10 lg:pr-48">
-          <a href={localizedPath(locale, '/posts/')} class="mb-6 inline-flex w-fit items-center border border-white/45 bg-white px-3 py-1.5 text-xs font-black uppercase leading-none text-black">
+          <a href={localizedPath(locale, '/posts/')} class="post-back-link mb-6 inline-flex w-fit items-center border border-white/45 bg-white px-3 py-1.5 text-xs font-black uppercase leading-none">
             {t.postDetail.backToPosts}
           </a>
           <p class="mb-4 text-sm font-black uppercase tracking-[0.16em] text-white/72">
@@ -93,9 +94,16 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         </div>
       </header>
 
-      <main id="article-body" class="px-5 py-14 md:px-8 lg:px-10">
-        <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,760px)_280px]">
-          <article class="article-shell border border-stone-300 bg-[#fffdf8] px-5 py-8 md:px-8 md:py-10">
+      <main id="article-body" class:list={['px-5 py-14 md:px-8 lg:px-10', isVerticalLayout && 'vertical-page-main']}>
+        <div class:list={[
+          isVerticalLayout
+            ? 'vertical-page-shell mx-auto max-w-6xl'
+            : 'mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,760px)_280px]',
+        ]}>
+          <article class:list={[
+            'article-shell border border-stone-300 bg-[#fffdf8]',
+            isVerticalLayout ? 'vertical-article-shell' : 'px-5 py-8 md:px-8 md:py-10',
+          ]}>
             <div class="mb-8 flex flex-wrap gap-2">
               {post.data.tags.map((tag) => (
                 <span class="border border-stone-300 bg-stone-100 px-2 py-1 text-xs font-black uppercase text-stone-700">
@@ -103,52 +111,54 @@ const copiedCodeLabel = t.postDetail.copiedCode;
                 </span>
               ))}
             </div>
-            <div class="prose-content">
+            <div class:list={['prose-content', isVerticalLayout && 'prose-content-vertical-page']}>
               <Content />
             </div>
           </article>
 
-          <aside class="hidden lg:block">
-            <div class="sticky top-28 grid gap-4">
-              <section class="flat-card p-5">
-                <p class="text-xs font-black uppercase tracking-[0.14em] text-stone-500">{t.postDetail.outline}</p>
-                <div class="mt-4 grid gap-2">
-                  {sectionHeadings.length > 0 ? (
-                    sectionHeadings.map((heading) => (
-                      <a href={`#${heading.id}`} class="rounded-full bg-stone-100 px-3 py-2 text-sm font-black text-stone-700 hover:bg-stone-200">
-                        {heading.label}
-                      </a>
-                    ))
-                  ) : (
-                    <p class="text-sm font-semibold leading-6 text-stone-600">{t.postDetail.noOutline}</p>
-                  )}
-                </div>
-              </section>
+          {!isVerticalLayout && (
+            <aside class="hidden lg:block">
+              <div class="sticky top-28 grid gap-4">
+                <section class="flat-card p-5">
+                  <p class="text-xs font-black uppercase tracking-[0.14em] text-stone-500">{t.postDetail.outline}</p>
+                  <div class="mt-4 grid gap-2">
+                    {sectionHeadings.length > 0 ? (
+                      sectionHeadings.map((heading) => (
+                        <a href={`#${heading.id}`} class="rounded-full bg-stone-100 px-3 py-2 text-sm font-black text-stone-700 hover:bg-stone-200">
+                          {heading.label}
+                        </a>
+                      ))
+                    ) : (
+                      <p class="text-sm font-semibold leading-6 text-stone-600">{t.postDetail.noOutline}</p>
+                    )}
+                  </div>
+                </section>
 
-              <section class="flat-card bg-stone-950 p-5 text-white">
-                <p class="text-xs font-black uppercase tracking-[0.14em] text-white/50">{t.postDetail.adjacent}</p>
-                <div class="mt-4 grid gap-3">
-                  {nextPost && (
-                    <a href={postHref(nextPost, locale)} class="block border border-white/15 p-3 hover:bg-white/10">
-                      <p class="text-xs font-bold text-white/50">{t.postDetail.newer}</p>
-                      <p class="mt-1 text-sm font-black leading-5">{nextPost.data.title}</p>
-                    </a>
-                  )}
-                  {previousPost && (
-                    <a href={postHref(previousPost, locale)} class="block border border-white/15 p-3 hover:bg-white/10">
-                      <p class="text-xs font-bold text-white/50">{t.postDetail.older}</p>
-                      <p class="mt-1 text-sm font-black leading-5">{previousPost.data.title}</p>
-                    </a>
-                  )}
-                </div>
-              </section>
-            </div>
-          </aside>
+                <section class="flat-card bg-stone-950 p-5 text-white">
+                  <p class="text-xs font-black uppercase tracking-[0.14em] text-white/50">{t.postDetail.adjacent}</p>
+                  <div class="mt-4 grid gap-3">
+                    {nextPost && (
+                      <a href={postHref(nextPost, locale)} class="block border border-white/15 p-3 hover:bg-white/10">
+                        <p class="text-xs font-bold text-white/50">{t.postDetail.newer}</p>
+                        <p class="mt-1 text-sm font-black leading-5">{nextPost.data.title}</p>
+                      </a>
+                    )}
+                    {previousPost && (
+                      <a href={postHref(previousPost, locale)} class="block border border-white/15 p-3 hover:bg-white/10">
+                        <p class="text-xs font-bold text-white/50">{t.postDetail.older}</p>
+                        <p class="mt-1 text-sm font-black leading-5">{previousPost.data.title}</p>
+                      </a>
+                    )}
+                  </div>
+                </section>
+              </div>
+            </aside>
+          )}
         </div>
       </main>
     </div>
     <script define:vars={{ copyCodeLabel, copiedCodeLabel }}>
-      const copyText = async (text: string) => {
+      const copyText = async (text) => {
         if (navigator.clipboard?.writeText) {
           await navigator.clipboard.writeText(text);
           return;
@@ -166,7 +176,7 @@ const copiedCodeLabel = t.postDetail.copiedCode;
       };
 
       const enhanceCodeBlocks = () => {
-        document.querySelectorAll<HTMLPreElement>('.prose-content pre').forEach((pre) => {
+        document.querySelectorAll('.prose-content pre').forEach((pre) => {
           if (pre.querySelector('.copy-code-button')) {
             return;
           }
@@ -197,7 +207,140 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         });
       };
 
+      const isKana = (char) => /[\u3040-\u30ff\uff66-\uff9f]/u.test(char);
+      const isAnnotationStart = (char) => char === '(' || char === '{' || char === '[';
+      const bracketPairs = {
+        '(': ')',
+        '{': '}',
+        '[': ']',
+      };
+
+      const readBracket = (chars, start) => {
+        const close = bracketPairs[chars[start]];
+        if (!close) return null;
+
+        const end = chars.indexOf(close, start + 1);
+        if (end === -1) return null;
+
+        return {
+          content: chars.slice(start + 1, end).join(''),
+          end,
+          kind: chars[start],
+        };
+      };
+
+      const createKanbunUnit = ({ base, furigana, okuri, kaeri }) => {
+        const unit = document.createElement('span');
+        unit.className = [
+          'kanbun-unit',
+          furigana && 'has-furigana',
+          okuri && 'has-okuri',
+          kaeri && 'has-kaeri',
+        ]
+          .filter(Boolean)
+          .join(' ');
+
+        const baseNode = document.createElement('span');
+        baseNode.className = 'kanbun-base';
+        baseNode.textContent = base;
+        unit.append(baseNode);
+
+        if (furigana) {
+          const furiganaNode = document.createElement('span');
+          furiganaNode.className = 'kanbun-furigana';
+          furiganaNode.textContent = furigana;
+          unit.append(furiganaNode);
+        }
+
+        if (okuri) {
+          const okuriNode = document.createElement('span');
+          okuriNode.className = 'kanbun-okuri';
+          okuriNode.textContent = okuri;
+          unit.append(okuriNode);
+        }
+
+        if (kaeri) {
+          const kaeriNode = document.createElement('span');
+          kaeriNode.className = 'kanbun-kaeri';
+          kaeriNode.textContent = kaeri;
+          unit.append(kaeriNode);
+        }
+
+        return unit;
+      };
+
+      const createKanbunPunctuation = (text) => {
+        const punctuation = document.createElement('span');
+        punctuation.className = 'kanbun-punctuation';
+        punctuation.textContent = text;
+        return punctuation;
+      };
+
+      const parseKanbunSource = (source) => {
+        const fragment = document.createDocumentFragment();
+        const chars = Array.from(source.trim());
+
+        for (let index = 0; index < chars.length; index += 1) {
+          const base = chars[index];
+          if (!base || /\s/.test(base)) continue;
+
+          if (isAnnotationStart(base)) {
+            continue;
+          }
+
+          let furigana = '';
+          let okuri = '';
+          let kaeri = '';
+
+          while (index + 1 < chars.length) {
+            const next = chars[index + 1];
+
+            if (isKana(next)) {
+              okuri += next;
+              index += 1;
+              continue;
+            }
+
+            const bracket = isAnnotationStart(next) ? readBracket(chars, index + 1) : null;
+            if (!bracket) break;
+
+            if (bracket.kind === '(') {
+              furigana = bracket.content;
+            } else if (bracket.kind === '{') {
+              okuri += bracket.content;
+            } else if (bracket.kind === '[') {
+              kaeri = bracket.content;
+            }
+
+            index = bracket.end;
+          }
+
+          if (/[\p{Script=Han}々〻]/u.test(base)) {
+            fragment.append(createKanbunUnit({ base, furigana, okuri, kaeri }));
+          } else {
+            fragment.append(createKanbunPunctuation(base));
+          }
+        }
+
+        return fragment;
+      };
+
+      const enhanceKanbunSources = () => {
+        document.querySelectorAll('.kanbun-source p').forEach((paragraph) => {
+          if (paragraph.dataset.kanbunReady === 'true') {
+            return;
+          }
+
+          const source = paragraph.textContent ?? '';
+          paragraph.textContent = '';
+          paragraph.append(parseKanbunSource(source));
+          paragraph.dataset.kanbunReady = 'true';
+        });
+      };
+
+      enhanceKanbunSources();
       enhanceCodeBlocks();
+      document.addEventListener('astro:page-load', enhanceKanbunSources);
       document.addEventListener('astro:page-load', enhanceCodeBlocks);
     </script>
   </body>
