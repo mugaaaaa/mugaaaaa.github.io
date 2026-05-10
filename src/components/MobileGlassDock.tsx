@@ -42,7 +42,7 @@ export default function MobileGlassDock({ locale = 'zh' }: MobileGlassDockProps)
       distort={28}
       bezelRatio={0.86}
       tintColor="#ffffff"
-      tintAlpha={0.3}
+      tintAlpha={0.1}
       saturate={160}
     >
       <a href={localizedPath(locale, '/')} aria-label={t.nav.home} className="grid size-11 place-items-center rounded-full bg-transparent transition hover:bg-white/45 focus-visible:bg-white/45">
