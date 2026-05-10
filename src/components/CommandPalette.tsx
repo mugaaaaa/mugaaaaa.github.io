@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { getTranslations, type Locale } from '../i18n/ui';
 import type { PostSearchItem } from '../lib/posts';
 import { LiquidGlass } from './LiquidGlass';
 
 type CommandPaletteProps = {
   posts: PostSearchItem[];
+  locale?: Locale;
 };
 
 function SearchIcon() {
@@ -21,7 +23,8 @@ function SearchIcon() {
   );
 }
 
-export default function CommandPalette({ posts }: CommandPaletteProps) {
+export default function CommandPalette({ posts, locale = 'zh' }: CommandPaletteProps) {
+  const t = getTranslations(locale);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -92,7 +95,7 @@ export default function CommandPalette({ posts }: CommandPaletteProps) {
     <div className="fixed inset-0 z-[70] grid place-items-start bg-black/34 px-4 pt-24 backdrop-blur-[2px] md:place-items-center md:pt-0">
       <button
         type="button"
-        aria-label="Close search"
+        aria-label={t.search.close}
         className="absolute inset-0 cursor-default"
         onClick={() => setOpen(false)}
       />
@@ -114,7 +117,7 @@ export default function CommandPalette({ posts }: CommandPaletteProps) {
               ref={inputRef}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search posts, tags, categories"
+              placeholder={t.search.placeholder}
               className="min-w-0 flex-1 bg-transparent text-lg font-black outline-none placeholder:text-stone-600/65"
             />
             <span className="hidden rounded-full bg-white/72 px-2 py-1 text-[11px] font-black uppercase text-stone-700 md:block">
@@ -143,7 +146,7 @@ export default function CommandPalette({ posts }: CommandPaletteProps) {
               ))
             ) : (
               <p className="px-3 py-8 text-center text-sm font-black text-stone-600">
-                No matching posts.
+                {t.search.empty}
               </p>
             )}
           </div>

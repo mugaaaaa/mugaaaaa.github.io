@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { getTranslations, type Locale } from '../i18n/ui';
 import { LiquidGlass } from './LiquidGlass';
 
 type PostFilterGlassProps = {
@@ -6,6 +7,7 @@ type PostFilterGlassProps = {
   baseHref?: string;
   activeTag?: string;
   tone?: 'light' | 'dark';
+  locale?: Locale;
 };
 
 export default function PostFilterGlass({
@@ -13,15 +15,17 @@ export default function PostFilterGlass({
   baseHref = '/posts/',
   activeTag: initialTag = 'All',
   tone = 'light',
+  locale = 'zh',
 }: PostFilterGlassProps) {
+  const t = getTranslations(locale);
   const [activeTag, setActiveTag] = useState(initialTag);
-  const visibleTags = useMemo(() => ['All', ...tags.slice(0, 7)], [tags]);
+  const visibleTags = useMemo(() => [t.filter.all, ...tags.slice(0, 7)], [tags, t.filter.all]);
   const darkTone = tone === 'dark';
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    setActiveTag(params.get('tag') ?? initialTag);
-  }, [initialTag]);
+    setActiveTag(params.get('tag') ?? initialTag ?? t.filter.all);
+  }, [initialTag, t.filter.all]);
 
   return (
     <LiquidGlass
@@ -37,11 +41,11 @@ export default function PostFilterGlass({
       saturate={155}
     >
       <span className="shrink-0 rounded-full bg-stone-950 px-3 py-2 text-xs font-black uppercase text-white">
-        Filter
+        {t.filter.label}
       </span>
       {visibleTags.map((tag) => {
         const active = tag === activeTag;
-        const href = tag === 'All' ? baseHref : `${baseHref}?tag=${encodeURIComponent(tag)}`;
+        const href = tag === t.filter.all ? baseHref : `${baseHref}?tag=${encodeURIComponent(tag)}`;
 
         return (
           <a

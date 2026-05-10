@@ -1,0 +1,199 @@
+---
+import { getCollection, render } from 'astro:content';
+import CommandPalette from '../CommandPalette';
+import FloatingGlass from '../FloatingGlass';
+import MobileGlassDock from '../MobileGlassDock';
+import ProgressGlass from '../ProgressGlass';
+import { getTranslations, localizedPath, type Locale } from '../../i18n/ui';
+import { formatDate, postHref, readingTime, sortPosts, toSearchItems } from '../../lib/posts';
+import '../../styles/global.css';
+
+const { post, previousPost, nextPost } = Astro.props;
+const locale = (Astro.props.locale ?? 'zh') as Locale;
+const t = getTranslations(locale);
+const currentPath = Astro.url.pathname;
+const allPosts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
+const searchItems = toSearchItems(allPosts, locale);
+const { Content, headings } = await render(post);
+const heroImage = post.data.image || '/images/blog/hero-ptilopsis.jpeg';
+const sectionHeadings = headings
+  .filter((heading) => heading.depth <= 2)
+  .slice(0, 5)
+  .map((heading) => ({
+    id: heading.slug,
+    label: heading.text.length > 12 ? `${heading.text.slice(0, 12)}...` : heading.text,
+  }));
+const progressSections = [
+  { id: 'article-top', label: t.postDetail.intro },
+  { id: 'article-body', label: t.postDetail.article },
+  ...sectionHeadings,
+];
+const copyCodeLabel = t.postDetail.copyCode;
+const copiedCodeLabel = t.postDetail.copiedCode;
+---
+
+<!doctype html>
+<html lang={t.htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={post.data.description || post.data.title} />
+    <title>{post.data.title} | Mugaaaaa's Blog</title>
+  </head>
+  <body>
+    <div id="top" class="paper-grid min-h-screen overflow-x-hidden">
+      <FloatingGlass locale={locale} currentPath={currentPath} client:load />
+      <MobileGlassDock locale={locale} client:load />
+      <CommandPalette posts={searchItems} locale={locale} client:load />
+      <ProgressGlass
+        title={t.postDetail.reading}
+        sections={progressSections}
+        details={[
+          { label: t.common.date, value: formatDate(post.data.published, locale) },
+          { label: t.common.read, value: `${readingTime(post)} ${t.common.min.toLowerCase()}` },
+          { label: t.common.type, value: post.data.category ?? t.common.note },
+        ]}
+        links={[
+          { label: t.postDetail.allPosts, href: localizedPath(locale, '/posts/') },
+          ...(nextPost ? [{ label: t.postDetail.newer, href: postHref(nextPost, locale) }] : []),
+          ...(previousPost ? [{ label: t.postDetail.older, href: postHref(previousPost, locale) }] : []),
+        ]}
+        client:load
+      />
+
+      <header id="article-top" class="relative isolate min-h-[72svh] bg-stone-950 text-white">
+        <img
+          src={heroImage}
+          alt=""
+          class="absolute inset-0 -z-20 h-full w-full object-cover object-top"
+        />
+        <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(0,0,0,0.76),rgba(0,0,0,0.28)_54%,rgba(0,0,0,0.72))]"></div>
+        <div class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-black/64 to-transparent"></div>
+
+        <div class="mx-auto flex min-h-[72svh] max-w-6xl flex-col justify-end px-5 pb-10 pt-28 md:px-8 lg:px-10 lg:pr-48">
+          <a href={localizedPath(locale, '/posts/')} class="mb-6 inline-flex w-fit items-center border border-white/45 bg-white px-3 py-1.5 text-xs font-black uppercase leading-none text-black">
+            {t.postDetail.backToPosts}
+          </a>
+          <p class="mb-4 text-sm font-black uppercase tracking-[0.16em] text-white/72">
+            {post.data.category ?? t.common.note} / {formatDate(post.data.published, locale)} / {t.common.minutesRead(readingTime(post))}
+          </p>
+          <h1 class="max-w-5xl text-5xl font-black leading-[0.98] md:text-7xl lg:text-8xl">
+            {post.data.title}
+          </h1>
+          {post.data.description && (
+            <p class="mt-6 max-w-2xl text-xl font-bold leading-8 text-white/82">
+              {post.data.description}
+            </p>
+          )}
+        </div>
+      </header>
+
+      <main id="article-body" class="px-5 py-14 md:px-8 lg:px-10">
+        <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,760px)_280px]">
+          <article class="article-shell border border-stone-300 bg-[#fffdf8] px-5 py-8 md:px-8 md:py-10">
+            <div class="mb-8 flex flex-wrap gap-2">
+              {post.data.tags.map((tag) => (
+                <span class="border border-stone-300 bg-stone-100 px-2 py-1 text-xs font-black uppercase text-stone-700">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div class="prose-content">
+              <Content />
+            </div>
+          </article>
+
+          <aside class="hidden lg:block">
+            <div class="sticky top-28 grid gap-4">
+              <section class="flat-card p-5">
+                <p class="text-xs font-black uppercase tracking-[0.14em] text-stone-500">{t.postDetail.outline}</p>
+                <div class="mt-4 grid gap-2">
+                  {sectionHeadings.length > 0 ? (
+                    sectionHeadings.map((heading) => (
+                      <a href={`#${heading.id}`} class="rounded-full bg-stone-100 px-3 py-2 text-sm font-black text-stone-700 hover:bg-stone-200">
+                        {heading.label}
+                      </a>
+                    ))
+                  ) : (
+                    <p class="text-sm font-semibold leading-6 text-stone-600">{t.postDetail.noOutline}</p>
+                  )}
+                </div>
+              </section>
+
+              <section class="flat-card bg-stone-950 p-5 text-white">
+                <p class="text-xs font-black uppercase tracking-[0.14em] text-white/50">{t.postDetail.adjacent}</p>
+                <div class="mt-4 grid gap-3">
+                  {nextPost && (
+                    <a href={postHref(nextPost, locale)} class="block border border-white/15 p-3 hover:bg-white/10">
+                      <p class="text-xs font-bold text-white/50">{t.postDetail.newer}</p>
+                      <p class="mt-1 text-sm font-black leading-5">{nextPost.data.title}</p>
+                    </a>
+                  )}
+                  {previousPost && (
+                    <a href={postHref(previousPost, locale)} class="block border border-white/15 p-3 hover:bg-white/10">
+                      <p class="text-xs font-bold text-white/50">{t.postDetail.older}</p>
+                      <p class="mt-1 text-sm font-black leading-5">{previousPost.data.title}</p>
+                    </a>
+                  )}
+                </div>
+              </section>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+    <script define:vars={{ copyCodeLabel, copiedCodeLabel }}>
+      const copyText = async (text: string) => {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        document.body.append(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        textarea.remove();
+      };
+
+      const enhanceCodeBlocks = () => {
+        document.querySelectorAll<HTMLPreElement>('.prose-content pre').forEach((pre) => {
+          if (pre.querySelector('.copy-code-button')) {
+            return;
+          }
+
+          const code = pre.querySelector('code');
+          if (!code) {
+            return;
+          }
+
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'copy-code-button';
+          button.textContent = copyCodeLabel;
+          button.setAttribute('aria-label', copyCodeLabel);
+
+          button.addEventListener('click', async () => {
+            await copyText(code.textContent ?? '');
+            button.textContent = copiedCodeLabel;
+            button.dataset.copied = 'true';
+
+            window.setTimeout(() => {
+              button.textContent = copyCodeLabel;
+              delete button.dataset.copied;
+            }, 1200);
+          });
+
+          pre.append(button);
+        });
+      };
+
+      enhanceCodeBlocks();
+      document.addEventListener('astro:page-load', enhanceCodeBlocks);
+    </script>
+  </body>
+</html>

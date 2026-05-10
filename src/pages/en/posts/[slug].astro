@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import PostDetailPage from '../../components/pages/PostDetailPage.astro';
-import { postSlug, sortPosts } from '../../lib/posts';
+import PostDetailPage from '../../../components/pages/PostDetailPage.astro';
+import { postSlug, sortPosts } from '../../../lib/posts';
 
 export async function getStaticPaths() {
   const posts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 ---
 
 <PostDetailPage
-  locale="zh"
+  locale="en"
   post={Astro.props.post}
   previousPost={Astro.props.previousPost}
   nextPost={Astro.props.nextPost}

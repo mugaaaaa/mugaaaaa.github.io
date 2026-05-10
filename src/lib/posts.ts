@@ -1,4 +1,5 @@
 import type { CollectionEntry } from 'astro:content';
+import { getTranslations, localizedPath, normalizeLocale } from '../i18n/ui';
 
 export type BlogPost = CollectionEntry<'posts'>;
 export type PostSearchItem = {
@@ -14,12 +15,14 @@ export function postSlug(post: Pick<BlogPost, 'id'>) {
   return post.id.replace(/\.mdx?$/, '').replace(/\/index$/, '');
 }
 
-export function postHref(post: Pick<BlogPost, 'id'>) {
-  return `/posts/${postSlug(post)}/`;
+export function postHref(post: Pick<BlogPost, 'id'>, locale = 'zh') {
+  return localizedPath(locale, `/posts/${postSlug(post)}/`);
 }
 
-export function formatDate(date: Date) {
-  return new Intl.DateTimeFormat('zh-CN', {
+export function formatDate(date: Date, locale = 'zh') {
+  const normalized = normalizeLocale(locale);
+
+  return new Intl.DateTimeFormat(normalized === 'en' ? 'en-US' : 'zh-CN', {
     year: 'numeric',
     month: 'short',
     day: '2-digit',
@@ -27,8 +30,10 @@ export function formatDate(date: Date) {
   }).format(date);
 }
 
-export function monthLabel(date: Date) {
-  return new Intl.DateTimeFormat('zh-CN', {
+export function monthLabel(date: Date, locale = 'zh') {
+  const normalized = normalizeLocale(locale);
+
+  return new Intl.DateTimeFormat(normalized === 'en' ? 'en-US' : 'zh-CN', {
     year: 'numeric',
     month: 'long',
     timeZone: 'UTC',
@@ -56,7 +61,7 @@ export function sortPosts(posts: BlogPost[]) {
   );
 }
 
-export function groupPostsByMonth(posts: BlogPost[]) {
+export function groupPostsByMonth(posts: BlogPost[], locale = 'zh') {
   return sortPosts(posts).reduce<
     Array<{ id: string; label: string; posts: BlogPost[] }>
   >((groups, post) => {
@@ -70,20 +75,22 @@ export function groupPostsByMonth(posts: BlogPost[]) {
 
     groups.push({
       id,
-      label: monthLabel(post.data.published),
+      label: monthLabel(post.data.published, locale),
       posts: [post],
     });
     return groups;
   }, []);
 }
 
-export function toSearchItems(posts: BlogPost[]): PostSearchItem[] {
+export function toSearchItems(posts: BlogPost[], locale = 'zh'): PostSearchItem[] {
+  const t = getTranslations(locale);
+
   return sortPosts(posts).map((post) => ({
     title: post.data.title,
-    href: postHref(post),
-    date: formatDate(post.data.published),
-    category: post.data.category ?? 'Note',
+    href: postHref(post, locale),
+    date: formatDate(post.data.published, locale),
+    category: post.data.category ?? t.common.note,
     tags: post.data.tags,
-    description: post.data.description || '一篇还在继续补充的笔记。',
+    description: post.data.description || t.common.fallbackDescription,
   }));
 }

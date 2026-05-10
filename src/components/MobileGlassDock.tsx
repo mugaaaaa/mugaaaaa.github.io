@@ -1,3 +1,4 @@
+import { getTranslations, localizedPath, type Locale } from '../i18n/ui';
 import { LiquidGlass } from './LiquidGlass';
 
 function DockIcon({ type }: { type: 'home' | 'posts' | 'search' | 'top' }) {
@@ -22,7 +23,13 @@ function DockIcon({ type }: { type: 'home' | 'posts' | 'search' | 'top' }) {
   );
 }
 
-export default function MobileGlassDock() {
+type MobileGlassDockProps = {
+  locale?: Locale;
+};
+
+export default function MobileGlassDock({ locale = 'zh' }: MobileGlassDockProps) {
+  const t = getTranslations(locale);
+
   const openSearch = () => {
     window.dispatchEvent(new CustomEvent('open-command-palette'));
   };
@@ -38,21 +45,21 @@ export default function MobileGlassDock() {
       tintAlpha={0.1}
       saturate={160}
     >
-      <a href="/" aria-label="Home" className="grid size-11 place-items-center rounded-full bg-transparent transition hover:bg-white/45 focus-visible:bg-white/45">
+      <a href={localizedPath(locale, '/')} aria-label={t.nav.home} className="grid size-11 place-items-center rounded-full bg-transparent transition hover:bg-white/45 focus-visible:bg-white/45">
         <DockIcon type="home" />
       </a>
-      <a href="/#notes" aria-label="Latest posts" className="grid size-11 place-items-center rounded-full bg-transparent transition hover:bg-white/45 focus-visible:bg-white/45">
+      <a href={localizedPath(locale, '/#notes')} aria-label={t.nav.latestPosts} className="grid size-11 place-items-center rounded-full bg-transparent transition hover:bg-white/45 focus-visible:bg-white/45">
         <DockIcon type="posts" />
       </a>
       <button
         type="button"
-        aria-label="Search"
+        aria-label={t.nav.search}
         className="grid size-11 place-items-center rounded-full bg-stone-950 text-white"
         onClick={openSearch}
       >
         <DockIcon type="search" />
       </button>
-      <a href="#top" aria-label="Back to top" className="grid size-11 place-items-center rounded-full bg-transparent transition hover:bg-white/45 focus-visible:bg-white/45">
+      <a href="#top" aria-label={t.nav.backTop} className="grid size-11 place-items-center rounded-full bg-transparent transition hover:bg-white/45 focus-visible:bg-white/45">
         <DockIcon type="top" />
       </a>
     </LiquidGlass>

@@ -1,11 +1,5 @@
+import { getTranslations, languageSwitchPath, localizedPath, type Locale } from '../i18n/ui';
 import { LiquidGlass } from './LiquidGlass';
-
-const navItems = [
-  { label: 'Home', href: '/' },
-  { label: 'Volume', href: '/#volume' },
-  { label: 'Posts', href: '/#notes' },
-  { label: 'Socials', href: '/#socials', mobileHidden: true },
-];
 
 function ArrowUpIcon() {
   return (
@@ -51,7 +45,20 @@ function SearchIcon() {
   );
 }
 
-export default function FloatingGlass() {
+type FloatingGlassProps = {
+  locale?: Locale;
+  currentPath?: string;
+};
+
+export default function FloatingGlass({ locale = 'zh', currentPath = '/' }: FloatingGlassProps) {
+  const t = getTranslations(locale);
+  const navItems = [
+    { label: t.nav.home, href: localizedPath(locale, '/') },
+    { label: t.nav.volume, href: localizedPath(locale, '/#volume') },
+    { label: t.nav.posts, href: localizedPath(locale, '/#notes') },
+    { label: t.nav.socials, href: localizedPath(locale, '/#socials'), mobileHidden: true },
+  ];
+
   const openSearch = () => {
     window.dispatchEvent(new CustomEvent('open-command-palette'));
   };
@@ -68,7 +75,7 @@ export default function FloatingGlass() {
         tintAlpha={0.08}
         saturate={155}
       >
-        <a href="/" className="shrink-0 rounded-full bg-transparent px-3 py-2 text-sm font-black transition hover:bg-white/45 focus-visible:bg-white/45 sm:px-4">
+        <a href={localizedPath(locale, '/')} className="shrink-0 rounded-full bg-transparent px-3 py-2 text-sm font-black transition hover:bg-white/45 focus-visible:bg-white/45 sm:px-4">
           Mugaaaaa's Blog
         </a>
         <nav aria-label="Primary" className="flex items-center gap-1 overflow-x-auto">
@@ -86,12 +93,18 @@ export default function FloatingGlass() {
         </nav>
         <button
           type="button"
-          aria-label="Search posts"
+          aria-label={t.nav.searchPosts}
           className="ml-auto hidden rounded-full bg-transparent px-3 py-2 text-xs font-black text-stone-900 transition hover:bg-white/55 focus-visible:bg-white/55 sm:block"
           onClick={openSearch}
         >
-          Search
+          {t.nav.search}
         </button>
+        <a
+          href={languageSwitchPath(locale, currentPath)}
+          className="hidden rounded-full bg-transparent px-3 py-2 text-xs font-black text-stone-900 transition hover:bg-white/55 focus-visible:bg-white/55 sm:block"
+        >
+          {t.languageSwitchLabel}
+        </a>
       </LiquidGlass>
 
       <LiquidGlass
@@ -106,28 +119,28 @@ export default function FloatingGlass() {
       >
         <a
           href="#top"
-          aria-label="Back to top"
+          aria-label={t.nav.backTop}
           className="grid size-10 place-items-center rounded-full bg-transparent transition hover:bg-white/55 focus-visible:bg-white/55"
         >
           <ArrowUpIcon />
         </a>
         <a
-          href="/#volume"
-          aria-label="Jump to volume"
+          href={localizedPath(locale, '/#volume')}
+          aria-label={t.nav.volume}
           className="grid size-10 place-items-center rounded-full bg-transparent transition hover:bg-white/55 focus-visible:bg-white/55"
         >
           <GridIcon />
         </a>
         <a
-          href="/#notes"
-          aria-label="Jump to notes"
+          href={localizedPath(locale, '/#notes')}
+          aria-label={t.nav.posts}
           className="grid size-10 place-items-center rounded-full bg-transparent transition hover:bg-white/55 focus-visible:bg-white/55"
         >
           <SearchIcon />
         </a>
         <button
           type="button"
-          aria-label="Search posts"
+          aria-label={t.nav.searchPosts}
           className="grid size-10 place-items-center rounded-full bg-stone-950 text-white transition hover:bg-stone-800"
           onClick={openSearch}
         >
