@@ -73,6 +73,9 @@ export const ui = {
         paperNotes: '论文/科研笔记',
         anime: 'ACGN相关',
         linguists: '语言学相关',
+        technology: '技术/工程记录',
+        music: '音乐与听感',
+        chore: '日常杂记',
       },
       socials: {
         github: '代码仓库',
@@ -173,6 +176,9 @@ export const ui = {
         paperNotes: 'Paper / research notes',
         anime: 'ACGN related',
         linguists: 'Linguistics related',
+        technology: 'Technology and engineering notes',
+        music: 'Music and listening notes',
+        chore: 'Daily chores and fragments',
       },
       socials: {
         github: 'Code repositories',
@@ -273,6 +279,9 @@ export const ui = {
         paperNotes: '論文/研究ノート',
         anime: 'ACGN 関連',
         linguists: '言語学関連',
+        technology: '技術と開発の記録',
+        music: '音楽と聴取メモ',
+        chore: '日常の雑記',
       },
       socials: {
         github: 'コードリポジトリ',

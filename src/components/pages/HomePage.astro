@@ -23,7 +23,7 @@ const tagCount = allTags.length;
 const totalMinutes = allPosts.reduce((sum, post) => sum + readingTime(post), 0);
 const searchItems = toSearchItems(allPosts, locale);
 
-const volumePriority = ['Paper Notes', 'Anime', 'Linguists'];
+const volumePriority = ['Paper Notes', 'Anime', 'Linguists', 'Technology', 'Music', 'Chore'];
 
 const volumes = [
   {
@@ -43,6 +43,24 @@ const volumes = [
     image: '/images/blog/visual-03.webp',
     description: t.home.volumes.linguists,
     href: localizedPath(locale, '/posts/?tag=Linguists'),
+  },
+  {
+    title: 'Technology',
+    image: '/images/touhou/kochiya-sanae.webp',
+    description: t.home.volumes.technology,
+    href: localizedPath(locale, '/posts/?tag=Technology'),
+  },
+  {
+    title: 'Music',
+    image: '/images/blog/secret-sealing-club.webp',
+    description: t.home.volumes.music,
+    href: localizedPath(locale, '/posts/?tag=Music'),
+  },
+  {
+    title: 'Chore',
+    image: '/images/touhou/yakumo-yukari.webp',
+    description: t.home.volumes.chore,
+    href: localizedPath(locale, '/posts/?tag=Chore'),
   },
 ];
 
@@ -184,9 +202,9 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                 {t.home.volumeIntro}
               </p>
             </div>
-            <div class="grid gap-4 md:grid-cols-3">
+            <div class="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1">
               {featuredVolumes.map((volume, index) => (
-                <article class="flat-card overflow-hidden">
+                <article class="flat-card w-[82vw] shrink-0 snap-start overflow-hidden sm:w-[24rem] md:w-[calc((100%-2rem)/3)]">
                   <a href={volume.href} class="block h-full">
                     <div class="aspect-[5/4] bg-stone-200">
                       <img src={volume.image} alt={volume.title} class="image-cover" />
