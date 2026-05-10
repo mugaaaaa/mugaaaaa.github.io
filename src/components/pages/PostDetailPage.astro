@@ -15,7 +15,7 @@ const currentPath = `${Astro.url.pathname}${Astro.url.search}`;
 const allPosts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
 const searchItems = toSearchItems(allPosts, locale);
 const { Content, headings } = await render(post);
-const heroImage = post.data.image || '/images/blog/hero-ptilopsis.jpeg';
+const heroImage = post.data.image || '/images/blog/hero-ptilopsis.webp';
 const sectionHeadings = headings
   .filter((heading) => heading.depth <= 2)
   .slice(0, 5)

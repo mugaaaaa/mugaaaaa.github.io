@@ -14,8 +14,8 @@ import '../../styles/global.css';
 const locale = (Astro.props.locale ?? 'zh') as Locale;
 const t = getTranslations(locale);
 const currentPath = `${Astro.url.pathname}${Astro.url.search}`;
-const heroImage = '/images/blog/hero-ptilopsis.jpeg';
-const latestPostsImage = '/images/blog/visual-01.jpg';
+const heroImage = '/images/blog/hero-ptilopsis.webp';
+const latestPostsImage = '/images/blog/visual-01.webp';
 const allPosts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
 const latestPosts = allPosts.slice(0, 3);
 const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
@@ -28,19 +28,19 @@ const volumePriority = ['Paper Notes', 'Anime', 'Linguists'];
 const volumes = [
   {
     title: 'Paper Notes',
-    image: '/images/blog/visual-01.jpg',
+    image: '/images/blog/visual-01.webp',
     description: t.home.volumes.paperNotes,
     href: localizedPath(locale, '/posts/?tag=Paper%20Notes'),
   },
   {
     title: 'Anime',
-    image: '/images/blog/visual-02.jpg',
+    image: '/images/blog/visual-02.webp',
     description: t.home.volumes.anime,
     href: localizedPath(locale, '/posts/?tag=Anime'),
   },
   {
     title: 'Linguists',
-    image: '/images/blog/visual-03.jpg',
+    image: '/images/blog/visual-03.webp',
     description: t.home.volumes.linguists,
     href: localizedPath(locale, '/posts/?tag=Linguists'),
   },
@@ -56,7 +56,7 @@ const socialLinks = [
     name: 'GitHub',
     meta: 'Code / Repo',
     initials: 'GH',
-    avatar: '/images/social/github-avatar.jpeg',
+    avatar: '/images/social/github-avatar.webp',
     label: 'github.com/mugaaaaa',
     href: 'https://github.com/mugaaaaa',
     text: t.home.socials.github,
@@ -65,7 +65,7 @@ const socialLinks = [
     name: 'QQ',
     meta: 'Chat',
     initials: 'QQ',
-    avatar: '/images/social/qq-avatar.jpg',
+    avatar: '/images/social/qq-avatar.webp',
     label: 'QQ 2650009090',
     href: 'tencent://message/?uin=2650009090&Site=MugaaaaaBlog&Menu=yes',
     text: t.home.socials.qq,
@@ -74,7 +74,7 @@ const socialLinks = [
     name: 'Bilibili',
     meta: 'Video / Feed',
     initials: 'BL',
-    avatar: '/images/social/bilibili-avatar.jpg',
+    avatar: '/images/social/bilibili-avatar.webp',
     label: 'space.bilibili.com/402171062',
     href: 'https://space.bilibili.com/402171062?spm_id_from=333.1007.0.0',
     text: t.home.socials.bilibili,
