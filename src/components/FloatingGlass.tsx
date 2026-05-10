@@ -1,4 +1,11 @@
-import { getTranslations, languageSwitchPath, localizedPath, type Locale } from '../i18n/ui';
+import { useEffect, useRef, useState } from 'react';
+import {
+  getTranslations,
+  languageOptions,
+  languageSwitchPath,
+  localizedPath,
+  type Locale,
+} from '../i18n/ui';
 import { LiquidGlass } from './LiquidGlass';
 
 function ArrowUpIcon() {
@@ -52,6 +59,9 @@ type FloatingGlassProps = {
 
 export default function FloatingGlass({ locale = 'zh', currentPath = '/' }: FloatingGlassProps) {
   const t = getTranslations(locale);
+  const [languageOpen, setLanguageOpen] = useState(false);
+  const languageMenuRef = useRef<HTMLDivElement>(null);
+  const activeLanguage = languageOptions.find((option) => option.locale === locale) ?? languageOptions[0];
   const navItems = [
     { label: t.nav.home, href: localizedPath(locale, '/') },
     { label: t.nav.volume, href: localizedPath(locale, '/#volume') },
@@ -62,6 +72,27 @@ export default function FloatingGlass({ locale = 'zh', currentPath = '/' }: Floa
   const openSearch = () => {
     window.dispatchEvent(new CustomEvent('open-command-palette'));
   };
+
+  useEffect(() => {
+    const closeLanguageMenu = (event: MouseEvent) => {
+      if (!languageMenuRef.current?.contains(event.target as Node)) {
+        setLanguageOpen(false);
+      }
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setLanguageOpen(false);
+      }
+    };
+
+    window.addEventListener('click', closeLanguageMenu);
+    window.addEventListener('keydown', closeOnEscape);
+
+    return () => {
+      window.removeEventListener('click', closeLanguageMenu);
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, []);
 
   return (
     <div className="pointer-events-none fixed inset-0 z-50">
@@ -99,12 +130,53 @@ export default function FloatingGlass({ locale = 'zh', currentPath = '/' }: Floa
         >
           {t.nav.search}
         </button>
-        <a
-          href={languageSwitchPath(locale, currentPath)}
-          className="hidden rounded-full bg-transparent px-3 py-2 text-xs font-black text-stone-900 transition hover:bg-white/55 focus-visible:bg-white/55 sm:block"
-        >
-          {t.languageSwitchLabel}
-        </a>
+        <div ref={languageMenuRef} className="relative hidden sm:block">
+          <button
+            type="button"
+            aria-label={t.nav.language}
+            aria-haspopup="menu"
+            aria-expanded={languageOpen}
+            className="rounded-full bg-transparent px-3 py-2 text-xs font-black text-stone-900 transition hover:bg-white/55 focus-visible:bg-white/55"
+            onClick={() => setLanguageOpen((open) => !open)}
+          >
+            {activeLanguage.shortLabel}
+          </button>
+          {languageOpen && (
+            <LiquidGlass
+              className="absolute right-0 top-[calc(100%+0.75rem)] grid w-40 gap-1 rounded-[18px] px-2 py-2 text-stone-950 shadow-[0_28px_80px_-36px_rgba(10,10,10,0.72)]"
+              chroma={0.36}
+              blur={2.4}
+              distort={30}
+              bezelRatio={0.84}
+              tintColor="#ffffff"
+              tintAlpha={0.2}
+              saturate={155}
+            >
+              <div role="menu" aria-label={t.nav.language} className="grid gap-1">
+                {languageOptions.map((option) => {
+                  const active = option.locale === locale;
+
+                  return (
+                    <a
+                      key={option.locale}
+                      href={languageSwitchPath(option.locale, currentPath)}
+                      role="menuitem"
+                      aria-current={active ? 'page' : undefined}
+                      className={`flex items-center justify-between rounded-full px-3 py-2 text-xs font-black transition ${
+                        active
+                          ? 'bg-stone-950 text-white'
+                          : 'bg-transparent text-stone-900 hover:bg-white/58 focus-visible:bg-white/58'
+                      }`}
+                    >
+                      <span>{option.label}</span>
+                      <span className={active ? 'text-white/66' : 'text-stone-500'}>{option.shortLabel}</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </LiquidGlass>
+          )}
+        </div>
       </LiquidGlass>
 
       <LiquidGlass

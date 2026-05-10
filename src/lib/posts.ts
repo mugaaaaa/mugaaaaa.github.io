@@ -21,8 +21,9 @@ export function postHref(post: Pick<BlogPost, 'id'>, locale = 'zh') {
 
 export function formatDate(date: Date, locale = 'zh') {
   const normalized = normalizeLocale(locale);
+  const dateLocale = normalized === 'en' ? 'en-US' : normalized === 'ja' ? 'ja-JP' : 'zh-CN';
 
-  return new Intl.DateTimeFormat(normalized === 'en' ? 'en-US' : 'zh-CN', {
+  return new Intl.DateTimeFormat(dateLocale, {
     year: 'numeric',
     month: 'short',
     day: '2-digit',
@@ -32,8 +33,9 @@ export function formatDate(date: Date, locale = 'zh') {
 
 export function monthLabel(date: Date, locale = 'zh') {
   const normalized = normalizeLocale(locale);
+  const dateLocale = normalized === 'en' ? 'en-US' : normalized === 'ja' ? 'ja-JP' : 'zh-CN';
 
-  return new Intl.DateTimeFormat(normalized === 'en' ? 'en-US' : 'zh-CN', {
+  return new Intl.DateTimeFormat(dateLocale, {
     year: 'numeric',
     month: 'long',
     timeZone: 'UTC',

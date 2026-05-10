@@ -11,7 +11,7 @@ import '../../styles/global.css';
 const { post, previousPost, nextPost } = Astro.props;
 const locale = (Astro.props.locale ?? 'zh') as Locale;
 const t = getTranslations(locale);
-const currentPath = Astro.url.pathname;
+const currentPath = `${Astro.url.pathname}${Astro.url.search}`;
 const allPosts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
 const searchItems = toSearchItems(allPosts, locale);
 const { Content, headings } = await render(post);

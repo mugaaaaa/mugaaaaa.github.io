@@ -274,6 +274,17 @@ img {
   line-height: 1.12;
 }
 
+.end-quote ruby {
+  ruby-align: center;
+}
+
+.end-quote rt {
+  color: rgba(255, 248, 236, 0.72);
+  font-size: 0.34em;
+  font-weight: 900;
+  line-height: 1;
+}
+
 .prose-content .return-ruby {
   ruby-position: under;
 }

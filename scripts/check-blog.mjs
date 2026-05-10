@@ -16,6 +16,9 @@ const requiredFiles = [
   'src/pages/en/index.astro',
   'src/pages/en/posts/index.astro',
   'src/pages/en/posts/[slug].astro',
+  'src/pages/ja/index.astro',
+  'src/pages/ja/posts/index.astro',
+  'src/pages/ja/posts/[slug].astro',
 ];
 
 const failures = [];
@@ -51,6 +54,12 @@ if (existsSync(join(root, 'src/pages/index.astro'))) {
       failures.push(`home should use ${component}`);
     }
   }
+  if (!homeSource.includes('t.home.endLabel') || !homeSource.includes('<ruby')) {
+    failures.push('home should end with END label and ruby quote');
+  }
+  if (!homeSource.includes('t.home.endQuote')) {
+    failures.push('home END quote should come from i18n');
+  }
   if (/(Touhou|东方\s*Project|Gensokyo|幻想乡)/i.test(homeSource)) {
     failures.push('home copy should not emphasize Touhou Project');
   }
@@ -80,9 +89,18 @@ if (existsSync(join(root, 'src/pages/posts/index.astro'))) {
 
 if (existsSync(join(root, 'src/i18n/ui.ts'))) {
   const i18n = read('src/i18n/ui.ts');
-  for (const token of ['zh', 'en', 'localizedPath', 'languageSwitchPath']) {
+  for (const token of ['zh', 'en', 'ja', 'localizedPath', 'languageSwitchPath', 'endQuote']) {
     if (!i18n.includes(token)) {
       failures.push(`i18n module should define ${token}`);
+    }
+  }
+}
+
+if (existsSync(join(root, 'src/components/FloatingGlass.tsx'))) {
+  const floating = read('src/components/FloatingGlass.tsx');
+  for (const token of ['LiquidGlass', 'languageOptions', 'aria-haspopup="menu"', 'aria-label={t.nav.language}']) {
+    if (!floating.includes(token)) {
+      failures.push(`topbar language dropdown should include ${token}`);
     }
   }
 }

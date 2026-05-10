@@ -13,7 +13,7 @@ import '../../styles/global.css';
 
 const locale = (Astro.props.locale ?? 'zh') as Locale;
 const t = getTranslations(locale);
-const currentPath = Astro.url.pathname;
+const currentPath = `${Astro.url.pathname}${Astro.url.search}`;
 const heroImage = '/images/blog/hero-ptilopsis.jpeg';
 const latestPostsImage = '/images/blog/visual-01.jpg';
 const allPosts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
@@ -96,6 +96,7 @@ const progressSections = [
   { id: 'notes', label: t.nav.posts },
   { id: 'socials', label: t.nav.socials },
 ];
+const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
 ---
 
 <!doctype html>
@@ -335,22 +336,20 @@ const progressSections = [
           </div>
         </section>
 
-        <section class="bg-[var(--ink)] px-5 py-16 text-[var(--paper)] md:px-8 lg:px-10">
-          <div class="mx-auto grid max-w-7xl gap-8 md:grid-cols-[1.2fr_0.8fr] md:items-center">
-            <div>
-              <p class="mb-4 inline-flex bg-[var(--gold)] px-3 py-1 text-xs font-black uppercase text-stone-950">
-                {t.home.nextEyebrow}
-              </p>
-              <h2 class="text-5xl font-black leading-none md:text-7xl">{t.home.nextHeading}</h2>
-            </div>
-            <div class="flat-card bg-[#fffdf8] p-5 text-stone-950">
-              <p class="text-sm font-black uppercase text-[var(--red)]">{t.home.queueTitle}</p>
-              <ul class="mt-4 space-y-3 text-base font-bold leading-6">
-                {t.home.queueItems.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
+        <section class="bg-[var(--ink)] px-5 py-20 text-[var(--paper)] md:px-8 lg:px-10">
+          <div class="mx-auto flex min-h-[260px] max-w-7xl flex-col items-center justify-center text-center">
+            <p class="mb-8 inline-flex bg-[var(--gold)] px-3 py-1 text-xs font-black uppercase text-stone-950">
+              {t.home.endLabel}
+            </p>
+            <p class="end-quote text-4xl font-black leading-[2.2] md:text-6xl" aria-label={endQuotePlain}>
+              {t.home.endQuote.map((part) => (
+                part.ruby ? (
+                  <ruby>{part.text}<rt>{part.ruby}</rt></ruby>
+                ) : (
+                  <span>{part.text}</span>
+                )
+              ))}
+            </p>
           </div>
         </section>
       </main>

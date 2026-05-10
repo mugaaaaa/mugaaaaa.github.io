@@ -1,7 +1,21 @@
-export const locales = ['zh', 'en'] as const;
+export const locales = ['zh', 'en', 'ja'] as const;
 export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = 'zh';
+export const languageOptions: Array<{ locale: Locale; label: string; shortLabel: string }> = [
+  { locale: 'zh', label: '中文', shortLabel: '中' },
+  { locale: 'en', label: 'English', shortLabel: 'EN' },
+  { locale: 'ja', label: '日本語', shortLabel: '日' },
+];
+
+const endQuote = [
+  { text: '色', ruby: 'いろ' },
+  { text: 'は' },
+  { text: '匂', ruby: 'にほ' },
+  { text: 'へと、' },
+  { text: '散', ruby: 'ち' },
+  { text: 'りぬるを。' },
+] as const;
 
 export const ui = {
   zh: {
@@ -17,6 +31,7 @@ export const ui = {
       searchPosts: 'Search posts',
       latestPosts: 'Latest posts',
       backTop: 'Back to top',
+      language: 'Language',
     },
     search: {
       placeholder: 'Search posts, tags, categories',
@@ -52,6 +67,8 @@ export const ui = {
       nextHeading: '下一篇还可以粗糙，但要清楚。',
       queueTitle: 'Queue',
       queueItems: ['Tag index and RSS', 'Volume index page', 'Image metadata captions'],
+      endLabel: 'END',
+      endQuote,
       volumes: {
         paperNotes: '论文阅读、方法摘要和实验笔记。',
         anime: '动画、角色和观看记录。',
@@ -113,6 +130,7 @@ export const ui = {
       searchPosts: 'Search posts',
       latestPosts: 'Latest posts',
       backTop: 'Back to top',
+      language: 'Language',
     },
     search: {
       placeholder: 'Search posts, tags, categories',
@@ -149,6 +167,8 @@ export const ui = {
       nextHeading: 'A draft can stay rough, but it should stay readable.',
       queueTitle: 'Queue',
       queueItems: ['Tag index and RSS', 'Volume index page', 'Image metadata captions'],
+      endLabel: 'END',
+      endQuote,
       volumes: {
         paperNotes: 'Paper reading, method summaries, and experiment notes.',
         anime: 'Animation, characters, and viewing records.',
@@ -197,10 +217,110 @@ export const ui = {
       draftFallback: 'New draft',
     },
   },
+  ja: {
+    htmlLang: 'ja',
+    languageName: '日本語',
+    languageSwitchLabel: '中文',
+    nav: {
+      home: 'Home',
+      volume: 'Volume',
+      posts: 'Posts',
+      socials: 'Socials',
+      search: 'Search',
+      searchPosts: 'Search posts',
+      latestPosts: 'Latest posts',
+      backTop: 'Back to top',
+      language: 'Language',
+    },
+    search: {
+      placeholder: 'Search posts, tags, categories',
+      close: 'Close search',
+      empty: 'No matching posts.',
+    },
+    common: {
+      posts: 'Posts',
+      tags: 'Tags',
+      min: 'Min',
+      read: 'Read',
+      type: 'Type',
+      date: 'Date',
+      home: 'Home',
+      note: 'Note',
+      fallbackDescription: 'まだ加筆中のノート。',
+      minutesRead: (minutes: number) => `${minutes} min read`,
+    },
+    home: {
+      metaDescription:
+        "Mugaaaaa's Blog, a personal notebook for code, linguistics, research notes, and daily writing.",
+      eyebrow: 'Personal notebook / Since 2026',
+      heroSubtitle:
+        'コード、言語、読書、日々の観察を記録する場所。散らばった問いを少しずつ読みやすく整える。',
+      latestTitle: 'Latest Posts',
+      volumeIntro:
+        '長く続けるテーマの入口。論文、アニメ、言語学のノートをここにまとめる。',
+      latestIntro:
+        '最近のノート、抜粋、実験記録。時間順に並べつつ、未完成の問いもそのまま残す。',
+      viewAllPosts: 'View all posts',
+      socialsIntro: '外部プロフィールと軽い連絡先。',
+      socialsList: 'GitHub / QQ / Bilibili / Reserved',
+      nextEyebrow: 'Next draft',
+      nextHeading: '粗い下書きでも、読める形にはしておく。',
+      queueTitle: 'Queue',
+      queueItems: ['Tag index and RSS', 'Volume index page', 'Image metadata captions'],
+      endLabel: 'END',
+      endQuote,
+      volumes: {
+        paperNotes: '論文読解、手法メモ、実験ノート。',
+        anime: 'アニメ、キャラクター、視聴記録。',
+        linguists: '言語学の断片、読書抜粋、問いの一覧。',
+      },
+      socials: {
+        github: 'コード、実験、公開リポジトリはここに置く。',
+        qq: 'より直接的な連絡先。QQ 番号もここで確認できる。',
+        bilibili: '動画、動態、公開コレクションへの入口。',
+        reserved: '今後追加するプロフィールやメール用の空き枠。',
+      },
+    },
+    postsIndex: {
+      metaDescription: "All posts from Mugaaaaa's Blog arranged as a chronological timeline.",
+      title: "Posts | Mugaaaaa's Blog",
+      eyebrow: 'All posts',
+      heading: 'Timeline',
+      intro:
+        'すべての記事を公開日の新しい順に並べる。月ごとの節点と右側の索引で移動できる。',
+      activeTag: (tag: string) => `現在のフィルター：${tag}。`,
+      empty: 'このタグの記事は見つかりません。',
+      showAll: 'Show all posts',
+      total: 'Total',
+    },
+    postDetail: {
+      reading: 'Reading',
+      intro: 'Intro',
+      article: 'Article',
+      allPosts: 'All posts',
+      backToPosts: 'Back to posts',
+      newer: 'Newer',
+      older: 'Older',
+      outline: 'Outline',
+      adjacent: 'Adjacent',
+      noOutline: 'この文章にはまだ二級見出しがありません。',
+      copyCode: 'Copy',
+      copiedCode: 'Copied',
+    },
+    filter: {
+      label: 'Filter',
+      all: 'All',
+    },
+    nowQueue: {
+      title: 'Now / Queue',
+      next: 'Next',
+      draftFallback: 'New draft',
+    },
+  },
 } as const;
 
 export function normalizeLocale(locale: string | undefined): Locale {
-  return locale === 'en' ? 'en' : defaultLocale;
+  return locale === 'en' || locale === 'ja' ? locale : defaultLocale;
 }
 
 export function getTranslations(locale: string | undefined) {
@@ -218,18 +338,14 @@ export function localizedPath(locale: string | undefined, path: string) {
   }
 
   if (path === '/') {
-    return '/en/';
+    return `/${normalized}/`;
   }
 
-  return `/en${path.startsWith('/') ? path : `/${path}`}`;
+  return `/${normalized}${path.startsWith('/') ? path : `/${path}`}`;
 }
 
-export function languageSwitchPath(locale: string | undefined, pathname: string) {
-  const normalized = normalizeLocale(locale);
-  if (normalized === 'en') {
-    const withoutPrefix = pathname.replace(/^\/en(?=\/|$)/, '') || '/';
-    return withoutPrefix === '' ? '/' : withoutPrefix;
-  }
+export function languageSwitchPath(targetLocale: string | undefined, pathname: string) {
+  const withoutPrefix = pathname.replace(/^\/(en|ja)(?=\/|$)/, '') || '/';
 
-  return localizedPath('en', pathname);
+  return localizedPath(targetLocale, withoutPrefix);
 }

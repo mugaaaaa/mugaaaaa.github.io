@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import PostDetailPage from '../../../components/pages/PostDetailPage.astro';
+import { postSlug, sortPosts } from '../../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
+
+  return posts.map((post, index) => ({
+    params: { slug: postSlug(post) },
+    props: {
+      post,
+      previousPost: posts[index + 1] ?? null,
+      nextPost: posts[index - 1] ?? null,
+    },
+  }));
+}
+---
+
+<PostDetailPage
+  locale="ja"
+  post={Astro.props.post}
+  previousPost={Astro.props.previousPost}
+  nextPost={Astro.props.nextPost}
+/>
