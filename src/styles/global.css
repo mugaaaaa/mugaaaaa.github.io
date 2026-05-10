@@ -98,10 +98,11 @@ img {
 }
 
 .volume-rail {
-  --volume-gutter: 1.25rem;
-  --volume-content-width: min(calc(100vw - (var(--volume-gutter) * 2)), 80rem);
-  padding-inline: var(--volume-gutter);
-  scroll-padding-inline: var(--volume-gutter);
+  --volume-page-padding: 1.25rem;
+  --volume-left: var(--volume-page-padding);
+  overscroll-behavior-x: contain;
+  padding-inline: var(--volume-left);
+  scroll-padding-inline: var(--volume-left);
 }
 
 .volume-card {
@@ -378,7 +379,10 @@ img {
 
 @media (min-width: 768px) {
   .volume-rail {
-    --volume-gutter: 2rem;
+    --volume-page-padding: 2rem;
+    --volume-shell-width: min(100vw, 80rem);
+    --volume-content-width: calc(var(--volume-shell-width) - (var(--volume-page-padding) * 2));
+    --volume-left: calc(((100vw - var(--volume-shell-width)) / 2) + var(--volume-page-padding));
   }
 
   .volume-card {
@@ -406,7 +410,7 @@ img {
 
 @media (min-width: 1024px) {
   .volume-rail {
-    --volume-gutter: 2.5rem;
+    --volume-page-padding: 2.5rem;
   }
 }
 

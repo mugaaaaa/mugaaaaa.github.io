@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 import CommandPalette from '../CommandPalette';
 import FloatingGlass from '../FloatingGlass';
 import { LiquidGlass } from '../LiquidGlass';
@@ -7,6 +8,14 @@ import MobileGlassDock from '../MobileGlassDock';
 import NowQueueGlass from '../NowQueueGlass';
 import PostFilterGlass from '../PostFilterGlass';
 import ProgressGlass from '../ProgressGlass';
+import heroSource from '../../assets/images/home/hero.jpeg';
+import latestPostsSource from '../../assets/images/home/latest-posts.jpg';
+import volumeAnimeSource from '../../assets/images/home/volume-anime.jpg';
+import volumeChoreSource from '../../assets/images/home/volume-chore.jpg';
+import volumeLinguistsSource from '../../assets/images/home/volume-linguists.jpg';
+import volumeMusicSource from '../../assets/images/home/volume-music.jpg';
+import volumePaperNotesSource from '../../assets/images/home/volume-paper-notes.jpg';
+import volumeTechnologySource from '../../assets/images/home/volume-technology.jpg';
 import { getTranslations, localizedPath, type Locale } from '../../i18n/ui';
 import { formatDate, postHref, readingTime, sortPosts, toSearchItems } from '../../lib/posts';
 import '../../styles/global.css';
@@ -14,8 +23,25 @@ import '../../styles/global.css';
 const locale = (Astro.props.locale ?? 'zh') as Locale;
 const t = getTranslations(locale);
 const currentPath = `${Astro.url.pathname}${Astro.url.search}`;
-const heroImage = '/images/blog/hero-ptilopsis.webp';
-const latestPostsImage = '/images/blog/visual-01.webp';
+const [
+  heroImage,
+  latestPostsImage,
+  volumePaperNotesImage,
+  volumeAnimeImage,
+  volumeLinguistsImage,
+  volumeTechnologyImage,
+  volumeMusicImage,
+  volumeChoreImage,
+] = await Promise.all([
+  getImage({ src: heroSource, width: 1920, format: 'webp', quality: 78 }),
+  getImage({ src: latestPostsSource, width: 1200, format: 'webp', quality: 70 }),
+  getImage({ src: volumePaperNotesSource, width: 900, format: 'webp', quality: 72 }),
+  getImage({ src: volumeAnimeSource, width: 900, format: 'webp', quality: 72 }),
+  getImage({ src: volumeLinguistsSource, width: 900, format: 'webp', quality: 72 }),
+  getImage({ src: volumeTechnologySource, width: 900, format: 'webp', quality: 72 }),
+  getImage({ src: volumeMusicSource, width: 900, format: 'webp', quality: 72 }),
+  getImage({ src: volumeChoreSource, width: 900, format: 'webp', quality: 72 }),
+]);
 const allPosts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
 const latestPosts = allPosts.slice(0, 3);
 const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
@@ -28,37 +54,37 @@ const volumePriority = ['Paper Notes', 'Anime', 'Linguists', 'Technology', 'Musi
 const volumes = [
   {
     title: 'Paper Notes',
-    image: '/images/blog/visual-01.webp',
+    image: volumePaperNotesImage.src,
     description: t.home.volumes.paperNotes,
     href: localizedPath(locale, '/posts/?tag=Paper%20Notes'),
   },
   {
     title: 'Anime',
-    image: '/images/blog/visual-02.webp',
+    image: volumeAnimeImage.src,
     description: t.home.volumes.anime,
     href: localizedPath(locale, '/posts/?tag=Anime'),
   },
   {
     title: 'Linguists',
-    image: '/images/blog/visual-03.webp',
+    image: volumeLinguistsImage.src,
     description: t.home.volumes.linguists,
     href: localizedPath(locale, '/posts/?tag=Linguists'),
   },
   {
     title: 'Technology',
-    image: '/images/touhou/kochiya-sanae.webp',
+    image: volumeTechnologyImage.src,
     description: t.home.volumes.technology,
     href: localizedPath(locale, '/posts/?tag=Technology'),
   },
   {
     title: 'Music',
-    image: '/images/blog/secret-sealing-club.webp',
+    image: volumeMusicImage.src,
     description: t.home.volumes.music,
     href: localizedPath(locale, '/posts/?tag=Music'),
   },
   {
     title: 'Chore',
-    image: '/images/touhou/yakumo-yukari.webp',
+    image: volumeChoreImage.src,
     description: t.home.volumes.chore,
     href: localizedPath(locale, '/posts/?tag=Chore'),
   },
@@ -145,8 +171,10 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
 
       <header class="hero-screen relative isolate min-h-screen min-h-[100svh] bg-stone-950 text-white">
         <img
-          src={heroImage}
+          src={heroImage.src}
           alt="A sharp illustrated banner for Mugaaaaa's Blog"
+          decoding="async"
+          fetchpriority="high"
           class="absolute inset-0 -z-20 h-full w-full object-cover object-top"
         />
         <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(0,0,0,0.78),rgba(0,0,0,0.2)_48%,rgba(0,0,0,0.68))]"></div>
@@ -203,21 +231,69 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
               </p>
             </div>
           </div>
-          <div class="volume-rail no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1">
-            {featuredVolumes.map((volume, index) => (
-              <article class="volume-card flat-card shrink-0 snap-start overflow-hidden">
-                <a href={volume.href} class="block h-full">
-                  <div class="aspect-[5/4] bg-stone-200">
-                    <img src={volume.image} alt={volume.title} class="image-cover" />
-                  </div>
-                  <div class="p-4">
-                    <p class="mb-2 text-xs font-black uppercase text-stone-500">{t.nav.volume} 0{index + 1}</p>
-                    <h3 class="text-lg font-black">{volume.title}</h3>
-                    <p class="mt-2 text-sm font-semibold leading-6 text-stone-600">{volume.description}</p>
-                  </div>
-                </a>
-              </article>
-            ))}
+          <div class="volume-shell relative" data-volume-shell>
+            <div class="volume-rail no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1" data-volume-rail>
+              {featuredVolumes.map((volume, index) => (
+                <article class="volume-card flat-card shrink-0 snap-start overflow-hidden">
+                  <a href={volume.href} class="block h-full">
+                    <div class="aspect-[5/4] bg-stone-200">
+                      <img src={volume.image} alt={volume.title} loading="lazy" decoding="async" class="image-cover" />
+                    </div>
+                    <div class="p-4">
+                      <p class="mb-2 text-xs font-black uppercase text-stone-500">{t.nav.volume} 0{index + 1}</p>
+                      <h3 class="text-lg font-black">{volume.title}</h3>
+                      <p class="mt-2 text-sm font-semibold leading-6 text-stone-600">{volume.description}</p>
+                    </div>
+                  </a>
+                </article>
+              ))}
+            </div>
+            <div class="pointer-events-none absolute inset-x-0 top-1/2 z-20 hidden -translate-y-1/2 md:block">
+              <div class="mx-auto flex max-w-7xl justify-between px-5 md:px-8 lg:px-10">
+                <div data-volume-prev hidden>
+                  <LiquidGlass
+                    className="volume-pager pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_22px_70px_-38px_rgba(0,0,0,0.75)]"
+                    chroma={0.34}
+                    blur={2.4}
+                    distort={30}
+                    bezelRatio={0.88}
+                    tintColor="#ffffff"
+                    tintAlpha={0.22}
+                    saturate={150}
+                    client:load
+                  >
+                    <button
+                      type="button"
+                      class="grid h-24 w-12 cursor-pointer place-items-center rounded-full text-4xl font-black leading-none text-stone-950 transition"
+                      aria-label="Previous volumes"
+                    >
+                      ‹
+                    </button>
+                  </LiquidGlass>
+                </div>
+                <div data-volume-next hidden class="ml-auto">
+                  <LiquidGlass
+                    className="volume-pager pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_22px_70px_-38px_rgba(0,0,0,0.75)]"
+                    chroma={0.34}
+                    blur={2.4}
+                    distort={30}
+                    bezelRatio={0.88}
+                    tintColor="#ffffff"
+                    tintAlpha={0.22}
+                    saturate={150}
+                    client:load
+                  >
+                    <button
+                      type="button"
+                      class="grid h-24 w-12 cursor-pointer place-items-center rounded-full text-4xl font-black leading-none text-stone-950 transition"
+                      aria-label="Next volumes"
+                    >
+                      ›
+                    </button>
+                  </LiquidGlass>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="mx-auto max-w-7xl px-5 md:px-8 lg:px-10">
             {moreVolumes.length > 0 && (
@@ -237,8 +313,10 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
 
         <section id="notes" class="relative isolate overflow-hidden border-b border-stone-900 bg-stone-950 px-5 py-16 text-white md:px-8 lg:px-10">
           <img
-            src={latestPostsImage}
+            src={latestPostsImage.src}
             alt=""
+            loading="lazy"
+            decoding="async"
             class="absolute inset-0 -z-20 h-full w-full object-cover object-center"
           />
           <div class="absolute inset-0 -z-10 bg-black/56"></div>
@@ -374,5 +452,81 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
         </section>
       </main>
     </div>
+    <script is:inline>
+      (() => {
+        const cardsPerPage = 3;
+        const scrollTolerance = 2;
+
+        const clampVolumeScroll = (value, max) => Math.min(max, Math.max(0, value));
+
+        const setPagerVisibility = (glass, button, isVisible) => {
+          if (!glass || !button) return;
+
+          glass.hidden = !isVisible;
+          button.disabled = !isVisible;
+          button.tabIndex = isVisible ? 0 : -1;
+        };
+
+        const getScrollDistance = (rail) => {
+          const card = rail.querySelector('.volume-card');
+          if (!card) return rail.clientWidth;
+
+          const railStyle = window.getComputedStyle(rail);
+          const gap = parseFloat(railStyle.columnGap || railStyle.gap || '0') || 0;
+
+          return (card.getBoundingClientRect().width + gap) * cardsPerPage;
+        };
+
+        const scrollByCards = (rail, direction) => {
+          const maxScrollLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
+          const target = clampVolumeScroll(rail.scrollLeft + getScrollDistance(rail) * direction, maxScrollLeft);
+
+          rail.scrollTo({ left: target, behavior: 'smooth' });
+        };
+
+        const bindVolumePagination = () => {
+          document.querySelectorAll('[data-volume-shell]').forEach((shell) => {
+            if (shell.dataset.volumePaginationReady === 'true') return;
+
+            const rail = shell.querySelector('[data-volume-rail]');
+            const prevGlass = shell.querySelector('[data-volume-prev]');
+            const nextGlass = shell.querySelector('[data-volume-next]');
+            const prevButton = prevGlass?.querySelector('button');
+            const nextButton = nextGlass?.querySelector('button');
+
+            if (!rail || !prevGlass || !nextGlass || !prevButton || !nextButton) return;
+
+            shell.dataset.volumePaginationReady = 'true';
+
+            let frame = 0;
+            const updatePagerVisibility = () => {
+              frame = 0;
+              const maxScrollLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
+              setPagerVisibility(prevGlass, prevButton, rail.scrollLeft > scrollTolerance);
+              setPagerVisibility(nextGlass, nextButton, rail.scrollLeft < maxScrollLeft - scrollTolerance);
+            };
+
+            const scheduleVisibilityUpdate = () => {
+              if (frame) return;
+              frame = window.requestAnimationFrame(updatePagerVisibility);
+            };
+
+            prevButton.addEventListener('click', () => scrollByCards(rail, -1));
+            nextButton.addEventListener('click', () => scrollByCards(rail, 1));
+            rail.addEventListener('scroll', scheduleVisibilityUpdate, { passive: true });
+            window.addEventListener('resize', scheduleVisibilityUpdate);
+
+            updatePagerVisibility();
+          });
+        };
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', bindVolumePagination, { once: true });
+        } else {
+          bindVolumePagination();
+        }
+        document.addEventListener('astro:page-load', bindVolumePagination);
+      })();
+    </script>
   </body>
 </html>

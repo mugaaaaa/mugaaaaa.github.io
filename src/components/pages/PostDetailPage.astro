@@ -1,9 +1,11 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { getImage } from 'astro:assets';
 import CommandPalette from '../CommandPalette';
 import FloatingGlass from '../FloatingGlass';
 import MobileGlassDock from '../MobileGlassDock';
 import ProgressGlass from '../ProgressGlass';
+import heroSource from '../../assets/images/home/hero.jpeg';
 import { getTranslations, localizedPath, type Locale } from '../../i18n/ui';
 import { formatDate, postHref, readingTime, sortPosts, toSearchItems } from '../../lib/posts';
 import '../../styles/global.css';
@@ -15,7 +17,8 @@ const currentPath = `${Astro.url.pathname}${Astro.url.search}`;
 const allPosts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
 const searchItems = toSearchItems(allPosts, locale);
 const { Content, headings } = await render(post);
-const heroImage = post.data.image || '/images/blog/hero-ptilopsis.webp';
+const fallbackHeroImage = await getImage({ src: heroSource, width: 1920, format: 'webp', quality: 78 });
+const heroImage = post.data.image || fallbackHeroImage.src;
 const sectionHeadings = headings
   .filter((heading) => heading.depth <= 2)
   .slice(0, 5)
@@ -65,6 +68,8 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         <img
           src={heroImage}
           alt=""
+          decoding="async"
+          fetchpriority="high"
           class="absolute inset-0 -z-20 h-full w-full object-cover object-top"
         />
         <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(0,0,0,0.76),rgba(0,0,0,0.28)_54%,rgba(0,0,0,0.72))]"></div>
