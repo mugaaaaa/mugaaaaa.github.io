@@ -544,10 +544,87 @@ img {
 .prose-content .kanbun-source .kanbun-kaeri {
   align-self: end;
   color: var(--red);
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0;
   grid-column: 3 / 5;
   grid-row: 2;
   justify-self: start;
+  writing-mode: horizontal-tb;
   z-index: 1;
+}
+
+.prose-content .kanbun-source .kanbun-kaeri-char {
+  display: block;
+  line-height: 1.05;
+  text-orientation: upright;
+  writing-mode: horizontal-tb;
+}
+
+.prose-content .kanbun-source .kanbun-kaeri-char + .kanbun-kaeri-char {
+  margin-top: -0.60em;
+}
+
+.prose-content .kanbun-source .kanbun-saidoku {
+  align-self: start;
+  color: var(--muted);
+  display: inline-flex;
+  font-family: var(--body-font);
+  font-size: 0.5em;
+  font-weight: 900;
+  gap: 0.08em;
+  grid-column: 1 / 5;
+  grid-row: 3;
+  height: max-content;
+  justify-self: center;
+  line-height: 1;
+  text-orientation: upright;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+}
+
+.prose-content .kanbun-source .kanbun-saidoku-okuri {
+  color: #111111;
+}
+
+.prose-content .kanbun-source .kanbun-word-middle {
+  display: inline-block;
+  height: 0;
+  line-height: 1;
+  margin: 0;
+  pointer-events: none;
+  position: relative;
+  text-orientation: upright;
+  vertical-align: middle;
+  width: 2em;
+  z-index: 2;
+}
+
+.prose-content .kanbun-source .kanbun-word-middle-connector {
+  background: #111111;
+  display: block;
+  height: 0.5em;
+  left: 0.96em;
+  position: absolute;
+  top: -0.70em;
+  transform: translateX(-50%);
+  width: 0.08em;
+}
+
+.prose-content .kanbun-source .kanbun-word-middle-furigana {
+  color: var(--muted);
+  font-family: var(--body-font);
+  font-size: 0.5em;
+  font-weight: 900;
+  height: max-content;
+  line-height: 1;
+  position: absolute;
+  right: 0.08em;
+  text-orientation: upright;
+  top: 0;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  writing-mode: vertical-rl;
 }
 
 .prose-content .kanbun-source .kanbun-punctuation {

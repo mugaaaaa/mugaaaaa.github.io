@@ -208,11 +208,13 @@ const copiedCodeLabel = t.postDetail.copiedCode;
       };
 
       const isKana = (char) => /[\u3040-\u30ff\uff66-\uff9f]/u.test(char);
-      const isAnnotationStart = (char) => char === '(' || char === '{' || char === '[';
+      const isAnnotationStart = (char) => ['(', '{', '[', '‹', '«'].includes(char);
       const bracketPairs = {
         '(': ')',
         '{': '}',
         '[': ']',
+        '‹': '›',
+        '«': '»',
       };
 
       const readBracket = (chars, start) => {
@@ -229,20 +231,84 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         };
       };
 
-      const createKanbunUnit = ({ base, furigana, okuri, kaeri }) => {
+      const readMultipleKanjiBase = (chars, start) => {
+        const open = chars[start];
+        if (open !== '‘' && open !== "'") return null;
+
+        const close = open === '‘' ? '’' : "'";
+        const end = chars.indexOf(close, start + 1);
+        if (end === -1) return null;
+
+        return {
+          content: chars.slice(start + 1, end).join(''),
+          end,
+        };
+      };
+
+      const parseMultipleKanjiBase = (content) => {
+        const chars = Array.from(content);
+        const tokens = [];
+
+        const attachKaeriToPreviousBase = (kaeri) => {
+          for (let index = tokens.length - 1; index >= 0; index -= 1) {
+            if (tokens[index].type === 'base') {
+              tokens[index].kaeri = kaeri;
+              return;
+            }
+          }
+        };
+
+        for (let index = 0; index < chars.length; index += 1) {
+          const char = chars[index];
+          const bracket = char === '[' ? readBracket(chars, index) : null;
+
+          if (bracket) {
+            attachKaeriToPreviousBase(bracket.content);
+            index = bracket.end;
+            continue;
+          }
+
+          if (char === '―' || char === '-') {
+            tokens.push({ type: 'connector' });
+            continue;
+          }
+
+          tokens.push({ type: 'base', value: char, kaeri: '' });
+        }
+
+        return tokens;
+      };
+
+      const appendKanbunBase = (node, base) => {
+        Array.from(base).forEach((char) => {
+          if (char === '―') {
+            const dash = document.createElement('span');
+            dash.className = 'kanbun-base-dash';
+            dash.textContent = char;
+            node.append(dash);
+            return;
+          }
+
+          node.append(document.createTextNode(char));
+        });
+      };
+
+      const createKanbunUnit = ({ base, furigana, okuri, kaeri, saidokuFurigana, saidokuOkuri }) => {
         const unit = document.createElement('span');
         unit.className = [
           'kanbun-unit',
           furigana && 'has-furigana',
           okuri && 'has-okuri',
           kaeri && 'has-kaeri',
+          (saidokuFurigana || saidokuOkuri) && 'has-saidoku',
+          saidokuOkuri && 'has-saidoku-okuri',
         ]
           .filter(Boolean)
           .join(' ');
 
         const baseNode = document.createElement('span');
         baseNode.className = 'kanbun-base';
-        baseNode.textContent = base;
+        appendKanbunBase(baseNode, base);
         unit.append(baseNode);
 
         if (furigana) {
@@ -262,11 +328,100 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         if (kaeri) {
           const kaeriNode = document.createElement('span');
           kaeriNode.className = 'kanbun-kaeri';
-          kaeriNode.textContent = kaeri;
+          Array.from(kaeri).forEach((char) => {
+            const charNode = document.createElement('span');
+            charNode.className = 'kanbun-kaeri-char';
+            charNode.textContent = char;
+            kaeriNode.append(charNode);
+          });
           unit.append(kaeriNode);
         }
 
+        if (saidokuFurigana || saidokuOkuri) {
+          const saidokuNode = document.createElement('span');
+          saidokuNode.className = 'kanbun-saidoku';
+
+          if (saidokuFurigana) {
+            const saidokuFuriganaNode = document.createElement('span');
+            saidokuFuriganaNode.className = 'kanbun-saidoku-furigana';
+            saidokuFuriganaNode.textContent = saidokuFurigana;
+            saidokuNode.append(saidokuFuriganaNode);
+          }
+
+          if (saidokuOkuri) {
+            const saidokuOkuriNode = document.createElement('span');
+            saidokuOkuriNode.className = 'kanbun-saidoku-okuri';
+            saidokuOkuriNode.textContent = saidokuOkuri;
+            saidokuNode.append(saidokuOkuriNode);
+          }
+
+          unit.append(saidokuNode);
+        }
+
         return unit;
+      };
+
+      const createKanbunMiddleNote = ({ furigana, hasConnector = true }) => {
+        const note = document.createElement('span');
+        note.className = [
+          'kanbun-word-middle',
+          furigana && 'has-word-furigana',
+          hasConnector && 'has-word-connector',
+        ]
+          .filter(Boolean)
+          .join(' ');
+        note.setAttribute('aria-hidden', 'true');
+
+        if (hasConnector) {
+          const connector = document.createElement('span');
+          connector.className = 'kanbun-word-middle-connector';
+          note.append(connector);
+        }
+
+        if (furigana) {
+          const furiganaNode = document.createElement('span');
+          furiganaNode.className = 'kanbun-word-middle-furigana';
+          furiganaNode.textContent = furigana;
+          note.append(furiganaNode);
+        }
+
+        return note;
+      };
+
+      const createMultipleKanjiFragment = ({ tokens, furigana }) => {
+        const fragment = document.createDocumentFragment();
+        const hasConnector = tokens.some((token) => token.type === 'connector');
+        let baseCount = 0;
+        let didAttachFurigana = false;
+
+        tokens.forEach((token) => {
+          if (token.type === 'connector') {
+            fragment.append(createKanbunMiddleNote({
+              furigana: didAttachFurigana ? '' : furigana,
+              hasConnector: true,
+            }));
+            didAttachFurigana = true;
+            return;
+          }
+
+          fragment.append(createKanbunUnit({
+            base: token.value,
+            furigana: '',
+            okuri: '',
+            kaeri: token.kaeri,
+          }));
+
+          baseCount += 1;
+          if (furigana && !hasConnector && !didAttachFurigana && baseCount === 1) {
+            fragment.append(createKanbunMiddleNote({
+              furigana,
+              hasConnector: false,
+            }));
+            didAttachFurigana = true;
+          }
+        });
+
+        return fragment;
       };
 
       const createKanbunPunctuation = (text) => {
@@ -281,16 +436,28 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         const chars = Array.from(source.trim());
 
         for (let index = 0; index < chars.length; index += 1) {
-          const base = chars[index];
+          let base = chars[index];
           if (!base || /\s/.test(base)) continue;
 
           if (isAnnotationStart(base)) {
             continue;
           }
 
+          let multipleBaseTokens = null;
           let furigana = '';
           let okuri = '';
           let kaeri = '';
+          let saidokuFurigana = '';
+          let saidokuOkuri = '';
+
+          if (base === '‘' || base === "'") {
+            const multipleBase = readMultipleKanjiBase(chars, index);
+
+            if (!multipleBase) continue;
+
+            multipleBaseTokens = parseMultipleKanjiBase(multipleBase.content);
+            index = multipleBase.end;
+          }
 
           while (index + 1 < chars.length) {
             const next = chars[index + 1];
@@ -310,13 +477,19 @@ const copiedCodeLabel = t.postDetail.copiedCode;
               okuri += bracket.content;
             } else if (bracket.kind === '[') {
               kaeri = bracket.content;
+            } else if (bracket.kind === '‹') {
+              saidokuFurigana = bracket.content;
+            } else if (bracket.kind === '«') {
+              saidokuOkuri += bracket.content;
             }
 
             index = bracket.end;
           }
 
-          if (/[\p{Script=Han}々〻]/u.test(base)) {
-            fragment.append(createKanbunUnit({ base, furigana, okuri, kaeri }));
+          if (multipleBaseTokens) {
+            fragment.append(createMultipleKanjiFragment({ tokens: multipleBaseTokens, furigana }));
+          } else if (/[\p{Script=Han}々〻]/u.test(base)) {
+            fragment.append(createKanbunUnit({ base, furigana, okuri, kaeri, saidokuFurigana, saidokuOkuri }));
           } else {
             fragment.append(createKanbunPunctuation(base));
           }
