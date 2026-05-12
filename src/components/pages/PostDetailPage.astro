@@ -511,10 +511,71 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         });
       };
 
+      const normalizeWheelDelta = (event) => {
+        if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) {
+          return event.deltaY * 16;
+        }
+
+        if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) {
+          return event.deltaY * window.innerHeight;
+        }
+
+        return event.deltaY;
+      };
+
+      const enhanceVerticalWheelScroll = () => {
+        document.querySelectorAll('.vertical-page-main').forEach((container) => {
+          if (container.dataset.verticalWheelReady === 'true') {
+            return;
+          }
+
+          let frame = 0;
+          let velocity = 0;
+          const friction = 0.82;
+          const maxVelocity = 90;
+          const minVelocity = 0.35;
+          const speed = 0.32;
+
+          const scrollWithMomentum = () => {
+            container.scrollBy({
+              left: velocity,
+              behavior: 'auto',
+            });
+            velocity *= friction;
+
+            if (Math.abs(velocity) > minVelocity) {
+              frame = window.requestAnimationFrame(scrollWithMomentum);
+              return;
+            }
+
+            velocity = 0;
+            frame = 0;
+          };
+
+          container.addEventListener('wheel', (event) => {
+            if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+              return;
+            }
+
+            event.preventDefault();
+            const nextVelocity = velocity - normalizeWheelDelta(event) * speed;
+            velocity = Math.max(-maxVelocity, Math.min(maxVelocity, nextVelocity));
+
+            if (!frame) {
+              frame = window.requestAnimationFrame(scrollWithMomentum);
+            }
+          }, { passive: false });
+
+          container.dataset.verticalWheelReady = 'true';
+        });
+      };
+
       enhanceKanbunSources();
       enhanceCodeBlocks();
+      enhanceVerticalWheelScroll();
       document.addEventListener('astro:page-load', enhanceKanbunSources);
       document.addEventListener('astro:page-load', enhanceCodeBlocks);
+      document.addEventListener('astro:page-load', enhanceVerticalWheelScroll);
     </script>
   </body>
 </html>
