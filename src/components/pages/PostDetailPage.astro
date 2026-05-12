@@ -522,71 +522,56 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         });
       };
 
-      const normalizeWheelDelta = (event) => {
-        if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) {
-          return event.deltaY * 16;
-        }
-
-        if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) {
-          return event.deltaY * window.innerHeight;
-        }
-
-        return event.deltaY;
+      const isEditableTarget = (target) => {
+        if (!(target instanceof HTMLElement)) return false;
+        return target.isContentEditable || ['INPUT', 'SELECT', 'TEXTAREA'].includes(target.tagName);
       };
 
-      const enhanceVerticalWheelScroll = () => {
-        document.querySelectorAll('.vertical-page-main').forEach((container) => {
-          if (container.dataset.verticalWheelReady === 'true') {
-            return;
-          }
+      const handleVerticalKeyboardScroll = (event) => {
+        if (
+          event.defaultPrevented
+          || event.altKey
+          || event.ctrlKey
+          || event.metaKey
+          || event.shiftKey
+          || isEditableTarget(event.target)
+        ) {
+          return;
+        }
 
-          let frame = 0;
-          let velocity = 0;
-          const friction = 0.82;
-          const maxVelocity = 90;
-          const minVelocity = 0.35;
-          const speed = 0.32;
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+          return;
+        }
 
-          const scrollWithMomentum = () => {
-            container.scrollBy({
-              left: velocity,
-              behavior: 'auto',
-            });
-            velocity *= friction;
+        const container = document.querySelector('.vertical-page-main');
+        if (!container) {
+          return;
+        }
 
-            if (Math.abs(velocity) > minVelocity) {
-              frame = window.requestAnimationFrame(scrollWithMomentum);
-              return;
-            }
-
-            velocity = 0;
-            frame = 0;
-          };
-
-          container.addEventListener('wheel', (event) => {
-            if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-              return;
-            }
-
-            event.preventDefault();
-            const nextVelocity = velocity - normalizeWheelDelta(event) * speed;
-            velocity = Math.max(-maxVelocity, Math.min(maxVelocity, nextVelocity));
-
-            if (!frame) {
-              frame = window.requestAnimationFrame(scrollWithMomentum);
-            }
-          }, { passive: false });
-
-          container.dataset.verticalWheelReady = 'true';
+        event.preventDefault();
+        const step = Math.max(240, Math.round(container.clientWidth * 0.82));
+        const direction = event.key === 'ArrowLeft' ? -1 : 1;
+        container.scrollBy({
+          left: direction * step,
+          behavior: 'smooth',
         });
+      };
+
+      const enhanceVerticalKeyboardScroll = () => {
+        if (document.documentElement.dataset.verticalKeyboardReady === 'true') {
+          return;
+        }
+
+        document.addEventListener('keydown', handleVerticalKeyboardScroll);
+        document.documentElement.dataset.verticalKeyboardReady = 'true';
       };
 
       enhanceKanbunSources();
       enhanceCodeBlocks();
-      enhanceVerticalWheelScroll();
+      enhanceVerticalKeyboardScroll();
       document.addEventListener('astro:page-load', enhanceKanbunSources);
       document.addEventListener('astro:page-load', enhanceCodeBlocks);
-      document.addEventListener('astro:page-load', enhanceVerticalWheelScroll);
+      document.addEventListener('astro:page-load', enhanceVerticalKeyboardScroll);
     </script>
   </body>
 </html>
