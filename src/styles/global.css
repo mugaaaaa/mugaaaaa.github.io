@@ -621,7 +621,7 @@ img {
   position: absolute;
   right: 0.08em;
   text-orientation: upright;
-  top: 0;
+  top: -1.00em;
   transform: translateY(-50%);
   white-space: nowrap;
   writing-mode: vertical-rl;

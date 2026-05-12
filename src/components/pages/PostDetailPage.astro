@@ -388,9 +388,10 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         return note;
       };
 
-      const createMultipleKanjiFragment = ({ tokens, furigana }) => {
+      const createMultipleKanjiFragment = ({ tokens, furigana, okuri, kaeri, saidokuFurigana, saidokuOkuri }) => {
         const fragment = document.createDocumentFragment();
         const hasConnector = tokens.some((token) => token.type === 'connector');
+        const lastBaseToken = tokens.findLast((token) => token.type === 'base');
         let baseCount = 0;
         let didAttachFurigana = false;
 
@@ -404,11 +405,14 @@ const copiedCodeLabel = t.postDetail.copiedCode;
             return;
           }
 
+          const isLastBaseToken = token === lastBaseToken;
           fragment.append(createKanbunUnit({
             base: token.value,
             furigana: '',
-            okuri: '',
-            kaeri: token.kaeri,
+            okuri: isLastBaseToken ? okuri : '',
+            kaeri: `${token.kaeri}${isLastBaseToken ? kaeri : ''}`,
+            saidokuFurigana: isLastBaseToken ? saidokuFurigana : '',
+            saidokuOkuri: isLastBaseToken ? saidokuOkuri : '',
           }));
 
           baseCount += 1;
@@ -487,7 +491,14 @@ const copiedCodeLabel = t.postDetail.copiedCode;
           }
 
           if (multipleBaseTokens) {
-            fragment.append(createMultipleKanjiFragment({ tokens: multipleBaseTokens, furigana }));
+            fragment.append(createMultipleKanjiFragment({
+              tokens: multipleBaseTokens,
+              furigana,
+              okuri,
+              kaeri,
+              saidokuFurigana,
+              saidokuOkuri,
+            }));
           } else if (/[\p{Script=Han}々〻]/u.test(base)) {
             fragment.append(createKanbunUnit({ base, furigana, okuri, kaeri, saidokuFurigana, saidokuOkuri }));
           } else {
