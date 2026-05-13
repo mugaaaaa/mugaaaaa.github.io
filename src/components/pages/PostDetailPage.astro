@@ -509,14 +509,9 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         return fragment;
       };
 
-      const renderKanbunParagraph = (paragraph, source = paragraph.textContent ?? '') => {
-        if (paragraph.dataset.kanbunReady === 'true') {
-          return;
-        }
-
+      const renderKanbunParagraph = (paragraph, source) => {
         paragraph.textContent = '';
         paragraph.append(parseKanbunSource(source));
-        paragraph.dataset.kanbunReady = 'true';
       };
 
       const enhanceKanbunSources = () => {
@@ -525,19 +520,12 @@ const copiedCodeLabel = t.postDetail.copiedCode;
             return;
           }
 
-          const existingParagraphs = Array.from(sourceBlock.querySelectorAll(':scope > p'));
-          if (existingParagraphs.length > 0) {
-            existingParagraphs.forEach((paragraph) => {
-              renderKanbunParagraph(paragraph);
-            });
-            return;
-          }
-
           if (sourceBlock.dataset.kanbunReady === 'true') {
             return;
           }
 
-          const paragraphs = (sourceBlock.textContent ?? '')
+          const source = sourceBlock.innerText || sourceBlock.textContent || '';
+          const paragraphs = source
             .split(/\n\s*\n/)
             .map((paragraphSource) => paragraphSource.trim())
             .filter(Boolean);
