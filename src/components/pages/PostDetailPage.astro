@@ -524,7 +524,7 @@ const copiedCodeLabel = t.postDetail.copiedCode;
             return;
           }
 
-          const source = sourceBlock.innerText || sourceBlock.textContent || '';
+          const source = sourceBlock.textContent || '';
           const paragraphs = source
             .split(/\n\s*\n/)
             .map((paragraphSource) => paragraphSource.trim())

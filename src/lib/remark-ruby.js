@@ -7,14 +7,15 @@ const renderPlainText = (value) => escapeHtml(value)
   .replaceAll('\\(', '(')
   .replaceAll('\\)', ')');
 
-const rubyPattern = /([\p{Script=Han}々〻]+)(?<!\\)\(([^()\n]+)\)/gu;
+const rubyPattern = /(?:([‘'])(.+?)(?:’|')|([\p{Script=Han}々〻]+))(?<!\\)\(([^()\n]+)\)/gu;
 
 export const renderRubyInline = (source) => {
   let html = '';
   let lastIndex = 0;
 
   for (const match of source.matchAll(rubyPattern)) {
-    const [matched, base, reading] = match;
+    const [matched, , quotedBase, kanjiBase, reading] = match;
+    const base = quotedBase || kanjiBase;
     const index = match.index ?? 0;
     html += renderPlainText(source.slice(lastIndex, index));
     html += `<ruby>${escapeHtml(base)}<rt>${escapeHtml(reading)}</rt></ruby>`;

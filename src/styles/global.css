@@ -351,6 +351,19 @@ img {
   line-height: 1.12;
 }
 
+.prose-content .ruby-source {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.prose-content .ruby-source p {
+  margin: 0;
+}
+
+.prose-content .ruby-source p + p {
+  margin-top: 1rem;
+}
+
 .end-quote ruby {
   ruby-align: center;
 }
