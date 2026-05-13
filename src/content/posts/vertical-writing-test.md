@@ -22,13 +22,17 @@ lang: zh_CN
 
 ## 古汉语与返点块
 
-<div class="kanbun kanbun-source"><p>學[レ]而時習フ[レ]之、不[二]亦説[一]乎。</p></div>
+<div class="kanbun kanbun-source">
+學[レ]而時習フ[レ]之、不[二]亦説[一]乎。
+</div>
 
 上面的写法会由页面脚本转换成排版单元：方括号里的内容作为返点，假名会作为送假名贴近对应汉字。这个方案比直接手写一堆嵌套标签更适合在 Markdown 里长期维护。
 
 ## 送假名块
 
-<div class="kanbun kanbun-source"><p>讀ミ書ヲ以テ養フ氣ヲ。</p></div>
+<div class="kanbun kanbun-source">
+讀ミ書ヲ以テ養フ氣ヲ。
+</div>
 
 ## 横排回退
 
@@ -36,7 +40,7 @@ lang: zh_CN
 
 ```html
 <div class="kanbun kanbun-source">
-  <p>欲ス[三]東渡。</p>
+欲ス[三]東渡。
 </div>
 ```
 

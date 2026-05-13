@@ -509,16 +509,46 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         return fragment;
       };
 
+      const renderKanbunParagraph = (paragraph, source = paragraph.textContent ?? '') => {
+        if (paragraph.dataset.kanbunReady === 'true') {
+          return;
+        }
+
+        paragraph.textContent = '';
+        paragraph.append(parseKanbunSource(source));
+        paragraph.dataset.kanbunReady = 'true';
+      };
+
       const enhanceKanbunSources = () => {
-        document.querySelectorAll('.kanbun-source p').forEach((paragraph) => {
-          if (paragraph.dataset.kanbunReady === 'true') {
+        document.querySelectorAll('.kanbun-source').forEach((sourceBlock) => {
+          if (!(sourceBlock instanceof HTMLElement)) {
             return;
           }
 
-          const source = paragraph.textContent ?? '';
-          paragraph.textContent = '';
-          paragraph.append(parseKanbunSource(source));
-          paragraph.dataset.kanbunReady = 'true';
+          const existingParagraphs = Array.from(sourceBlock.querySelectorAll(':scope > p'));
+          if (existingParagraphs.length > 0) {
+            existingParagraphs.forEach((paragraph) => {
+              renderKanbunParagraph(paragraph);
+            });
+            return;
+          }
+
+          if (sourceBlock.dataset.kanbunReady === 'true') {
+            return;
+          }
+
+          const paragraphs = (sourceBlock.textContent ?? '')
+            .split(/\n\s*\n/)
+            .map((paragraphSource) => paragraphSource.trim())
+            .filter(Boolean);
+
+          sourceBlock.textContent = '';
+          paragraphs.forEach((paragraphSource) => {
+            const paragraph = document.createElement('p');
+            renderKanbunParagraph(paragraph, paragraphSource);
+            sourceBlock.append(paragraph);
+          });
+          sourceBlock.dataset.kanbunReady = 'true';
         });
       };
 
