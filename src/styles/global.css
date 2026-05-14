@@ -139,6 +139,11 @@ img {
   color: #050505 !important;
 }
 
+.posts-empty-action {
+  background: #050505;
+  color: #fff8ec !important;
+}
+
 .vertical-post-root {
   overflow-x: auto;
 }

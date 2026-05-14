@@ -111,7 +111,7 @@ const postsLabel = t.common.posts.toLowerCase();
         <section class="mx-auto max-w-5xl">
             <div class:list={['flat-card p-8 text-center', visiblePosts.length > 0 && 'hidden']} data-posts-empty>
               <p class="text-xl font-black">{t.postsIndex.empty}</p>
-              <a href={localizedPath(locale, '/posts/')} class="mt-5 inline-flex border border-stone-950 bg-stone-950 px-4 py-2 text-sm font-black uppercase text-white">
+              <a href={localizedPath(locale, '/posts/')} class="posts-empty-action mt-5 inline-flex border border-stone-950 px-4 py-2 text-sm font-black uppercase">
                 {t.postsIndex.showAll}
               </a>
             </div>
