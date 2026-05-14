@@ -20,12 +20,30 @@ const locale = (Astro.props.locale ?? 'zh') as Locale;
 const t = getTranslations(locale);
 const currentPath = `${Astro.url.pathname}${Astro.url.search}`;
 const allPosts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
-const activeTag = Astro.url.searchParams.get('tag');
-const visiblePosts = activeTag
-  ? allPosts.filter((post) => post.data.tags.includes(activeTag))
+const fixedVolumeTag = Astro.url.searchParams.get('volume');
+const activeTags = Astro.url.searchParams
+  .getAll('tag')
+  .filter((tag) => tag && tag !== fixedVolumeTag);
+const requiredTags = [
+  ...(fixedVolumeTag ? [fixedVolumeTag] : []),
+  ...activeTags,
+];
+const visiblePosts = requiredTags.length > 0
+  ? allPosts.filter((post) => requiredTags.every((tag) => post.data.tags.includes(tag)))
   : allPosts;
-const groupedPosts = groupPostsByMonth(visiblePosts, locale);
+const groupedPosts = groupPostsByMonth(allPosts, locale);
 const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
+const relatedTagsByTag = Object.fromEntries(
+  allTags.map((tag) => [
+    tag,
+    Array.from(new Set(
+      allPosts
+        .filter((post) => post.data.tags.includes(tag))
+        .flatMap((post) => post.data.tags)
+        .filter((relatedTag) => relatedTag !== tag),
+    )),
+  ]),
+);
 const searchItems = toSearchItems(allPosts, locale);
 const timelineSections = [
   { id: 'posts-top', label: 'Top' },
@@ -74,23 +92,30 @@ const postsLabel = t.common.posts.toLowerCase();
             </h1>
             <p class="font-semibold leading-7 text-[var(--muted)]">
               {t.postsIndex.intro}
-              {activeTag && ` ${t.postsIndex.activeTag(activeTag)}`}
+              {requiredTags.length > 0 && ` ${t.postsIndex.activeTag(requiredTags.join(' + '))}`}
             </p>
           </div>
         </section>
 
-        <PostFilterGlass tags={allTags} baseHref={localizedPath(locale, '/posts/')} activeTag={activeTag ?? t.filter.all} locale={locale} client:load />
+        <PostFilterGlass
+          tags={allTags}
+          relatedTagsByTag={relatedTagsByTag}
+          baseHref={localizedPath(locale, '/posts/')}
+          activeTags={activeTags}
+          fixedTag={fixedVolumeTag}
+          interactive
+          locale={locale}
+          client:load
+        />
 
         <section class="mx-auto max-w-5xl">
-          {visiblePosts.length === 0 ? (
-            <div class="flat-card p-8 text-center">
+            <div class:list={['flat-card p-8 text-center', visiblePosts.length > 0 && 'hidden']} data-posts-empty>
               <p class="text-xl font-black">{t.postsIndex.empty}</p>
               <a href={localizedPath(locale, '/posts/')} class="mt-5 inline-flex border border-stone-950 bg-stone-950 px-4 py-2 text-sm font-black uppercase text-white">
                 {t.postsIndex.showAll}
               </a>
             </div>
-          ) : (
-          <div class="timeline-line relative">
+          <div class:list={['timeline-line relative', visiblePosts.length === 0 && 'hidden']} data-posts-timeline data-filter-required-tags={requiredTags.join('|')}>
             {groupedPosts.map((group) => (
               <section id={group.id} class="timeline-month relative pb-12 pl-8 md:pl-12" data-month-section>
                 <div class="absolute left-0 top-1 size-4 rounded-full border-4 border-[var(--paper)] bg-stone-950 shadow-[0_0_0_1px_var(--line)]"></div>
@@ -138,30 +163,65 @@ const postsLabel = t.common.posts.toLowerCase();
               </section>
             ))}
           </div>
-          )}
         </section>
       </main>
       <script define:vars={{ postsLabel }}>
         const params = new URLSearchParams(window.location.search);
-        const activeTag = params.get('tag');
+        const fixedVolumeTag = params.get('volume');
+        const activeTags = params.getAll('tag').filter((tag) => tag && tag !== fixedVolumeTag);
+        const requiredTags = [
+          ...(fixedVolumeTag ? [fixedVolumeTag] : []),
+          ...activeTags,
+        ];
+        const getRequiredTagsFromLocation = () => {
+          const nextParams = new URLSearchParams(window.location.search);
+          const nextFixedVolumeTag = nextParams.get('volume');
+          const nextActiveTags = nextParams
+            .getAll('tag')
+            .filter((tag) => tag && tag !== nextFixedVolumeTag);
 
-        if (activeTag) {
+          return [
+            ...(nextFixedVolumeTag ? [nextFixedVolumeTag] : []),
+            ...nextActiveTags,
+          ];
+        };
+
+        const applyPostFilter = (nextRequiredTags) => {
           const posts = Array.from(document.querySelectorAll('[data-timeline-post]'));
+          const timeline = document.querySelector('[data-posts-timeline]');
+          const empty = document.querySelector('[data-posts-empty]');
+          const requiredTags = nextRequiredTags ?? getRequiredTagsFromLocation();
+
+          if (timeline) {
+            timeline.setAttribute('data-filter-required-tags', requiredTags.join('|'));
+          }
 
           for (const post of posts) {
             const tags = post.getAttribute('data-tags')?.split('|') ?? [];
-            post.toggleAttribute('hidden', !tags.includes(activeTag));
+            const visible = requiredTags.every((tag) => tags.includes(tag));
+            post.toggleAttribute('hidden', !visible);
           }
 
+          let visibleTotal = 0;
           for (const section of document.querySelectorAll('[data-month-section]')) {
             const visibleCount = section.querySelectorAll('[data-timeline-post]:not([hidden])').length;
+            visibleTotal += visibleCount;
             section.toggleAttribute('hidden', visibleCount === 0);
             const count = section.querySelector('[data-month-count]');
             if (count) {
               count.textContent = `${visibleCount} ${postsLabel}`;
             }
           }
-        }
+
+          timeline?.classList.toggle('hidden', visibleTotal === 0);
+          empty?.classList.toggle('hidden', visibleTotal !== 0);
+        };
+
+        applyPostFilter(requiredTags);
+        window.addEventListener('posts-filter-change', (event) => {
+          applyPostFilter(event.detail?.requiredTags);
+        });
+        window.addEventListener('popstate', () => applyPostFilter());
       </script>
     </div>
   </body>

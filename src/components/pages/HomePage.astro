@@ -50,43 +50,44 @@ const totalMinutes = allPosts.reduce((sum, post) => sum + readingTime(post), 0);
 const searchItems = toSearchItems(allPosts, locale);
 
 const volumePriority = ['Paper Notes', 'Anime', 'Linguists', 'Technology', 'Music', 'Chore'];
+const volumeHref = (tag: string) => localizedPath(locale, `/posts/?volume=${encodeURIComponent(tag)}`);
 
 const volumes = [
   {
     title: 'Paper Notes',
     image: volumePaperNotesImage.src,
     description: t.home.volumes.paperNotes,
-    href: localizedPath(locale, '/posts/?tag=Paper%20Notes'),
+    href: volumeHref('Paper Notes'),
   },
   {
     title: 'Anime',
     image: volumeAnimeImage.src,
     description: t.home.volumes.anime,
-    href: localizedPath(locale, '/posts/?tag=Anime'),
+    href: volumeHref('Anime'),
   },
   {
     title: 'Linguists',
     image: volumeLinguistsImage.src,
     description: t.home.volumes.linguists,
-    href: localizedPath(locale, '/posts/?tag=Linguists'),
+    href: volumeHref('Linguists'),
   },
   {
     title: 'Technology',
     image: volumeTechnologyImage.src,
     description: t.home.volumes.technology,
-    href: localizedPath(locale, '/posts/?tag=Technology'),
+    href: volumeHref('Technology'),
   },
   {
     title: 'Music',
     image: volumeMusicImage.src,
     description: t.home.volumes.music,
-    href: localizedPath(locale, '/posts/?tag=Music'),
+    href: volumeHref('Music'),
   },
   {
     title: 'Chore',
     image: volumeChoreImage.src,
     description: t.home.volumes.chore,
-    href: localizedPath(locale, '/posts/?tag=Chore'),
+    href: volumeHref('Chore'),
   },
 ];
 

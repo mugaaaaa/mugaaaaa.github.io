@@ -361,7 +361,7 @@ img {
 }
 
 .prose-content .ruby-source p + p {
-  margin-top: 1rem;
+  margin-block-start: 1rem;
 }
 
 .end-quote ruby {
