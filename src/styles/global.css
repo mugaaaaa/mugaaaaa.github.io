@@ -81,6 +81,63 @@ img {
   min-height: 100svh;
 }
 
+.hero-carousel-track {
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
+  scroll-padding-inline: 0;
+  touch-action: pan-x pan-y pinch-zoom;
+}
+
+.hero-carousel-slide {
+  min-width: 100%;
+}
+
+.hero-carousel-arrow-shell {
+  position: absolute;
+  top: 12%;
+  z-index: 30;
+  transform: translateY(-50%);
+}
+
+.hero-carousel-arrow-glass {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+}
+
+.hero-carousel-arrow-button {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  place-items: center;
+  border-radius: 999px;
+  color: #050505;
+  font-size: 2.25rem;
+  font-weight: 900;
+  line-height: 1;
+  transition: transform 160ms ease;
+}
+
+.hero-carousel-arrow-button:hover,
+.hero-carousel-arrow-button:focus-visible {
+  transform: scale(1.04);
+}
+
+.hero-carousel-arrow-button:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.62);
+  outline-offset: 3px;
+}
+
+.hero-carousel-arrow-left {
+  left: 1rem;
+}
+
+.hero-carousel-arrow-right {
+  right: 1rem;
+}
+
 .section-title {
   font-size: 2.5rem;
   line-height: 1;
@@ -674,6 +731,28 @@ img {
 }
 
 @media (min-width: 768px) {
+  .hero-carousel-arrow-shell {
+    top: 34%;
+  }
+
+  .hero-carousel-arrow-glass {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .hero-carousel-arrow-button {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .hero-carousel-arrow-left {
+    left: clamp(1.5rem, 3vw, 3rem);
+  }
+
+  .hero-carousel-arrow-right {
+    right: clamp(1.5rem, 3vw, 3rem);
+  }
+
   .volume-rail {
     --volume-page-padding: 2rem;
     --volume-shell-width: min(100vw, 80rem);
@@ -705,6 +784,14 @@ img {
 }
 
 @media (min-width: 1024px) {
+  .hero-carousel-arrow-left {
+    left: clamp(1.5rem, 3vw, 3rem);
+  }
+
+  .hero-carousel-arrow-right {
+    right: clamp(1.5rem, 3vw, 3rem);
+  }
+
   .volume-rail {
     --volume-page-padding: 2.5rem;
   }
@@ -713,5 +800,15 @@ img {
 @media (min-width: 1280px) {
   .hero-title {
     font-size: 9.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-carousel-track {
+    scroll-behavior: auto;
+  }
+
+  .hero-carousel-arrow-button {
+    transition: none;
   }
 }

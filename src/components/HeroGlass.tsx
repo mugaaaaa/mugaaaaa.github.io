@@ -3,7 +3,7 @@ import { LiquidGlass } from './LiquidGlass';
 export default function HeroGlass() {
   return (
     <LiquidGlass
-      className="absolute right-8 top-32 z-20 hidden w-72 rounded-[28px] px-5 py-4 text-stone-950 shadow-[0_30px_80px_-42px_rgba(10,10,10,0.75)] lg:block"
+      className="absolute right-8 top-32 z-20 hidden w-72 rounded-[28px] px-5 py-4 text-stone-950 shadow-[0_36px_100px_-38px_rgba(10,10,10,0.88)] lg:block"
       chroma={0.42}
       blur={2.2}
       distort={30}

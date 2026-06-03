@@ -6,6 +6,7 @@ import { LiquidGlass } from './LiquidGlass';
 type CommandPaletteProps = {
   posts: PostSearchItem[];
   locale?: Locale;
+  glassTintAlpha?: number;
 };
 
 function SearchIcon() {
@@ -23,7 +24,7 @@ function SearchIcon() {
   );
 }
 
-export default function CommandPalette({ posts, locale = 'zh' }: CommandPaletteProps) {
+export default function CommandPalette({ posts, locale = 'zh', glassTintAlpha }: CommandPaletteProps) {
   const t = getTranslations(locale);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -100,13 +101,13 @@ export default function CommandPalette({ posts, locale = 'zh' }: CommandPaletteP
         onClick={() => setOpen(false)}
       />
       <LiquidGlass
-        className="pointer-events-auto relative w-full max-w-2xl overflow-hidden rounded-[24px] px-4 py-4 text-stone-950 shadow-[0_32px_100px_-42px_rgba(0,0,0,0.72)] md:px-5"
+        className="pointer-events-auto relative w-full max-w-2xl overflow-hidden rounded-[24px] px-4 py-4 text-stone-950 shadow-[0_36px_110px_-38px_rgba(0,0,0,0.86)] md:px-5"
         chroma={0.36}
         blur={2.8}
         distort={32}
         bezelRatio={0.82}
         tintColor="#ffffff"
-        tintAlpha={0.3}
+        tintAlpha={glassTintAlpha ?? 0.3}
         saturate={155}
       >
         <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-white/72" />

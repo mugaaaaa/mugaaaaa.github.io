@@ -130,7 +130,7 @@ export default function PostFilterGlass({
 
   return (
     <LiquidGlass
-      className={`no-scrollbar pointer-events-auto sticky top-20 z-30 mx-auto mb-8 flex w-full max-w-7xl items-center gap-2 overflow-x-auto rounded-full px-2 py-2 shadow-[0_18px_60px_-34px_rgba(10,10,10,0.6)] ${
+      className={`no-scrollbar pointer-events-auto sticky top-20 z-30 mx-auto mb-8 flex w-full max-w-7xl items-center gap-2 overflow-x-auto rounded-full px-2 py-2 shadow-[0_24px_78px_-30px_rgba(10,10,10,0.82)] ${
         darkTone ? 'text-white' : 'text-stone-950'
       }`}
       chroma={0.34}

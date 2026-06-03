@@ -11,6 +11,7 @@ type ProgressGlassProps = {
   sections?: ProgressSection[];
   details?: Array<{ label: string; value: string }>;
   links?: Array<{ label: string; href: string }>;
+  glassTintAlpha?: number;
 };
 
 const defaultSections: ProgressSection[] = [
@@ -25,6 +26,7 @@ export default function ProgressGlass({
   sections = defaultSections,
   details = [],
   links = [],
+  glassTintAlpha,
 }: ProgressGlassProps) {
   const [progress, setProgress] = useState(0);
   const [activeId, setActiveId] = useState(sections[0]?.id ?? '');
@@ -64,13 +66,13 @@ export default function ProgressGlass({
 
   return (
     <LiquidGlass
-      className="pointer-events-auto fixed right-4 top-1/2 z-40 hidden w-[188px] -translate-y-1/2 rounded-[18px] px-4 py-4 text-stone-950 shadow-[0_28px_80px_-36px_rgba(10,10,10,0.72)] lg:block"
+      className="pointer-events-auto fixed right-4 top-1/2 z-40 hidden w-[188px] -translate-y-1/2 rounded-[18px] px-4 py-4 text-stone-950 shadow-[0_34px_100px_-34px_rgba(10,10,10,0.86)] lg:block"
       chroma={0.36}
       blur={2.4}
       distort={30}
       bezelRatio={0.84}
       tintColor="#ffffff"
-      tintAlpha={0.3}
+      tintAlpha={glassTintAlpha ?? 0.3}
       saturate={155}
     >
       <div className="flex items-start justify-between gap-4">

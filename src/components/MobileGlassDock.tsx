@@ -25,9 +25,10 @@ function DockIcon({ type }: { type: 'home' | 'posts' | 'search' | 'top' }) {
 
 type MobileGlassDockProps = {
   locale?: Locale;
+  glassTintAlpha?: number;
 };
 
-export default function MobileGlassDock({ locale = 'zh' }: MobileGlassDockProps) {
+export default function MobileGlassDock({ locale = 'zh', glassTintAlpha }: MobileGlassDockProps) {
   const t = getTranslations(locale);
 
   const openSearch = () => {
@@ -36,13 +37,13 @@ export default function MobileGlassDock({ locale = 'zh' }: MobileGlassDockProps)
 
   return (
     <LiquidGlass
-      className="pointer-events-auto fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-full px-2 py-2 text-stone-950 shadow-[0_24px_70px_-34px_rgba(10,10,10,0.72)] md:hidden"
+      className="pointer-events-auto fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-full px-2 py-2 text-stone-950 shadow-[0_30px_88px_-32px_rgba(10,10,10,0.86)] md:hidden"
       chroma={0.36}
       blur={2.4}
       distort={28}
       bezelRatio={0.86}
       tintColor="#ffffff"
-      tintAlpha={0.1}
+      tintAlpha={glassTintAlpha ?? 0.1}
       saturate={160}
     >
       <a href={localizedPath(locale, '/')} aria-label={t.nav.home} className="grid size-11 place-items-center rounded-full bg-transparent transition hover:bg-white/45 focus-visible:bg-white/45">

@@ -32,6 +32,7 @@ const progressSections = [
   { id: 'article-body', label: t.postDetail.article },
   ...sectionHeadings,
 ];
+const articleGlassTintAlpha = 0.7;
 const copyCodeLabel = t.postDetail.copyCode;
 const copiedCodeLabel = t.postDetail.copiedCode;
 ---
@@ -46,12 +47,13 @@ const copiedCodeLabel = t.postDetail.copiedCode;
   </head>
   <body>
     <div id="top" class:list={['paper-grid min-h-screen', isVerticalLayout ? 'vertical-post-root' : 'overflow-x-hidden']}>
-      <FloatingGlass locale={locale} currentPath={currentPath} client:load />
-      <MobileGlassDock locale={locale} client:load />
-      <CommandPalette posts={searchItems} locale={locale} client:load />
+      <FloatingGlass locale={locale} currentPath={currentPath} glassTintAlpha={articleGlassTintAlpha} client:load />
+      <MobileGlassDock locale={locale} glassTintAlpha={articleGlassTintAlpha} client:load />
+      <CommandPalette posts={searchItems} locale={locale} glassTintAlpha={articleGlassTintAlpha} client:load />
       <ProgressGlass
         title={t.postDetail.reading}
         sections={progressSections}
+        glassTintAlpha={articleGlassTintAlpha}
         details={[
           { label: t.common.date, value: formatDate(post.data.published, locale) },
           { label: t.common.read, value: `${readingTime(post)} ${t.common.min.toLowerCase()}` },
@@ -98,7 +100,7 @@ const copiedCodeLabel = t.postDetail.copiedCode;
         <div class:list={[
           isVerticalLayout
             ? 'vertical-page-shell mx-auto max-w-6xl'
-            : 'mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,760px)_280px]',
+            : 'mx-auto max-w-6xl',
         ]}>
           <article class:list={[
             'article-shell border border-stone-300 bg-[#fffdf8]',
@@ -115,45 +117,6 @@ const copiedCodeLabel = t.postDetail.copiedCode;
               <Content />
             </div>
           </article>
-
-          {!isVerticalLayout && (
-            <aside class="hidden lg:block">
-              <div class="sticky top-28 grid gap-4">
-                <section class="flat-card p-5">
-                  <p class="text-xs font-black uppercase tracking-[0.14em] text-stone-500">{t.postDetail.outline}</p>
-                  <div class="mt-4 grid gap-2">
-                    {sectionHeadings.length > 0 ? (
-                      sectionHeadings.map((heading) => (
-                        <a href={`#${heading.id}`} class="rounded-full bg-stone-100 px-3 py-2 text-sm font-black text-stone-700 hover:bg-stone-200">
-                          {heading.label}
-                        </a>
-                      ))
-                    ) : (
-                      <p class="text-sm font-semibold leading-6 text-stone-600">{t.postDetail.noOutline}</p>
-                    )}
-                  </div>
-                </section>
-
-                <section class="flat-card bg-stone-950 p-5 text-white">
-                  <p class="text-xs font-black uppercase tracking-[0.14em] text-white/50">{t.postDetail.adjacent}</p>
-                  <div class="mt-4 grid gap-3">
-                    {nextPost && (
-                      <a href={postHref(nextPost, locale)} class="block border border-white/15 p-3 hover:bg-white/10">
-                        <p class="text-xs font-bold text-white/50">{t.postDetail.newer}</p>
-                        <p class="mt-1 text-sm font-black leading-5">{nextPost.data.title}</p>
-                      </a>
-                    )}
-                    {previousPost && (
-                      <a href={postHref(previousPost, locale)} class="block border border-white/15 p-3 hover:bg-white/10">
-                        <p class="text-xs font-bold text-white/50">{t.postDetail.older}</p>
-                        <p class="mt-1 text-sm font-black leading-5">{previousPost.data.title}</p>
-                      </a>
-                    )}
-                  </div>
-                </section>
-              </div>
-            </aside>
-          )}
         </div>
       </main>
     </div>

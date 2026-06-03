@@ -85,9 +85,14 @@ function MenuIcon() {
 type FloatingGlassProps = {
   locale?: Locale;
   currentPath?: string;
+  glassTintAlpha?: number;
 };
 
-export default function FloatingGlass({ locale = 'zh', currentPath = '/' }: FloatingGlassProps) {
+export default function FloatingGlass({
+  locale = 'zh',
+  currentPath = '/',
+  glassTintAlpha,
+}: FloatingGlassProps) {
   const t = getTranslations(locale);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -190,13 +195,13 @@ export default function FloatingGlass({ locale = 'zh', currentPath = '/' }: Floa
   return (
     <div className="pointer-events-none fixed inset-0 z-50">
       <LiquidGlass
-        className="pointer-events-auto fixed left-1/2 top-4 flex w-[calc(100%-1rem)] max-w-[840px] -translate-x-1/2 items-center justify-start gap-1 rounded-full px-2 py-2 text-stone-950 shadow-[0_24px_70px_-34px_rgba(10,10,10,0.55)] sm:w-[calc(100%-2rem)] sm:gap-2 sm:px-3 sm:justify-between"
+        className="pointer-events-auto fixed left-1/2 top-4 flex w-[calc(100%-1rem)] max-w-[840px] -translate-x-1/2 items-center justify-start gap-1 rounded-full px-2 py-2 text-stone-950 shadow-[0_28px_96px_-24px_rgba(10,10,10,0.58)] sm:w-[calc(100%-2rem)] sm:gap-2 sm:px-3 sm:justify-between"
         chroma={0.38}
         blur={2.4}
         distort={28}
         bezelRatio={0.86}
         tintColor="#ffffff"
-        tintAlpha={0.08}
+        tintAlpha={glassTintAlpha ?? 0.08}
         saturate={155}
       >
         <a href={localizedPath(locale, '/')} className="max-w-[42vw] shrink-0 truncate rounded-full bg-transparent px-3 py-2 text-sm font-black transition hover:bg-white/45 focus-visible:bg-white/45 sm:max-w-none sm:px-4">
@@ -258,13 +263,13 @@ export default function FloatingGlass({ locale = 'zh', currentPath = '/' }: Floa
           style={languageMenuStyle}
         >
           <LiquidGlass
-            className="language-menu-popover grid w-full gap-1 rounded-[18px] px-2 py-2 text-stone-950 shadow-[0_28px_80px_-36px_rgba(10,10,10,0.72)]"
+            className="language-menu-popover grid w-full gap-1 rounded-[18px] px-2 py-2 text-stone-950 shadow-[0_32px_96px_-34px_rgba(10,10,10,0.86)]"
             chroma={0.46}
             blur={2.8}
             distort={36}
             bezelRatio={0.8}
             tintColor="#ffffff"
-            tintAlpha={0.3}
+            tintAlpha={glassTintAlpha ?? 0.3}
             saturate={170}
           >
             <div role="menu" aria-label={t.nav.language} className="grid gap-1">
@@ -301,13 +306,13 @@ export default function FloatingGlass({ locale = 'zh', currentPath = '/' }: Floa
           style={mobileMenuStyle}
         >
           <LiquidGlass
-            className="mobile-menu-popover grid w-full gap-1 rounded-[18px] px-2 py-2 text-stone-950 shadow-[0_28px_80px_-36px_rgba(10,10,10,0.72)]"
+            className="mobile-menu-popover grid w-full gap-1 rounded-[18px] px-2 py-2 text-stone-950 shadow-[0_32px_96px_-34px_rgba(10,10,10,0.86)]"
             chroma={0.46}
             blur={2.8}
             distort={36}
             bezelRatio={0.8}
             tintColor="#ffffff"
-            tintAlpha={0.3}
+            tintAlpha={glassTintAlpha ?? 0.3}
             saturate={170}
           >
             <div role="menu" aria-label="Menu" className="grid gap-1">
@@ -350,13 +355,13 @@ export default function FloatingGlass({ locale = 'zh', currentPath = '/' }: Floa
       )}
 
       <LiquidGlass
-        className="pointer-events-auto fixed left-5 top-1/2 hidden -translate-y-1/2 flex-col items-center gap-1 rounded-full px-2 py-2 text-stone-950 shadow-[0_24px_70px_-38px_rgba(10,10,10,0.7)] md:flex"
+        className="pointer-events-auto fixed left-5 top-1/2 hidden -translate-y-1/2 flex-col items-center gap-1 rounded-full px-2 py-2 text-stone-950 shadow-[12px_28px_96px_-24px_rgba(10,10,10,0.9)] md:flex"
         chroma={0.34}
         blur={2}
         distort={30}
         bezelRatio={0.88}
         tintColor="#ffffff"
-        tintAlpha={0.16}
+        tintAlpha={glassTintAlpha ?? 0.16}
         saturate={150}
       >
         <a

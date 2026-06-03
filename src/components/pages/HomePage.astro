@@ -25,6 +25,8 @@ const t = getTranslations(locale);
 const currentPath = `${Astro.url.pathname}${Astro.url.search}`;
 const [
   heroImage,
+  heroAnimeImage,
+  heroMusicImage,
   latestPostsImage,
   volumePaperNotesImage,
   volumeAnimeImage,
@@ -34,6 +36,8 @@ const [
   volumeChoreImage,
 ] = await Promise.all([
   getImage({ src: heroSource, width: 1920, format: 'webp', quality: 78 }),
+  getImage({ src: volumeAnimeSource, width: 1920, format: 'webp', quality: 78 }),
+  getImage({ src: volumeMusicSource, width: 1920, format: 'webp', quality: 78 }),
   getImage({ src: latestPostsSource, width: 1200, format: 'webp', quality: 70 }),
   getImage({ src: volumePaperNotesSource, width: 900, format: 'webp', quality: 72 }),
   getImage({ src: volumeAnimeSource, width: 900, format: 'webp', quality: 72 }),
@@ -42,8 +46,14 @@ const [
   getImage({ src: volumeMusicSource, width: 900, format: 'webp', quality: 72 }),
   getImage({ src: volumeChoreSource, width: 900, format: 'webp', quality: 72 }),
 ]);
+const heroSlides = [
+  heroAnimeImage.src,
+  heroImage.src,
+  heroMusicImage.src,
+];
 const allPosts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
-const latestPosts = allPosts.slice(0, 3);
+const latestPostsLimit = 8;
+const latestPosts = allPosts.slice(0, latestPostsLimit);
 const allTags = Array.from(new Set(allPosts.flatMap((post) => post.data.tags)));
 const tagCount = allTags.length;
 const totalMinutes = allPosts.reduce((sum, post) => sum + readingTime(post), 0);
@@ -170,17 +180,62 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
         client:load
       />
 
-      <header class="hero-screen relative isolate min-h-screen min-h-[100svh] bg-stone-950 text-white">
-        <img
-          src={heroImage.src}
-          alt="A sharp illustrated banner for Mugaaaaa's Blog"
-          decoding="async"
-          fetchpriority="high"
-          class="absolute inset-0 -z-20 h-full w-full object-cover object-top"
-        />
-        <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(0,0,0,0.78),rgba(0,0,0,0.2)_48%,rgba(0,0,0,0.68))]"></div>
-        <div class="absolute inset-x-0 bottom-0 -z-10 h-36 bg-gradient-to-t from-black/58 to-transparent"></div>
-        <div class="mx-auto flex min-h-screen min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-8 pt-28 md:px-8 lg:px-10 lg:pr-56">
+      <header class="hero-screen hero-carousel relative isolate min-h-screen min-h-[100svh] overflow-hidden bg-stone-950 text-white" data-hero-carousel>
+        <div class="hero-carousel-track no-scrollbar absolute inset-0 z-0 flex snap-x snap-mandatory overflow-x-auto" data-hero-track aria-hidden="true">
+          {heroSlides.map((slide, index) => (
+            <div
+              data-hero-slide
+              data-active={index === 0 ? 'true' : 'false'}
+              class="hero-carousel-slide relative h-full w-full shrink-0 snap-start"
+            >
+              <img
+                src={slide}
+                alt=""
+                loading={index === 0 ? undefined : 'lazy'}
+                decoding="async"
+                fetchpriority={index === 0 ? 'high' : undefined}
+                class="h-full w-full object-cover object-top"
+              />
+            </div>
+          ))}
+        </div>
+        <div class="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(90deg,rgba(0,0,0,0.78),rgba(0,0,0,0.2)_48%,rgba(0,0,0,0.68))]"></div>
+        <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-36 bg-gradient-to-t from-black/58 to-transparent"></div>
+        <div class="hero-carousel-arrow-shell hero-carousel-arrow-left" data-hero-prev-shell hidden>
+          <LiquidGlass
+            className="hero-carousel-arrow-glass pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_24px_70px_-42px_rgba(0,0,0,0.86)]"
+            chroma={0.34}
+            blur={2.4}
+            distort={30}
+            bezelRatio={0.88}
+            tintColor="#ffffff"
+            tintAlpha={0.3}
+            saturate={150}
+            client:load
+          >
+            <button type="button" class="hero-carousel-arrow-button" aria-label="Previous hero image" data-hero-prev>
+              ‹
+            </button>
+          </LiquidGlass>
+        </div>
+        <div class="hero-carousel-arrow-shell hero-carousel-arrow-right" data-hero-next-shell>
+          <LiquidGlass
+            className="hero-carousel-arrow-glass pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_24px_70px_-42px_rgba(0,0,0,0.86)]"
+            chroma={0.34}
+            blur={2.4}
+            distort={30}
+            bezelRatio={0.88}
+            tintColor="#ffffff"
+            tintAlpha={0.3}
+            saturate={150}
+            client:load
+          >
+            <button type="button" class="hero-carousel-arrow-button" aria-label="Next hero image" data-hero-next>
+              ›
+            </button>
+          </LiquidGlass>
+        </div>
+        <div class="pointer-events-none relative z-20 mx-auto flex min-h-screen min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-8 pt-28 md:px-8 lg:px-10 lg:pr-56">
           <div class="max-w-6xl">
             <p class="mb-5 inline-flex border border-white/45 bg-white px-3 py-1 text-xs font-black uppercase text-stone-950">
               {t.home.eyebrow}
@@ -232,10 +287,10 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
               </p>
             </div>
           </div>
-          <div class="volume-shell relative" data-volume-shell>
-            <div class="volume-rail no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1" data-volume-rail>
+          <div class="volume-shell relative" data-volume-shell data-home-track-shell>
+            <div class="volume-rail no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1" data-volume-rail data-home-track-rail>
               {featuredVolumes.map((volume, index) => (
-                <article class="volume-card flat-card shrink-0 snap-start overflow-hidden">
+                <article class="volume-card flat-card shrink-0 snap-start overflow-hidden" data-home-track-card>
                   <a href={volume.href} class="block h-full">
                     <div class="aspect-[5/4] bg-stone-200">
                       <img src={volume.image} alt={volume.title} loading="lazy" decoding="async" class="image-cover" />
@@ -251,9 +306,9 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
             </div>
             <div class="pointer-events-none absolute inset-x-0 top-1/2 z-20 hidden -translate-y-1/2 md:block">
               <div class="mx-auto flex max-w-7xl justify-between px-5 md:px-8 lg:px-10">
-                <div data-volume-prev hidden>
+                <div data-volume-prev data-home-track-prev hidden>
                   <LiquidGlass
-                    className="volume-pager pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_22px_70px_-38px_rgba(0,0,0,0.75)]"
+                    className="volume-pager pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_28px_90px_-34px_rgba(0,0,0,0.86)]"
                     chroma={0.34}
                     blur={2.4}
                     distort={30}
@@ -272,9 +327,9 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                     </button>
                   </LiquidGlass>
                 </div>
-                <div data-volume-next hidden class="ml-auto">
+                <div data-volume-next data-home-track-next hidden class="ml-auto">
                   <LiquidGlass
-                    className="volume-pager pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_22px_70px_-38px_rgba(0,0,0,0.75)]"
+                    className="volume-pager pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_28px_90px_-34px_rgba(0,0,0,0.86)]"
                     chroma={0.34}
                     blur={2.4}
                     distort={30}
@@ -312,7 +367,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
           </div>
         </section>
 
-        <section id="notes" class="relative isolate overflow-hidden border-b border-stone-900 bg-stone-950 px-5 py-16 text-white md:px-8 lg:px-10">
+        <section id="notes" class="relative isolate overflow-hidden border-b border-stone-900 bg-stone-950 py-16 text-white">
           <img
             src={latestPostsImage.src}
             alt=""
@@ -322,7 +377,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
           />
           <div class="absolute inset-0 -z-10 bg-black/56"></div>
           <div class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(0,0,0,0.32),rgba(0,0,0,0.68))]"></div>
-          <div class="mx-auto max-w-7xl">
+          <div class="mx-auto max-w-7xl px-5 md:px-8 lg:px-10">
             <div class="mb-10 grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
               <div>
                 <h2 class="section-title font-black uppercase">{t.home.latestTitle}</h2>
@@ -347,9 +402,11 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
               </LiquidGlass>
             </div>
             <PostFilterGlass tags={allTags} baseHref={localizedPath(locale, '/posts/')} tone="dark" locale={locale} client:load />
-            <div class="grid gap-4 md:grid-cols-3">
+          </div>
+          <div class="volume-shell relative" data-latest-posts-track data-home-track-shell>
+            <div class="volume-rail no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-1" data-home-track-rail>
               {latestPosts.map((post, index) => (
-                <article class:list={['flat-card p-5 text-stone-950 transition hover:-translate-y-1 hover:border-stone-950', index === 0 && 'md:col-span-1']}>
+                <article class="volume-card flat-card flex min-h-[320px] shrink-0 snap-start p-5 text-stone-950 transition hover:-translate-y-1 hover:border-stone-950" data-home-track-card>
                   <a href={postHref(post, locale)} class="block h-full">
                     <div class="mb-8 flex items-center justify-between gap-4">
                       <span class="border border-stone-950 px-2 py-1 text-xs font-black uppercase text-stone-950">
@@ -373,6 +430,52 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                   </a>
                 </article>
               ))}
+            </div>
+            <div class="pointer-events-none absolute inset-x-0 top-1/2 z-20 hidden -translate-y-1/2 md:block">
+              <div class="mx-auto flex max-w-7xl justify-between px-5 md:px-8 lg:px-10">
+                <div data-home-track-prev hidden>
+                  <LiquidGlass
+                    className="volume-pager pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_28px_90px_-34px_rgba(0,0,0,0.9)]"
+                    chroma={0.34}
+                    blur={2.4}
+                    distort={30}
+                    bezelRatio={0.88}
+                    tintColor="#ffffff"
+                    tintAlpha={0.3}
+                    saturate={150}
+                    client:load
+                  >
+                    <button
+                      type="button"
+                      class="grid h-24 w-12 cursor-pointer place-items-center rounded-full text-4xl font-black leading-none text-stone-950 transition"
+                      aria-label="Previous latest posts"
+                    >
+                      ‹
+                    </button>
+                  </LiquidGlass>
+                </div>
+                <div data-home-track-next hidden class="ml-auto">
+                  <LiquidGlass
+                    className="volume-pager pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_28px_90px_-34px_rgba(0,0,0,0.9)]"
+                    chroma={0.34}
+                    blur={2.4}
+                    distort={30}
+                    bezelRatio={0.88}
+                    tintColor="#ffffff"
+                    tintAlpha={0.3}
+                    saturate={150}
+                    client:load
+                  >
+                    <button
+                      type="button"
+                      class="grid h-24 w-12 cursor-pointer place-items-center rounded-full text-4xl font-black leading-none text-stone-950 transition"
+                      aria-label="Next latest posts"
+                    >
+                      ›
+                    </button>
+                  </LiquidGlass>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -453,81 +556,21 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
         </section>
       </main>
     </div>
-    <script is:inline>
-      (() => {
-        const cardsPerPage = 3;
-        const scrollTolerance = 2;
+    <script>
+      import { bindHeroImageCarousel } from '../../lib/hero-carousel.js';
+      import { bindHomePageInteractions } from '../../lib/home-interactions.js';
 
-        const clampVolumeScroll = (value, max) => Math.min(max, Math.max(0, value));
+      const startHomePageInteractions = () => {
+        bindHeroImageCarousel();
+        bindHomePageInteractions();
+      };
 
-        const setPagerVisibility = (glass, button, isVisible) => {
-          if (!glass || !button) return;
-
-          glass.hidden = !isVisible;
-          button.disabled = !isVisible;
-          button.tabIndex = isVisible ? 0 : -1;
-        };
-
-        const getScrollDistance = (rail) => {
-          const card = rail.querySelector('.volume-card');
-          if (!card) return rail.clientWidth;
-
-          const railStyle = window.getComputedStyle(rail);
-          const gap = parseFloat(railStyle.columnGap || railStyle.gap || '0') || 0;
-
-          return (card.getBoundingClientRect().width + gap) * cardsPerPage;
-        };
-
-        const scrollByCards = (rail, direction) => {
-          const maxScrollLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
-          const target = clampVolumeScroll(rail.scrollLeft + getScrollDistance(rail) * direction, maxScrollLeft);
-
-          rail.scrollTo({ left: target, behavior: 'smooth' });
-        };
-
-        const bindVolumePagination = () => {
-          document.querySelectorAll('[data-volume-shell]').forEach((shell) => {
-            if (shell.dataset.volumePaginationReady === 'true') return;
-
-            const rail = shell.querySelector('[data-volume-rail]');
-            const prevGlass = shell.querySelector('[data-volume-prev]');
-            const nextGlass = shell.querySelector('[data-volume-next]');
-            const prevButton = prevGlass?.querySelector('button');
-            const nextButton = nextGlass?.querySelector('button');
-
-            if (!rail || !prevGlass || !nextGlass || !prevButton || !nextButton) return;
-
-            shell.dataset.volumePaginationReady = 'true';
-
-            let frame = 0;
-            const updatePagerVisibility = () => {
-              frame = 0;
-              const maxScrollLeft = Math.max(0, rail.scrollWidth - rail.clientWidth);
-              setPagerVisibility(prevGlass, prevButton, rail.scrollLeft > scrollTolerance);
-              setPagerVisibility(nextGlass, nextButton, rail.scrollLeft < maxScrollLeft - scrollTolerance);
-            };
-
-            const scheduleVisibilityUpdate = () => {
-              if (frame) return;
-              frame = window.requestAnimationFrame(updatePagerVisibility);
-            };
-
-            prevButton.addEventListener('click', () => scrollByCards(rail, -1));
-            nextButton.addEventListener('click', () => scrollByCards(rail, 1));
-            rail.addEventListener('scroll', scheduleVisibilityUpdate, { passive: true });
-            window.addEventListener('resize', scheduleVisibilityUpdate);
-
-            updatePagerVisibility();
-          });
-        };
-
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', bindVolumePagination, { once: true });
-        } else {
-          bindVolumePagination();
-        }
-        document.addEventListener('astro:page-load', bindVolumePagination);
-      })();
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startHomePageInteractions, { once: true });
+      } else {
+        startHomePageInteractions();
+      }
+      document.addEventListener('astro:page-load', startHomePageInteractions);
     </script>
   </body>
 </html>
