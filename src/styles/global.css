@@ -316,6 +316,7 @@ img {
 
 .prose-content blockquote {
   border-left: 4px solid var(--red);
+  border-radius: 8px;
   background: #f4efe6;
   padding: 0.9rem 1rem;
   color: #4f483e;
