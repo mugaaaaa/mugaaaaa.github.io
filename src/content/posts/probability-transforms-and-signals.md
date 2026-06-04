@@ -12,9 +12,9 @@ lang: zh_CN
 
 | 概率论对象 | 形式 | 作用于 | 信号与系统对应 | 核 | 是否总存在 |
 | --- | --- | --- | --- | --- | --- |
-| 概率母函数 $G_X(z)$ | $$\mathbb{E}\!\left[e^{itX}\right] = \int_{-\infty}^{\infty} e^{itx} f_X dx$$ | 整数值 PMF $p_k$ | z 变换 / DTFT | $z^k$ | $\lvert z\rvert\le 1$ 收敛 |
-| 矩母函数 $M_X(s)$ | $$E $$ | 连续密度 $f_X$ | 双边拉普拉斯变换 | $e^{sx}$ | 否(看 ROC) |
-| 特征函数 $\varphi_X(t)$ |  | 任意分布 | 傅里叶变换 | $e^{itx}$ | **是** |
+| 概率母函数 $G_X(z)$ | $$G_X(z) = E(z^x) = \sum_{k=0}^{\infty} p_k z^k$$ | 整数值 PMF $p_k$ | z 变换 / DTFT | $z^k$ | $\lvert z\rvert\le 1$ 收敛 |
+| 矩母函数 $M_X(s)$ | $$M_X(s) = E(e^{sX}) = \int_{k=0}^{\infty} e^{sx} f_X(x) dx$$ | 连续密度 $f_X$ | 双边拉普拉斯变换 | $e^{sx}$ | 否(看 ROC) |
+| 特征函数 $\varphi_X(t)$ | $$\phi_X(t) = E[e^{itX}] = \int_{-\infty}^{\infty} f_X(x) e^{itx} dx$$ | 任意分布 | 傅里叶变换 | $e^{itx}$ | **是** |
 
 为什么会这样？
 因为他们都和“线性时不变”/“线性移不变”系统及其卷积运算有关。
@@ -54,7 +54,7 @@ X(z) = \sum_{n=-\infty}^{\infty} x[n] z^{-n}
 
 ## 矩母函数 <=> 双边 Laplace 变换
 
-概率母函数：
+矩母函数：
 \[
 M_X(s) = E(e^{sX}) = \int_{k=0}^{\infty} e^{sx} f_X(x) dx
 \]

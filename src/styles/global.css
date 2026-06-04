@@ -515,12 +515,20 @@ img {
 }
 
 .prose-content-vertical-page pre,
-.prose-content-vertical-page table,
 .prose-content-vertical-page .katex-display {
   max-width: min(42rem, calc(100vw - 3rem));
   max-height: none;
   overflow-x: auto;
   writing-mode: horizontal-tb;
+}
+
+.prose-content-vertical-page table {
+  display: table;
+  max-width: none;
+  max-height: calc(var(--vertical-frame-height) - var(--vertical-content-offset));
+  overflow: visible;
+  text-orientation: mixed;
+  writing-mode: vertical-rl;
 }
 
 @media (max-width: 640px) {

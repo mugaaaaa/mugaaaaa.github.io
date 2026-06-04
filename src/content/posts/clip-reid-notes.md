@@ -1,5 +1,5 @@
 ---
-title: "CLIP-ReID 论文笔记"
+title: "论文回顾：CLIP-ReID"
 published: 2026-04-20
 description: "一篇关于 CLIP-ReID 的论文笔记。"
 tags: [Paper Notes, ReID, CLIP, Vision-Language]

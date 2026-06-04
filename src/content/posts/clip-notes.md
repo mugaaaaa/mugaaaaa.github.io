@@ -1,5 +1,5 @@
 ---
-title: "CLIP 论文笔记"
+title: "经典论文回顾：CLIP"
 published: 2026-04-20
 description: ""
 tags: [Paper Notes, CLIP, Vision-Language]
