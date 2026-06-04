@@ -4,7 +4,7 @@ published: 2026-06-01
 description: "概率母函数、矩母函数、特征函数等东西与信号与系统中等, z 变换、拉普拉斯变换、傅里叶变换的关系"
 tags: [Probability, Stochastic Process, Signals and Systems, Fourier Transform, Math]
 category: math
-draft: true
+draft: false
 lang: zh_CN
 ---
 
