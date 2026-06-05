@@ -36,6 +36,14 @@ lang: zh_CN
 > 3. **矩阵环 \(M_n(\mathbb{R})\)**：这个非交换环的理想结构很特殊：它只有**平凡理想** \(\{0\}\) 和整个环（因此是单环）。任何非零双边理想一定等于全矩阵环。  
 > 4. **连续函数环 \(C[0,1]\)**：在某点 \(x_0\) 处取值为零的所有函数构成一个极大理想 \(I_{x_0} = \{ f \in C[0,1] \mid f(x_0)=0 \}\)，商环同构于 \(\mathbb{R}\)，体现了理想与“零点集”的对应。
 
+### 理想的运算
+
+| 运算及形式 | $\mathbb{Z}$ 中的表现 |
+| - | - |
+| $I + J = \{x + y \| x \in I, y \in J\}$ | $\langle a \rangle  + \langle b \rangle  = \langle gcd(a, b) \rangle$ |
+| $I \bigcap J = \{x \| x \in I \text{ 且 } x \in J\}$ | $\langle a \rangle  \bigcap \langle b \rangle  = \langle lcm(a, b) \rangle$ |
+| $IJ = \{\sum x_i y_i \| x_i \in I, y_i \in J\}$ | $\langle a \rangle \langle b \rangle  = \langle ab \rangle$ |
+
 ### 主理想
 
 #### 主理想的定义
@@ -53,15 +61,21 @@ $$\langle a \rangle = \bigcap_{I \in \Sigma} I$$
 
 (1) $\langle a \rangle = \left\{ \left( \sum_{i=1}^n x_i a y_i \right) + xa + ay + ma \;\middle|\; x_i, y_i, x, y \in R, n \in \mathbb{Z}^+, m \in \mathbb{Z} \right\}$
 > $$
-    \underbrace{\left( \sum_{i=1}^n x_i a y_i \right)}_{\text{双边理想项}} + 
-    \underbrace{xa}_{\text{左理想项}} + 
-    \underbrace{ay}_{\text{右理想项}} + 
-    \underbrace{ma}_{\text{加法群项}} 
-$$
+>    \underbrace{\left( \sum_{i=1}^n x_i a y_i \right)}_{\text{双边理想项}} + 
+>    \underbrace{xa}_{\text{左理想项}} + 
+>    \underbrace{ay}_{\text{右理想项}} + 
+>    \underbrace{ma}_{\text{加法群项}} 
+> $$
+> 
 > 双边理想项：吸收左右两侧的环乘法
+> 
 > 左理想项：吸收左侧环乘法
+> 
 > 右理想项：吸收右侧环乘法
+> 
 > 加法群项：在无单位元时强制包含 a 及其整数倍
+
+随着环的性质变好（拥有单位元或交换律），上述长公式中的某些项可以互相合并：
 
 (2) 若 $R$ **有单位元**，则：
 
