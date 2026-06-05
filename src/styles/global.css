@@ -305,8 +305,21 @@ img {
   padding-left: 1.35rem;
 }
 
+.prose-content ul {
+  list-style-type: disc;
+}
+
+.prose-content ol {
+  list-style-type: decimal;
+}
+
 .prose-content li + li {
   margin-top: 0.35rem;
+}
+
+.prose-content li > .katex-display {
+  margin-top: 0.55rem;
+  margin-bottom: 0.2rem;
 }
 
 .prose-content a {

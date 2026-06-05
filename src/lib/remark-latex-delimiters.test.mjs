@@ -179,6 +179,35 @@ describe('LaTeX math delimiters in Markdown', () => {
     assert.equal(paragraph.children[1].value, 'E = mc^2');
   });
 
+  it('splits display math inside ordered list items', async () => {
+    const tree = await parseMarkdownWithAstroRemarkPlugins('1. 其他内容\n   \\[\n   a^2 + b^2 = c^2\n   \\]');
+    const list = tree.children[0];
+    const listItem = list.children[0];
+
+    assert.equal(list.type, 'list');
+    assert.equal(list.ordered, true);
+    assert.deepEqual(
+      listItem.children.map((child) => child.type),
+      ['paragraph', 'math'],
+    );
+    assert.equal(listItem.children[0].children[0].value, '其他内容');
+    assert.equal(listItem.children[1].value, 'a^2 + b^2 = c^2');
+  });
+
+  it('treats \\(...\\) as inline math inside ordered list items', async () => {
+    const tree = await parseMarkdownWithAstroRemarkPlugins('1. 编号公式：\\(E = mc^2\\)。');
+    const list = tree.children[0];
+    const paragraph = list.children[0].children[0];
+
+    assert.equal(list.type, 'list');
+    assert.equal(list.ordered, true);
+    assert.deepEqual(
+      paragraph.children.map((child) => child.type),
+      ['text', 'inlineMath', 'text'],
+    );
+    assert.equal(paragraph.children[1].value, 'E = mc^2');
+  });
+
   it('splits display math from lazy continuation lines inside list items', async () => {
     const tree = await parseMarkdownWithAstroRemarkPlugins('- 其他内容\n\\[\na^2 + b^2 = c^2\n\\]');
     const listItem = tree.children[0].children[0];
