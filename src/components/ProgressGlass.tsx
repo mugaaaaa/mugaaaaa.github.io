@@ -4,6 +4,7 @@ import { LiquidGlass } from './LiquidGlass';
 type ProgressSection = {
   id: string;
   label: string;
+  depth?: number;
 };
 
 type ProgressGlassProps = {
@@ -28,13 +29,94 @@ export default function ProgressGlass({
   links = [],
   glassTintAlpha,
 }: ProgressGlassProps) {
+  const normalizedSections = useMemo(
+    () => sections.map((section) => ({ ...section, depth: section.depth ?? 0 })),
+    [sections],
+  );
   const [progress, setProgress] = useState(0);
-  const [activeId, setActiveId] = useState(sections[0]?.id ?? '');
+  const [activeId, setActiveId] = useState(normalizedSections[0]?.id ?? '');
+  const [collapsedIds, setCollapsedIds] = useState<Set<string>>(() => new Set());
 
   const activeSection = useMemo(
-    () => sections.find((section) => section.id === activeId) ?? sections[0],
-    [activeId, sections],
+    () => normalizedSections.find((section) => section.id === activeId) ?? normalizedSections[0],
+    [activeId, normalizedSections],
   );
+
+  const hasNestedChildren = (index: number) => {
+    const section = normalizedSections[index];
+    if (!section || section.depth === 0) return false;
+
+    for (let nextIndex = index + 1; nextIndex < normalizedSections.length; nextIndex += 1) {
+      const nextDepth = normalizedSections[nextIndex].depth ?? 0;
+      if (nextDepth <= section.depth) return false;
+      if (nextDepth > section.depth) return true;
+    }
+
+    return false;
+  };
+
+  const isHiddenByCollapsedParent = (index: number) => {
+    const section = normalizedSections[index];
+    if (!section || section.depth === 0) return false;
+
+    let childDepth = section.depth;
+    for (let parentIndex = index - 1; parentIndex >= 0; parentIndex -= 1) {
+      const parent = normalizedSections[parentIndex];
+      const parentDepth = parent.depth ?? 0;
+
+      if (parentDepth < childDepth) {
+        if (collapsedIds.has(parent.id)) return true;
+        childDepth = parentDepth;
+      }
+    }
+
+    return false;
+  };
+
+  const visibleSections = useMemo(
+    () => normalizedSections
+      .map((section, index) => ({ section, index }))
+      .filter((item) => !isHiddenByCollapsedParent(item.index)),
+    [collapsedIds, normalizedSections],
+  );
+
+  const activeVisibleId = useMemo(() => {
+    const activeIndex = normalizedSections.findIndex((section) => section.id === activeId);
+    if (activeIndex < 0 || !isHiddenByCollapsedParent(activeIndex)) return activeId;
+
+    let childDepth = normalizedSections[activeIndex].depth ?? 0;
+    for (let parentIndex = activeIndex - 1; parentIndex >= 0; parentIndex -= 1) {
+      const parent = normalizedSections[parentIndex];
+      const parentDepth = parent.depth ?? 0;
+
+      if (parentDepth < childDepth) {
+        if (!isHiddenByCollapsedParent(parentIndex)) return parent.id;
+        childDepth = parentDepth;
+      }
+    }
+
+    return activeId;
+  }, [activeId, collapsedIds, normalizedSections]);
+
+  const toggleSection = (id: string) => {
+    setCollapsedIds((current) => {
+      const next = new Set(current);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    setCollapsedIds((current) => {
+      const availableIds = new Set(normalizedSections.map((section) => section.id));
+      const next = new Set([...current].filter((id) => availableIds.has(id)));
+      return next.size === current.size ? current : next;
+    });
+  }, [normalizedSections]);
 
   useEffect(() => {
     const update = () => {
@@ -43,8 +125,8 @@ export default function ProgressGlass({
       setProgress(Math.min(100, Math.max(0, Math.round(nextProgress * 100))));
 
       const threshold = window.innerHeight * 0.42;
-      let current = sections[0];
-      for (const section of sections) {
+      let current = normalizedSections[0];
+      for (const section of normalizedSections) {
         const element = document.getElementById(section.id);
         if (element && element.getBoundingClientRect().top <= threshold) {
           current = section;
@@ -62,7 +144,7 @@ export default function ProgressGlass({
       window.removeEventListener('scroll', update);
       window.removeEventListener('resize', update);
     };
-  }, [sections]);
+  }, [normalizedSections]);
 
   return (
     <LiquidGlass
@@ -92,22 +174,47 @@ export default function ProgressGlass({
         />
       </div>
 
-      <div className="mt-4 grid gap-2">
-        {sections.map((section) => {
-          const active = section.id === activeId;
+      <div className="mt-4 grid max-h-[52vh] gap-1 overflow-y-auto pr-1">
+        {visibleSections.map(({ section, index }) => {
+          const active = section.id === activeVisibleId;
+          const childSection = hasNestedChildren(index);
+          const collapsed = collapsedIds.has(section.id);
+          const depth = Math.max(0, section.depth ?? 0);
+          const baseIndent = 0.625;
+          const indent = `${baseIndent + Math.max(0, depth - 1) * 0.42}rem`;
+
           return (
-            <a
+            <div
               key={section.id}
-              href={`#${section.id}`}
-              aria-current={active ? 'location' : undefined}
-              style={active ? { backgroundColor: '#050505', color: '#ffffff' } : undefined}
-              className={`flex min-w-0 items-center justify-between gap-2 rounded-full px-2.5 py-2 text-xs font-black transition ${
+              style={{
+                ...(active ? { backgroundColor: '#050505', color: '#ffffff' } : {}),
+                paddingLeft: indent,
+              }}
+              className={`flex min-w-0 items-center gap-1.5 rounded-full py-1.5 pr-2 text-xs font-black transition ${
                 active ? '' : 'text-stone-900/78 hover:bg-white/58 focus-visible:bg-white/58'
               }`}
             >
-              <span className="min-w-0 truncate">{section.label}</span>
-              <span aria-hidden="true" className="size-1.5 rounded-full bg-current" />
-            </a>
+              <a
+                href={`#${section.id}`}
+                aria-current={active ? 'location' : undefined}
+                className="min-w-0 flex-1 truncate"
+              >
+                {section.label}
+              </a>
+              {childSection ? (
+                <button
+                  type="button"
+                  aria-expanded={!collapsed}
+                  aria-label={`${collapsed ? 'Expand' : 'Collapse'} ${section.label}`}
+                  onClick={() => toggleSection(section.id)}
+                  className="grid size-5 shrink-0 place-items-center rounded-full bg-white/40 text-[10px] leading-none transition hover:bg-white/70 focus-visible:bg-white/70"
+                >
+                  {collapsed ? '+' : '-'}
+                </button>
+              ) : (
+                <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-current" />
+              )}
+            </div>
           );
         })}
       </div>

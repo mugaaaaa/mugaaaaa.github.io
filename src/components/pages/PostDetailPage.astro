@@ -21,11 +21,10 @@ const isVerticalLayout = post.data.layout === 'vertical';
 const fallbackHeroImage = await getImage({ src: heroSource, width: 1920, format: 'webp', quality: 78 });
 const heroImage = post.data.image || fallbackHeroImage.src;
 const sectionHeadings = headings
-  .filter((heading) => heading.depth <= 2)
-  .slice(0, 5)
   .map((heading) => ({
     id: heading.slug,
-    label: heading.text.length > 12 ? `${heading.text.slice(0, 12)}...` : heading.text,
+    label: heading.text,
+    depth: heading.depth,
   }));
 const progressSections = [
   { id: 'article-top', label: t.postDetail.intro },

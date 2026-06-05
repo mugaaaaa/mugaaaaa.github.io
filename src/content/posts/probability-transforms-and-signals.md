@@ -30,11 +30,13 @@ lang: zh_CN
 
 ## 概率母函数 <=> z 变换
 概率母函数：
+
 \[
 G_X(z) = E(z^x) = \sum_{k=0}^{\infty} p_k z^k
 \]
 
 离散 z 变换：
+
 \[
 X(z) = \sum_{n=-\infty}^{\infty} x[n] z^{-n}
 \]
@@ -55,6 +57,7 @@ X(z) = \sum_{n=-\infty}^{\infty} x[n] z^{-n}
 ## 矩母函数 <=> 双边 Laplace 变换
 
 矩母函数：
+
 \[
 M_X(s) = E(e^{sX}) = \int_{k=0}^{\infty} e^{sx} f_X(x) dx
 \]
