@@ -16,7 +16,7 @@ $$y = f(x) + \epsilon$$
 
 则 $y \sim N(f(x), \sigma^2)$
 
-$$p(y|x) = \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(y-f(x))^2}{2\sigma^2}}$$
+$$p(y|x) = \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(y_i - f(x_i))^2}{2\sigma^2}}$$
 
 设为 $N$ 个独立样本，
 
@@ -24,13 +24,13 @@ $$p(y|x) = \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(y-f(x))^2}{2\sigma^2}}$$
 
 $$L = \prod_{i=1}^N p(y_i|x_i)$$
 
-$$\log L = \sum_{i=1}^N \log \left[ \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(y-f(x))^2}{2\sigma^2}} \right]$$
+$$\log L = \sum_{i=1}^N \log \left[ \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(y_i - f(x_i))^2}{2\sigma^2}} \right]$$
 
-$$= \sum_{i=1}^N \left[ \log \frac{1}{\sqrt{2\pi}\sigma} - \frac{(y-f(x))^2}{2\sigma^2} \right]$$
+$$= \sum_{i=1}^N \left[ \log \frac{1}{\sqrt{2\pi}\sigma} - \frac{(y_i - f(x_i))^2}{2\sigma^2} \right]$$
 
-$$= N \log \frac{1}{\sqrt{2\pi}\sigma} - \frac{1}{2\sigma^2} \underbrace{\sum_{i=1}^N (y-f(x))^2}_{MSE}$$
+$$= N \log \frac{1}{\sqrt{2\pi}\sigma} - \frac{1}{2\sigma^2} \underbrace{\sum_{i=1}^N (y_i - f(x_i))^2}_{MSE}$$
 
-要 $L$ 最大化，需最小 $\sum_{i=1}^N (y-f(x))^2$，即 MSE
+要 $L$ 最大化，需最小 $\sum_{i=1}^N (y_i - f(x_i))^2$，即 MSE
 
 
 # 由 Bernoulli 分布推 BCE
@@ -44,6 +44,7 @@ $$\log L = \sum_{i=0}^{N-1} \left( y_i \log p_i + (1-y_i) \log (1-p_i) \right)$$
 要最大化 $\log L$，即要最小化
 
 $$Loss = -\log L = -\sum_{i=0}^{N-1} [y_i \log p_i + (1-y_i) \log (1-p_i)]$$
+
 即 BCE
 
 
@@ -51,6 +52,7 @@ $$Loss = -\log L = -\sum_{i=0}^{N-1} [y_i \log p_i + (1-y_i) \log (1-p_i)]$$
 真实标签 $\mathbf{y} \in \mathbb{R}^K$，为 One-hot 编码，只有 $1$ 个 $c \in \{0, 1, \dots, K-1\}$ 使得 $y_c = 1$，而其它的分量都为 $0$
 
 模型预测 $\mathbf{p} = (p_0, p_1, \dots, p_{K-1}) \in \mathbb{R}^K$，为概率预测
+
 $$p(\mathbf{y}|x) = \prod_{k=0}^{K-1} p_k^{y_k}$$
 
 $$= p_0^{y_0} \cdot p_1^{y_1} \dots p_c^{y_c} \dots p_{K-1}^{y_{K-1}}$$
