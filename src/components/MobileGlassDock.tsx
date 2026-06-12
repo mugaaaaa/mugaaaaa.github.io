@@ -1,3 +1,4 @@
+import { glassPresets } from '../config/glass';
 import { getTranslations, localizedPath, type Locale } from '../i18n/ui';
 import { LiquidGlass } from './LiquidGlass';
 
@@ -38,13 +39,8 @@ export default function MobileGlassDock({ locale = 'zh', glassTintAlpha }: Mobil
   return (
     <LiquidGlass
       className="pointer-events-auto fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-full px-2 py-2 text-stone-950 shadow-[0_30px_88px_-32px_rgba(10,10,10,0.86)] md:hidden"
-      chroma={0.36}
-      blur={2.4}
-      distort={28}
-      bezelRatio={0.86}
-      tintColor="var(--glass-tint)"
-      tintAlpha={glassTintAlpha ?? 0.1}
-      saturate={160}
+      {...glassPresets.mobileDock}
+      tintAlpha={glassTintAlpha ?? glassPresets.mobileDock.tintAlpha}
     >
       <a href={localizedPath(locale, '/')} aria-label={t.nav.home} className="grid size-11 place-items-center rounded-full bg-transparent transition hover:bg-white/45 focus-visible:bg-white/45">
         <DockIcon type="home" />

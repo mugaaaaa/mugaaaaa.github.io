@@ -109,10 +109,15 @@ function getProfile(surfaceKey: string, bezelRatio: number) {
   return { key: k, profile: p };
 }
 
-function generateDispMap(W: number, H: number, R: number, profileKey: string, profile: Float32Array): string {
-  const halfMin = Math.min(W, H) / 2;
-  const r = Math.max(0.5, Math.min(R, halfMin));
-  const cacheKey = `m|${W}|${H}|${r}|${profileKey}`;
+function generateDispMap(W: number, H: number, R: number, profileKey: string, profile: Float32Array, dpr: number): string {
+  // Render at device-pixel resolution so the rounded-corner geometry isn't
+  // upscaled (and stair-stepped) when the map paints on a HiDPI display.
+  const Wd = Math.max(1, Math.round(W * dpr));
+  const Hd = Math.max(1, Math.round(H * dpr));
+  const halfMin = Math.min(Wd, Hd) / 2;
+  const r = Math.max(0.5, Math.min(R * dpr, halfMin));
+  const aa = AA_WIDTH * dpr;
+  const cacheKey = `m|${Wd}|${Hd}|${r}|${profileKey}`;
   const cached = cacheGet(dispMapCache, cacheKey);
   if (cached) return cached;
 
@@ -121,26 +126,26 @@ function generateDispMap(W: number, H: number, R: number, profileKey: string, pr
   const profMax = profile[0];
 
   const canvas = document.createElement('canvas');
-  canvas.width = W; canvas.height = H;
+  canvas.width = Wd; canvas.height = Hd;
   const ctx = canvas.getContext('2d');
   if (!ctx) return '';
-  const img = ctx.createImageData(W, H);
+  const img = ctx.createImageData(Wd, Hd);
   const data = img.data;
 
-  const innerLeft = r, innerRight = W - r;
-  const innerTop = r, innerBottom = H - r;
+  const innerLeft = r, innerRight = Wd - r;
+  const innerTop = r, innerBottom = Hd - r;
 
-  for (let y = 0; y < H; y++) {
-    for (let x = 0; x < W; x++) {
+  for (let y = 0; y < Hd; y++) {
+    for (let x = 0; x < Wd; x++) {
       const cx = x < innerLeft ? innerLeft : (x > innerRight ? innerRight : x);
       const cy = y < innerTop ? innerTop : (y > innerBottom ? innerBottom : y);
       const dx = x - cx;
       const dy = y - cy;
       const d = Math.sqrt(dx * dx + dy * dy);
-      const idx = (y * W + x) * 4;
+      const idx = (y * Wd + x) * 4;
       const dist = r - d;
 
-      if (dist < -AA_WIDTH) {
+      if (dist < -aa) {
         data[idx] = 128; data[idx + 1] = 128; data[idx + 2] = 128; data[idx + 3] = 0;
         continue;
       }
@@ -151,7 +156,7 @@ function generateDispMap(W: number, H: number, R: number, profileKey: string, pr
         const t = Math.min(1, dist / r);
         mag = profile[Math.round(t * lastIdx)];
       } else {
-        const fade = 1 + dist / AA_WIDTH;
+        const fade = 1 + dist / aa;
         mag = profMax * fade;
         alpha = Math.round(255 * fade);
       }
@@ -177,11 +182,15 @@ function generateSpecMap(
   W: number, H: number, R: number,
   profileKey: string, profile: Float32Array,
   opts: { angleDeg: number; shininess: number; intensity: number },
+  dpr: number,
 ): string {
   const { angleDeg, shininess, intensity } = opts;
-  const halfMin = Math.min(W, H) / 2;
-  const r = Math.max(0.5, Math.min(R, halfMin));
-  const cacheKey = `s|${W}|${H}|${r}|${profileKey}|${angleDeg}|${shininess}|${intensity}`;
+  const Wd = Math.max(1, Math.round(W * dpr));
+  const Hd = Math.max(1, Math.round(H * dpr));
+  const halfMin = Math.min(Wd, Hd) / 2;
+  const r = Math.max(0.5, Math.min(R * dpr, halfMin));
+  const aa = AA_WIDTH * dpr;
+  const cacheKey = `s|${Wd}|${Hd}|${r}|${profileKey}|${angleDeg}|${shininess}|${intensity}`;
   const cached = cacheGet(specMapCache, cacheKey);
   if (cached) return cached;
 
@@ -193,32 +202,32 @@ function generateSpecMap(
   const sy = Math.sin(angle);
 
   const canvas = document.createElement('canvas');
-  canvas.width = W; canvas.height = H;
+  canvas.width = Wd; canvas.height = Hd;
   const ctx = canvas.getContext('2d');
   if (!ctx) return '';
-  const img = ctx.createImageData(W, H);
+  const img = ctx.createImageData(Wd, Hd);
   const data = img.data;
 
-  const innerLeft = r, innerRight = W - r;
-  const innerTop = r, innerBottom = H - r;
+  const innerLeft = r, innerRight = Wd - r;
+  const innerTop = r, innerBottom = Hd - r;
 
-  for (let y = 0; y < H; y++) {
-    for (let x = 0; x < W; x++) {
+  for (let y = 0; y < Hd; y++) {
+    for (let x = 0; x < Wd; x++) {
       const cx = x < innerLeft ? innerLeft : (x > innerRight ? innerRight : x);
       const cy = y < innerTop ? innerTop : (y > innerBottom ? innerBottom : y);
       const dx = x - cx;
       const dy = y - cy;
       const d = Math.sqrt(dx * dx + dy * dy);
-      const idx = (y * W + x) * 4;
+      const idx = (y * Wd + x) * 4;
       const dist = r - d;
-      if (dist < -AA_WIDTH) { data[idx + 3] = 0; continue; }
+      if (dist < -aa) { data[idx + 3] = 0; continue; }
 
       let mag: number;
       if (dist >= 0) {
         const t = Math.min(1, dist / r);
         mag = Math.abs(profile[Math.round(t * lastIdx)]);
       } else {
-        const fade = 1 + dist / AA_WIDTH;
+        const fade = 1 + dist / aa;
         mag = profMax * fade;
       }
       if (mag < 1e-4) { data[idx + 3] = 0; continue; }
@@ -323,16 +332,22 @@ export const LiquidGlass = forwardRef<HTMLDivElement, LiquidGlassProps>(function
     return () => ro.disconnect();
   }, [radius]);
 
+  // Cap at 2× — beyond that the 4× pixel cost buys no visible edge quality.
+  const dpr = useMemo(
+    () => (typeof window !== 'undefined' ? Math.min(Math.max(window.devicePixelRatio || 1, 1), 2) : 1),
+    [],
+  );
+
   const { mapUrl, specUrl } = useMemo(() => {
     if (!size.W || !size.H) return { mapUrl: '', specUrl: '' };
     const { key: profileKey, profile } = getProfile(surface as string, bezelRatio);
     return {
-      mapUrl: generateDispMap(size.W, size.H, size.R, profileKey, profile),
+      mapUrl: generateDispMap(size.W, size.H, size.R, profileKey, profile, dpr),
       specUrl: generateSpecMap(size.W, size.H, size.R, profileKey, profile, {
         angleDeg: lightAngle, shininess: 6, intensity: specular,
-      }),
+      }, dpr),
     };
-  }, [size.W, size.H, size.R, surface, bezelRatio, lightAngle, specular]);
+  }, [size.W, size.H, size.R, surface, bezelRatio, lightAngle, specular, dpr]);
 
   // Gate the SVG refraction behind the maps being *decoded*, not just generated.
   // Until then the backdrop-filter omits url(#…) and falls back to clean frosted

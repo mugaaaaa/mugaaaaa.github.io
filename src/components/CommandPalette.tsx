@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { glassPresets } from '../config/glass';
 import { getTranslations, type Locale } from '../i18n/ui';
 import type { PostSearchItem } from '../lib/posts';
 import { LiquidGlass } from './LiquidGlass';
@@ -102,13 +103,8 @@ export default function CommandPalette({ posts, locale = 'zh', glassTintAlpha }:
       />
       <LiquidGlass
         className="pointer-events-auto relative w-full max-w-2xl overflow-hidden rounded-[24px] px-4 py-4 text-stone-950 shadow-[0_36px_110px_-38px_rgba(0,0,0,0.86)] md:px-5"
-        chroma={0.36}
-        blur={2.8}
-        distort={32}
-        bezelRatio={0.82}
-        tintColor="var(--glass-tint)"
-        tintAlpha={glassTintAlpha ?? 0.3}
-        saturate={155}
+        {...glassPresets.commandPalette}
+        tintAlpha={glassTintAlpha ?? glassPresets.commandPalette.tintAlpha}
       >
         <div className="pointer-events-none absolute inset-0 rounded-[24px] bg-white/72" />
         <div className="relative">

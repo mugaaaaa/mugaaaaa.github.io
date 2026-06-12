@@ -4,6 +4,7 @@ import { getImage } from 'astro:assets';
 import CommandPalette from '../CommandPalette';
 import FloatingGlass from '../FloatingGlass';
 import { LiquidGlass } from '../LiquidGlass';
+import { glassPresets } from '../../config/glass';
 import MobileGlassDock from '../MobileGlassDock';
 import NowQueueGlass from '../NowQueueGlass';
 import PostFilterGlass from '../PostFilterGlass';
@@ -206,13 +207,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
         <div class="hero-carousel-arrow-shell hero-carousel-arrow-left" data-hero-prev-shell hidden>
           <LiquidGlass
             className="hero-carousel-arrow-glass pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_24px_70px_-42px_rgba(0,0,0,0.86)]"
-            chroma={0.34}
-            blur={2.4}
-            distort={30}
-            bezelRatio={0.88}
-            tintColor="var(--glass-tint)"
-            tintAlpha={0.3}
-            saturate={150}
+            {...glassPresets.carousel}
             client:load
           >
             <button type="button" class="hero-carousel-arrow-button" aria-label="Previous hero image" data-hero-prev>
@@ -223,13 +218,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
         <div class="hero-carousel-arrow-shell hero-carousel-arrow-right" data-hero-next-shell>
           <LiquidGlass
             className="hero-carousel-arrow-glass pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_24px_70px_-42px_rgba(0,0,0,0.86)]"
-            chroma={0.34}
-            blur={2.4}
-            distort={30}
-            bezelRatio={0.88}
-            tintColor="var(--glass-tint)"
-            tintAlpha={0.3}
-            saturate={150}
+            {...glassPresets.carousel}
             client:load
           >
             <button type="button" class="hero-carousel-arrow-button" aria-label="Next hero image" data-hero-next>
@@ -252,13 +241,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
               </p>
               <LiquidGlass
                 className="hidden w-full min-w-0 grid-cols-3 gap-1 rounded-full px-2 py-2 text-center text-white shadow-[0_24px_80px_-42px_rgba(0,0,0,0.86)] md:grid"
-                chroma={0.36}
-                blur={2.4}
-                distort={28}
-                bezelRatio={0.88}
-                tintColor="var(--glass-tint)"
-                tintAlpha={0.3}
-                saturate={155}
+                {...glassPresets.segmented}
                 client:load
               >
                 <div class="rounded-full bg-stone-950 px-4 py-2 text-white">
@@ -311,13 +294,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                 <div data-volume-prev data-home-track-prev hidden>
                   <LiquidGlass
                     className="volume-pager pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_28px_90px_-34px_rgba(0,0,0,0.86)]"
-                    chroma={0.34}
-                    blur={2.4}
-                    distort={30}
-                    bezelRatio={0.88}
-                    tintColor="var(--glass-tint)"
-                    tintAlpha={0.3}
-                    saturate={150}
+                    {...glassPresets.carousel}
                     client:load
                   >
                     <button
@@ -332,13 +309,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                 <div data-volume-next data-home-track-next hidden class="ml-auto">
                   <LiquidGlass
                     className="volume-pager pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_28px_90px_-34px_rgba(0,0,0,0.86)]"
-                    chroma={0.34}
-                    blur={2.4}
-                    distort={30}
-                    bezelRatio={0.88}
-                    tintColor="var(--glass-tint)"
-                    tintAlpha={0.3}
-                    saturate={150}
+                    {...glassPresets.carousel}
                     client:load
                   >
                     <button
@@ -389,13 +360,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
               </div>
               <LiquidGlass
                 className="w-fit rounded-full px-1 py-1 text-white shadow-[0_24px_70px_-38px_rgba(0,0,0,0.9)] md:justify-self-end"
-                chroma={0.28}
-                blur={2.2}
-                distort={22}
-                bezelRatio={0.88}
-                tintColor="var(--glass-tint)"
-                tintAlpha={0.3}
-                saturate={130}
+                {...glassPresets.pill}
                 client:load
               >
                 <a href={localizedPath(locale, '/posts/')} class="inline-flex rounded-full px-5 py-3 text-sm font-black uppercase text-white">
@@ -438,13 +403,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                 <div data-home-track-prev hidden>
                   <LiquidGlass
                     className="volume-pager pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_28px_90px_-34px_rgba(0,0,0,0.9)]"
-                    chroma={0.34}
-                    blur={2.4}
-                    distort={30}
-                    bezelRatio={0.88}
-                    tintColor="var(--glass-tint)"
-                    tintAlpha={0.3}
-                    saturate={150}
+                    {...glassPresets.carousel}
                     client:load
                   >
                     <button
@@ -459,13 +418,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                 <div data-home-track-next hidden class="ml-auto">
                   <LiquidGlass
                     className="volume-pager pointer-events-auto rounded-full p-1 text-stone-950 shadow-[0_28px_90px_-34px_rgba(0,0,0,0.9)]"
-                    chroma={0.34}
-                    blur={2.4}
-                    distort={30}
-                    bezelRatio={0.88}
-                    tintColor="var(--glass-tint)"
-                    tintAlpha={0.3}
-                    saturate={150}
+                    {...glassPresets.carousel}
                     client:load
                   >
                     <button

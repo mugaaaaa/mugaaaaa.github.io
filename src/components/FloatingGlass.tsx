@@ -9,6 +9,7 @@ import {
 import { LiquidGlass } from './LiquidGlass';
 import ThemeToggle from './ThemeToggle';
 import { darkModeEnabled } from '../config/theme';
+import { glassPresets } from '../config/glass';
 
 function ArrowUpIcon() {
   return (
@@ -198,13 +199,8 @@ export default function FloatingGlass({
     <div className="pointer-events-none fixed inset-0 z-50">
       <LiquidGlass
         className="pointer-events-auto fixed left-1/2 top-4 flex w-[calc(100%-1rem)] max-w-[840px] -translate-x-1/2 items-center justify-start gap-1 rounded-full px-2 py-2 text-stone-950 shadow-[0_28px_96px_-24px_rgba(10,10,10,0.58)] sm:w-[calc(100%-2rem)] sm:gap-2 sm:px-3 sm:justify-between"
-        chroma={0.38}
-        blur={2.4}
-        distort={28}
-        bezelRatio={0.86}
-        tintColor="var(--glass-tint)"
-        tintAlpha={glassTintAlpha ?? 0.08}
-        saturate={155}
+        {...glassPresets.toolbar}
+        tintAlpha={glassTintAlpha ?? glassPresets.toolbar.tintAlpha}
       >
         <a href={localizedPath(locale, '/')} className="max-w-[42vw] shrink-0 truncate rounded-full bg-transparent px-3 py-2 text-sm font-black transition hover:bg-white/45 focus-visible:bg-white/45 sm:max-w-none sm:px-4">
           Mugaaaaa's Blog
@@ -271,13 +267,8 @@ export default function FloatingGlass({
         >
           <LiquidGlass
             className="language-menu-popover grid w-full gap-1 rounded-[18px] px-2 py-2 text-stone-950 shadow-[0_32px_96px_-34px_rgba(10,10,10,0.86)]"
-            chroma={0.46}
-            blur={2.8}
-            distort={36}
-            bezelRatio={0.8}
-            tintColor="var(--glass-tint)"
-            tintAlpha={glassTintAlpha ?? 0.3}
-            saturate={170}
+            {...glassPresets.menu}
+            tintAlpha={glassTintAlpha ?? glassPresets.menu.tintAlpha}
           >
             <div role="menu" aria-label={t.nav.language} className="grid gap-1">
               {languageOptions.map((option) => {
@@ -314,13 +305,8 @@ export default function FloatingGlass({
         >
           <LiquidGlass
             className="mobile-menu-popover grid w-full gap-1 rounded-[18px] px-2 py-2 text-stone-950 shadow-[0_32px_96px_-34px_rgba(10,10,10,0.86)]"
-            chroma={0.46}
-            blur={2.8}
-            distort={36}
-            bezelRatio={0.8}
-            tintColor="var(--glass-tint)"
-            tintAlpha={glassTintAlpha ?? 0.3}
-            saturate={170}
+            {...glassPresets.menu}
+            tintAlpha={glassTintAlpha ?? glassPresets.menu.tintAlpha}
           >
             <div role="menu" aria-label="Menu" className="grid gap-1">
               <button
@@ -364,13 +350,8 @@ export default function FloatingGlass({
 
       <LiquidGlass
         className="pointer-events-auto fixed left-5 top-1/2 hidden -translate-y-1/2 flex-col items-center gap-1 rounded-full px-2 py-2 text-stone-950 shadow-[12px_28px_96px_-24px_rgba(10,10,10,0.9)] md:flex"
-        chroma={0.34}
-        blur={2}
-        distort={30}
-        bezelRatio={0.88}
-        tintColor="var(--glass-tint)"
-        tintAlpha={glassTintAlpha ?? 0.16}
-        saturate={150}
+        {...glassPresets.sideRail}
+        tintAlpha={glassTintAlpha ?? glassPresets.sideRail.tintAlpha}
       >
         <a
           href="#top"

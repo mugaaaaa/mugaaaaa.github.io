@@ -40,23 +40,32 @@ describe('article page LiquidGlass tint', () => {
     }
   });
 
-  it('lets shared glass shells fall back to their existing tint defaults', async () => {
+  it('lets shared glass shells fall back to their config preset tint defaults', async () => {
+    // Tint defaults now live in the glass config; each shell falls back to its
+    // preset's tintAlpha via `glassTintAlpha ?? glassPresets.<preset>.tintAlpha`.
+    const config = await readFile('src/config/glass.ts', 'utf8');
+
     const expectations = [
-      ['src/components/FloatingGlass.tsx', [0.08, 0.3, 0.16]],
-      ['src/components/MobileGlassDock.tsx', [0.1]],
-      ['src/components/CommandPalette.tsx', [0.3]],
-      ['src/components/ProgressGlass.tsx', [0.3]],
+      ['src/components/FloatingGlass.tsx', ['toolbar', 'menu', 'sideRail']],
+      ['src/components/MobileGlassDock.tsx', ['mobileDock']],
+      ['src/components/CommandPalette.tsx', ['commandPalette']],
+      ['src/components/ProgressGlass.tsx', ['progress']],
     ];
 
-    for (const [file, defaults] of expectations) {
+    for (const [file, presets] of expectations) {
       const source = await readFile(file, 'utf8');
 
       assert.match(source, /glassTintAlpha\?: number/, `${file} should expose glassTintAlpha`);
-      for (const defaultAlpha of defaults) {
+      for (const preset of presets) {
+        assert.match(
+          config,
+          new RegExp(`${preset}:\\s*{[^}]*tintAlpha:\\s*[0-9.]+`),
+          `glass config should define a ${preset} preset with a tintAlpha`,
+        );
         assert.match(
           source,
-          new RegExp(`tintAlpha={glassTintAlpha \\?\\? ${defaultAlpha}}`),
-          `${file} should preserve default tint alpha ${defaultAlpha}`,
+          new RegExp(`tintAlpha={glassTintAlpha \\?\\? glassPresets\\.${preset}\\.tintAlpha}`),
+          `${file} should fall back to the ${preset} preset tint default`,
         );
       }
     }
