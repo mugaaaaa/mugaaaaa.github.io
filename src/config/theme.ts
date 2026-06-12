@@ -14,6 +14,16 @@
 export type ThemeSurface = 'home' | 'article';
 export type ThemeMode = 'light' | 'dark';
 
+// -------------------------------------------------------------
+// Master switch. Dark mode is still being polished, so for now
+// the whole site is forced to light: the anti-FOUC script always
+// applies `light`, localStorage / system preference are ignored,
+// and the toolbar theme toggle is hidden.
+// Flip to `true` to ship dark mode (toggle reappears, the saved /
+// system preference takes over again — no other code changes needed).
+// -------------------------------------------------------------
+export const darkModeEnabled = false;
+
 // Keep keys identical across every set so the generated CSS is uniform.
 export type ThemeTokens = {
   // base palette

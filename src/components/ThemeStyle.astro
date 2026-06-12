@@ -2,7 +2,7 @@
 // Emits the CSS custom properties for one surface (light + dark)
 // plus a render-blocking script that applies the saved/system theme
 // before first paint (avoids the white flash).
-import { themeTokens, tokensToCss, type ThemeSurface } from '../config/theme';
+import { themeTokens, tokensToCss, darkModeEnabled, type ThemeSurface } from '../config/theme';
 
 interface Props {
   surface: ThemeSurface;
@@ -15,20 +15,24 @@ const css = `
   :root { ${tokensToCss(sets.light)} }
   :root[data-theme="dark"] { ${tokensToCss(sets.dark)} }
 `;
----
 
-<style is:global set:html={css} />
-<script is:inline>
+// `darkModeEnabled` is baked into the inline script so it stays render-blocking
+// (is:inline can't read frontmatter vars at runtime). When dark mode is off the
+// script short-circuits to `light` and never touches localStorage / matchMedia.
+const themeScript = `
   (() => {
+    const DARK_ENABLED = ${darkModeEnabled};
     const apply = () => {
-      let theme;
-      try {
-        theme = localStorage.getItem('theme');
-      } catch {
-        theme = null;
-      }
-      if (theme !== 'dark' && theme !== 'light') {
-        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      let theme = 'light';
+      if (DARK_ENABLED) {
+        try {
+          theme = localStorage.getItem('theme');
+        } catch {
+          theme = null;
+        }
+        if (theme !== 'dark' && theme !== 'light') {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
       }
       document.documentElement.dataset.theme = theme;
     };
@@ -36,4 +40,8 @@ const css = `
     // Re-apply after Astro view-transition swaps (no-op without ClientRouter).
     document.addEventListener('astro:after-swap', apply);
   })();
-</script>
+`;
+---
+
+<style is:global set:html={css} />
+<script is:inline set:html={themeScript} />

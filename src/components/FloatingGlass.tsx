@@ -8,6 +8,7 @@ import {
 } from '../i18n/ui';
 import { LiquidGlass } from './LiquidGlass';
 import ThemeToggle from './ThemeToggle';
+import { darkModeEnabled } from '../config/theme';
 
 function ArrowUpIcon() {
   return (
@@ -229,9 +230,11 @@ export default function FloatingGlass({
         >
           {t.nav.search}
         </button>
-        <div className="hidden sm:block">
-          <ThemeToggle label={t.nav.theme} />
-        </div>
+        {darkModeEnabled && (
+          <div className="hidden sm:block">
+            <ThemeToggle label={t.nav.theme} />
+          </div>
+        )}
         <div ref={languageMenuRef} className="relative hidden sm:block">
           <button
             ref={languageButtonRef}
@@ -332,7 +335,7 @@ export default function FloatingGlass({
                 <span>{t.nav.search}</span>
                 <SearchIcon />
               </button>
-              <ThemeToggle label={t.nav.theme} variant="row" />
+              {darkModeEnabled && <ThemeToggle label={t.nav.theme} variant="row" />}
               {languageOptions.map((option) => {
                 const active = option.locale === locale;
 
