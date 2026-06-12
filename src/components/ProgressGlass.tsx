@@ -151,10 +151,10 @@ export default function ProgressGlass({
       className="pointer-events-auto fixed right-4 top-1/2 z-40 hidden w-[188px] -translate-y-1/2 rounded-[18px] px-4 py-4 text-stone-950 shadow-[0_34px_100px_-34px_rgba(10,10,10,0.86)] lg:block"
       chroma={0.36}
       blur={2.4}
-      distort={30}
-      bezelRatio={0.84}
-      tintColor="#ffffff"
-      tintAlpha={glassTintAlpha ?? 0.3}
+      distort={50}
+      bezelRatio={2}
+      tintColor="var(--glass-tint)"
+      tintAlpha={glassTintAlpha ?? 0.2}
       saturate={155}
     >
       <div className="flex items-start justify-between gap-4">
@@ -187,7 +187,7 @@ export default function ProgressGlass({
             <div
               key={section.id}
               style={{
-                ...(active ? { backgroundColor: '#050505', color: '#ffffff' } : {}),
+                ...(active ? { backgroundColor: 'var(--glass-accent)', color: 'var(--glass-accent-ink)' } : {}),
                 paddingLeft: indent,
               }}
               className={`flex min-w-0 items-center gap-1.5 rounded-full py-1.5 pr-2 text-xs font-black transition ${
@@ -241,7 +241,7 @@ export default function ProgressGlass({
                 <a
                   key={link.href}
                   href={link.href}
-                  style={{ backgroundColor: '#050505', color: '#ffffff' }}
+                  style={{ backgroundColor: 'var(--glass-accent)', color: 'var(--glass-accent-ink)' }}
                   className="rounded-full px-3 py-2 text-center text-xs font-black transition hover:opacity-90"
                 >
                   {link.label}

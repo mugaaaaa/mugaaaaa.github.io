@@ -42,7 +42,7 @@ export default function MobileGlassDock({ locale = 'zh', glassTintAlpha }: Mobil
       blur={2.4}
       distort={28}
       bezelRatio={0.86}
-      tintColor="#ffffff"
+      tintColor="var(--glass-tint)"
       tintAlpha={glassTintAlpha ?? 0.1}
       saturate={160}
     >

@@ -106,7 +106,7 @@ export default function CommandPalette({ posts, locale = 'zh', glassTintAlpha }:
         blur={2.8}
         distort={32}
         bezelRatio={0.82}
-        tintColor="#ffffff"
+        tintColor="var(--glass-tint)"
         tintAlpha={glassTintAlpha ?? 0.3}
         saturate={155}
       >

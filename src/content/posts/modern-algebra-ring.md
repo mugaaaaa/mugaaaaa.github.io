@@ -89,6 +89,9 @@ $$\langle a \rangle = \{ xa + ma \mid x \in R, m \in \mathbb{Z} \}$$
 
 $$\langle a \rangle = aR = \{ ar \mid r \in R \}$$
 
+> 证明 $I + J$, $I \bigcap J$, $IJ$ 也是理想
+> $I + J$
+
 ## 商环
 
 设 \( R \) 是一个环，\( I \) 是 \( R \) 的一个**双边理想**。在加法商群 \( R/I = \{ r + I \mid r \in R \} \) 上定义乘法：

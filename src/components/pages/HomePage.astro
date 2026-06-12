@@ -8,6 +8,7 @@ import MobileGlassDock from '../MobileGlassDock';
 import NowQueueGlass from '../NowQueueGlass';
 import PostFilterGlass from '../PostFilterGlass';
 import ProgressGlass from '../ProgressGlass';
+import ThemeStyle from '../ThemeStyle.astro';
 import heroSource from '../../assets/images/home/hero.jpeg';
 import latestPostsSource from '../../assets/images/home/latest-posts.jpg';
 import volumeAnimeSource from '../../assets/images/home/volume-anime.jpg';
@@ -164,6 +165,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
       content={t.home.metaDescription}
     />
     <title>Mugaaaaa's Blog</title>
+    <ThemeStyle surface="home" />
   </head>
   <body>
     <div id="top" class="min-h-screen overflow-x-hidden">
@@ -208,7 +210,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
             blur={2.4}
             distort={30}
             bezelRatio={0.88}
-            tintColor="#ffffff"
+            tintColor="var(--glass-tint)"
             tintAlpha={0.3}
             saturate={150}
             client:load
@@ -225,7 +227,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
             blur={2.4}
             distort={30}
             bezelRatio={0.88}
-            tintColor="#ffffff"
+            tintColor="var(--glass-tint)"
             tintAlpha={0.3}
             saturate={150}
             client:load
@@ -237,7 +239,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
         </div>
         <div class="pointer-events-none relative z-20 mx-auto flex min-h-screen min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-8 pt-28 md:px-8 lg:px-10 lg:pr-56">
           <div class="max-w-6xl">
-            <p class="mb-5 inline-flex border border-white/45 bg-white px-3 py-1 text-xs font-black uppercase text-stone-950">
+            <p class="mb-5 inline-flex border border-white/45 bg-white px-3 py-1 text-xs font-black uppercase text-[#101014]">
               {t.home.eyebrow}
             </p>
             <h1 class="hero-title max-w-6xl font-black uppercase">
@@ -254,7 +256,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                 blur={2.4}
                 distort={28}
                 bezelRatio={0.88}
-                tintColor="#ffffff"
+                tintColor="var(--glass-tint)"
                 tintAlpha={0.3}
                 saturate={155}
                 client:load
@@ -278,7 +280,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
       </header>
 
       <main>
-        <section id="volume" class="border-y border-stone-300 bg-[#edf5f4] py-16">
+        <section id="volume" class="border-y border-stone-300 bg-[var(--volume-bg)] py-16">
           <div class="mx-auto max-w-7xl px-5 md:px-8 lg:px-10">
             <div class="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <h2 class="section-title font-black uppercase">{t.nav.volume}</h2>
@@ -313,7 +315,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                     blur={2.4}
                     distort={30}
                     bezelRatio={0.88}
-                    tintColor="#ffffff"
+                    tintColor="var(--glass-tint)"
                     tintAlpha={0.3}
                     saturate={150}
                     client:load
@@ -334,7 +336,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                     blur={2.4}
                     distort={30}
                     bezelRatio={0.88}
-                    tintColor="#ffffff"
+                    tintColor="var(--glass-tint)"
                     tintAlpha={0.3}
                     saturate={150}
                     client:load
@@ -391,7 +393,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                 blur={2.2}
                 distort={22}
                 bezelRatio={0.88}
-                tintColor="#ffffff"
+                tintColor="var(--glass-tint)"
                 tintAlpha={0.3}
                 saturate={130}
                 client:load
@@ -440,7 +442,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                     blur={2.4}
                     distort={30}
                     bezelRatio={0.88}
-                    tintColor="#ffffff"
+                    tintColor="var(--glass-tint)"
                     tintAlpha={0.3}
                     saturate={150}
                     client:load
@@ -461,7 +463,7 @@ const endQuotePlain = t.home.endQuote.map((part) => part.text).join('');
                     blur={2.4}
                     distort={30}
                     bezelRatio={0.88}
-                    tintColor="#ffffff"
+                    tintColor="var(--glass-tint)"
                     tintAlpha={0.3}
                     saturate={150}
                     client:load

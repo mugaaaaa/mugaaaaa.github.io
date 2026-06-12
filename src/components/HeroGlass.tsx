@@ -8,7 +8,7 @@ export default function HeroGlass() {
       blur={2.2}
       distort={30}
       bezelRatio={0.84}
-      tintColor="#ffffff"
+      tintColor="var(--glass-tint)"
       tintAlpha={0.3}
       saturate={160}
     >

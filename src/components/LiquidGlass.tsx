@@ -237,13 +237,6 @@ function generateSpecMap(
   return url;
 }
 
-function hexToRgba(hex: string, a: number): string {
-  const m = /^#?([0-9a-f]{6})$/i.exec(hex);
-  if (!m) return `rgba(255,255,255,${a})`;
-  const n = parseInt(m[1], 16);
-  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
-}
-
 // ---------- Component ----------
 export interface LiquidGlassProps extends Omit<HTMLAttributes<HTMLDivElement>, 'style'> {
   /** Bezel cross-section shape. Default 'convexSquircle'. */
@@ -344,7 +337,11 @@ export const LiquidGlass = forwardRef<HTMLDivElement, LiquidGlassProps>(function
   const baseScale = distort * 2.0;
   const spread = useSplit ? baseScale * chroma * 0.15 : 0;
 
-  const tintBg = tintAlpha > 0 ? hexToRgba(tintColor, tintAlpha) : undefined;
+  // color-mix keeps this working for both hex literals and CSS vars (var(--glass-tint)).
+  const tintBg =
+    tintAlpha > 0
+      ? `color-mix(in srgb, ${tintColor} ${Math.round(tintAlpha * 1000) / 10}%, transparent)`
+      : undefined;
   const cssFilter = `blur(${blur}px) saturate(${saturate}%) url(#${filterId})`;
 
   // SVG <defs> renders next to the glass div; #filterId is global so both find each other
@@ -418,7 +415,7 @@ export const LiquidGlass = forwardRef<HTMLDivElement, LiquidGlassProps>(function
 
       <div
         ref={setRefs}
-        className={className}
+        className={className ? `glass-surface ${className}` : 'glass-surface'}
         style={{
           backdropFilter: cssFilter,
           WebkitBackdropFilter: cssFilter,

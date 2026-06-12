@@ -32,6 +32,7 @@ export const ui = {
       latestPosts: 'Latest posts',
       backTop: 'Back to top',
       language: 'Language',
+      theme: 'Theme',
     },
     search: {
       placeholder: 'Search posts, tags, categories',
@@ -134,6 +135,7 @@ export const ui = {
       latestPosts: 'Latest posts',
       backTop: 'Back to top',
       language: 'Language',
+      theme: 'Theme',
     },
     search: {
       placeholder: 'Search posts, tags, categories',
@@ -237,6 +239,7 @@ export const ui = {
       latestPosts: 'Latest posts',
       backTop: 'Back to top',
       language: 'Language',
+      theme: 'Theme',
     },
     search: {
       placeholder: 'Search posts, tags, categories',

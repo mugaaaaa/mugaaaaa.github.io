@@ -1,16 +1,15 @@
 @import "tailwindcss";
 @import "katex/dist/katex.min.css";
 
+/* Enable class-based dark mode driven by <html data-theme="dark">. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Color tokens (--ink, --paper, --glass-*, etc.) are generated per surface
+ * by ThemeStyle.astro from src/config/theme.ts. Only theme-agnostic globals
+ * live here.
+ */
 :root {
-  --ink: #101014;
-  --paper: #f7f4ee;
-  --muted: #6f6b62;
-  --line: #ded7ca;
-  --red: #d53c32;
-  --cyan: #00a6b2;
-  --leaf: #4f8b45;
-  --violet: #7856c7;
-  --gold: #d99b21;
   --body-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     "DengXian", "PingFang SC", "Hiragino Sans GB", "Yu Gothic", "Noto Sans CJK SC",
     "Microsoft YaHei", sans-serif;
@@ -29,6 +28,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--body-font);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 @media (max-width: 767px) {
@@ -62,7 +62,7 @@ img {
 
 .glass-ink-lock,
 .glass-ink-lock * {
-  color: #050505 !important;
+  color: var(--glass-ink) !important;
 }
 
 .hero-title {
@@ -146,7 +146,7 @@ img {
 .flat-card {
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fffdf8;
+  background: var(--surface);
 }
 
 .flat-card-dark {
@@ -170,8 +170,8 @@ img {
 .paper-grid {
   background-color: var(--paper);
   background-image:
-    linear-gradient(rgba(16, 16, 20, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 16, 20, 0.055) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-position: -1px -1px;
   background-size: 34px 34px;
 }
@@ -241,7 +241,7 @@ img {
 }
 
 .prose-content {
-  color: #242018;
+  color: var(--prose-text);
   font-size: 1.03rem;
   font-weight: 550;
   line-height: 1.88;
@@ -330,14 +330,14 @@ img {
 .prose-content blockquote {
   border-left: 4px solid var(--red);
   border-radius: 8px;
-  background: #f4efe6;
+  background: var(--quote-bg);
   padding: 0.9rem 1rem;
-  color: #4f483e;
+  color: var(--quote-text);
 }
 
 .prose-content code {
-  border: 1px solid #ded7ca;
-  background: #f5efe4;
+  border: 1px solid var(--inline-code-border);
+  background: var(--inline-code-bg);
   padding: 0.12rem 0.28rem;
   font-family:
     "SFMono-Regular", "Cascadia Code", "Liberation Mono", Menlo, Consolas,
@@ -349,11 +349,11 @@ img {
 .prose-content pre {
   position: relative;
   overflow-x: auto;
-  border: 1px solid #29251f;
+  border: 1px solid var(--code-border);
   border-radius: 8px;
-  background: #15120f;
+  background: var(--code-bg);
   padding: 3.05rem 1rem 1rem;
-  color: #fff8ec;
+  color: var(--code-text);
 }
 
 .prose-content pre::before {
@@ -463,7 +463,7 @@ img {
   overflow-x: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fbf7ef;
+  background: var(--vertical-bg);
   padding: 1.25rem;
   line-height: 2.1;
   text-orientation: mixed;
@@ -681,7 +681,7 @@ img {
 }
 
 .prose-content .kanbun-source .kanbun-saidoku-okuri {
-  color: #111111;
+  color: var(--ink);
 }
 
 .prose-content .kanbun-source .kanbun-word-middle {
@@ -698,7 +698,7 @@ img {
 }
 
 .prose-content .kanbun-source .kanbun-word-middle-connector {
-  background: #111111;
+  background: var(--ink);
   display: block;
   height: 0.5em;
   left: 0.96em;
@@ -742,7 +742,7 @@ img {
 }
 
 .prose-content th {
-  background: #f0e8dc;
+  background: var(--th-bg);
   font-weight: 950;
 }
 
@@ -833,4 +833,86 @@ img {
   .hero-carousel-arrow-button {
     transition: none;
   }
+}
+
+/* =============================================================
+ * Dark mode adaptation
+ * Color values come from src/config/theme.ts (via ThemeStyle).
+ * Two layers:
+ *   1. Content layer — the cards / timeline / hero pills use a
+ *      fixed Tailwind stone palette; remap those utilities to
+ *      theme tokens when [data-theme="dark"] is set.
+ *   2. Glass layer — everything inside a LiquidGlass (.glass-surface)
+ *      is retinted using --glass-* tokens. These rules come last so
+ *      they win over the content-layer remap on shared utilities.
+ * ============================================================= */
+
+/* ---- 1. Content layer ---- */
+[data-theme="dark"] :is(.text-stone-950, .text-stone-900, .text-stone-800) {
+  color: var(--ink);
+}
+
+[data-theme="dark"] :is(.text-stone-700, .text-stone-600, .text-stone-500, .text-stone-400) {
+  color: var(--muted);
+}
+
+[data-theme="dark"] :is(.border-stone-950, .border-stone-900) {
+  border-color: var(--ink);
+}
+
+[data-theme="dark"] :is(.border-stone-300, .border-stone-200) {
+  border-color: var(--line);
+}
+
+[data-theme="dark"] .hover\:border-stone-950:hover {
+  border-color: var(--ink);
+}
+
+[data-theme="dark"] .bg-stone-950 {
+  background-color: var(--raised);
+}
+
+[data-theme="dark"] :is(.bg-stone-200, .bg-stone-100) {
+  background-color: var(--th-bg);
+}
+
+/* ---- 2. Glass layer ---- */
+[data-theme="dark"] .glass-surface {
+  color: var(--glass-ink);
+}
+
+[data-theme="dark"] .glass-surface
+  :is(p, span, a, button, time, input, label, strong, small, li, div, h1, h2, h3, h4, svg) {
+  color: inherit;
+}
+
+[data-theme="dark"] .glass-surface input::placeholder {
+  color: var(--glass-ink-soft);
+}
+
+/* static white fills -> translucent light */
+[data-theme="dark"] .glass-surface
+  :is(.bg-white, .bg-white\/72, .bg-white\/40, .bg-white\/30) {
+  background-color: var(--glass-fill);
+}
+
+/* interactive hover / focus white -> hover tone */
+[data-theme="dark"] .glass-surface [class*="hover:bg-white"]:hover,
+[data-theme="dark"] .glass-surface [class*="focus-visible:bg-white"]:focus-visible {
+  background-color: var(--glass-hover);
+}
+
+/* hairline dividers */
+[data-theme="dark"] .glass-surface .border-stone-950\/12 {
+  border-color: var(--glass-divider);
+}
+
+[data-theme="dark"] .glass-surface .bg-stone-950\/12 {
+  background-color: var(--glass-divider);
+}
+
+/* accent solids (search FAB, filter label, progress fill) */
+[data-theme="dark"] .glass-surface .bg-stone-950 {
+  background-color: var(--glass-accent);
+  color: var(--glass-accent-ink);
 }

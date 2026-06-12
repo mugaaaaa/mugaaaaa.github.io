@@ -137,7 +137,7 @@ export default function PostFilterGlass({
       blur={2.2}
       distort={26}
       bezelRatio={0.88}
-      tintColor="#ffffff"
+      tintColor="var(--glass-tint)"
       tintAlpha={0.3}
       saturate={155}
     >
@@ -166,7 +166,7 @@ export default function PostFilterGlass({
               key={tag}
               data-filter={tag}
               aria-current="true"
-              style={{ backgroundColor: '#050505', color: '#ffffff' }}
+              style={{ backgroundColor: 'var(--glass-accent)', color: 'var(--glass-accent-ink)' }}
               className={className}
             >
               {tag}
@@ -181,7 +181,7 @@ export default function PostFilterGlass({
             data-filter={tag}
             aria-current={active ? 'true' : undefined}
             onClick={(event) => handleFilterClick(event, href)}
-            style={active ? { backgroundColor: '#050505', color: '#ffffff' } : undefined}
+            style={active ? { backgroundColor: 'var(--glass-accent)', color: 'var(--glass-accent-ink)' } : undefined}
             className={className}
           >
             {tag}

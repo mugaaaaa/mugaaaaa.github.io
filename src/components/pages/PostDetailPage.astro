@@ -5,6 +5,7 @@ import CommandPalette from '../CommandPalette';
 import FloatingGlass from '../FloatingGlass';
 import MobileGlassDock from '../MobileGlassDock';
 import ProgressGlass from '../ProgressGlass';
+import ThemeStyle from '../ThemeStyle.astro';
 import heroSource from '../../assets/images/home/hero.jpeg';
 import { getTranslations, localizedPath, type Locale } from '../../i18n/ui';
 import { formatDate, postHref, readingTime, sortPosts, toSearchItems } from '../../lib/posts';
@@ -43,6 +44,7 @@ const copiedCodeLabel = t.postDetail.copiedCode;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={post.data.description || post.data.title} />
     <title>{post.data.title} | Mugaaaaa's Blog</title>
+    <ThemeStyle surface="article" />
   </head>
   <body>
     <div id="top" class:list={['paper-grid min-h-screen', isVerticalLayout ? 'vertical-post-root' : 'overflow-x-hidden']}>
@@ -102,7 +104,7 @@ const copiedCodeLabel = t.postDetail.copiedCode;
             : 'mx-auto max-w-6xl',
         ]}>
           <article class:list={[
-            'article-shell border border-stone-300 bg-[#fffdf8]',
+            'article-shell border border-stone-300 bg-[var(--surface)]',
             isVerticalLayout ? 'vertical-article-shell' : 'px-5 py-8 md:px-8 md:py-10',
           ]}>
             <div class="mb-8 flex flex-wrap gap-2">

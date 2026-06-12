@@ -7,6 +7,7 @@ import {
   type Locale,
 } from '../i18n/ui';
 import { LiquidGlass } from './LiquidGlass';
+import ThemeToggle from './ThemeToggle';
 
 function ArrowUpIcon() {
   return (
@@ -200,7 +201,7 @@ export default function FloatingGlass({
         blur={2.4}
         distort={28}
         bezelRatio={0.86}
-        tintColor="#ffffff"
+        tintColor="var(--glass-tint)"
         tintAlpha={glassTintAlpha ?? 0.08}
         saturate={155}
       >
@@ -228,6 +229,9 @@ export default function FloatingGlass({
         >
           {t.nav.search}
         </button>
+        <div className="hidden sm:block">
+          <ThemeToggle label={t.nav.theme} />
+        </div>
         <div ref={languageMenuRef} className="relative hidden sm:block">
           <button
             ref={languageButtonRef}
@@ -268,7 +272,7 @@ export default function FloatingGlass({
             blur={2.8}
             distort={36}
             bezelRatio={0.8}
-            tintColor="#ffffff"
+            tintColor="var(--glass-tint)"
             tintAlpha={glassTintAlpha ?? 0.3}
             saturate={170}
           >
@@ -282,7 +286,7 @@ export default function FloatingGlass({
                     href={languageSwitchPath(option.locale, currentPath)}
                     role="menuitem"
                     aria-current={active ? 'page' : undefined}
-                    style={active ? { backgroundColor: '#050505', color: '#ffffff' } : undefined}
+                    style={active ? { backgroundColor: 'var(--glass-accent)', color: 'var(--glass-accent-ink)' } : undefined}
                     className={`flex items-center justify-between rounded-full px-3 py-2 text-xs font-black transition ${
                       active
                         ? ''
@@ -311,7 +315,7 @@ export default function FloatingGlass({
             blur={2.8}
             distort={36}
             bezelRatio={0.8}
-            tintColor="#ffffff"
+            tintColor="var(--glass-tint)"
             tintAlpha={glassTintAlpha ?? 0.3}
             saturate={170}
           >
@@ -328,6 +332,7 @@ export default function FloatingGlass({
                 <span>{t.nav.search}</span>
                 <SearchIcon />
               </button>
+              <ThemeToggle label={t.nav.theme} variant="row" />
               {languageOptions.map((option) => {
                 const active = option.locale === locale;
 
@@ -337,7 +342,7 @@ export default function FloatingGlass({
                     href={languageSwitchPath(option.locale, currentPath)}
                     role="menuitem"
                     aria-current={active ? 'page' : undefined}
-                    style={active ? { backgroundColor: '#050505', color: '#ffffff' } : undefined}
+                    style={active ? { backgroundColor: 'var(--glass-accent)', color: 'var(--glass-accent-ink)' } : undefined}
                     className={`flex items-center justify-between rounded-full px-3 py-2 text-xs font-black transition ${
                       active
                         ? ''
@@ -360,7 +365,7 @@ export default function FloatingGlass({
         blur={2}
         distort={30}
         bezelRatio={0.88}
-        tintColor="#ffffff"
+        tintColor="var(--glass-tint)"
         tintAlpha={glassTintAlpha ?? 0.16}
         saturate={150}
       >

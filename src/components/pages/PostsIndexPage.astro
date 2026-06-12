@@ -5,6 +5,7 @@ import FloatingGlass from '../FloatingGlass';
 import MobileGlassDock from '../MobileGlassDock';
 import PostFilterGlass from '../PostFilterGlass';
 import ProgressGlass from '../ProgressGlass';
+import ThemeStyle from '../ThemeStyle.astro';
 import { getTranslations, localizedPath, type Locale } from '../../i18n/ui';
 import {
   formatDate,
@@ -63,6 +64,7 @@ const postsLabel = t.common.posts.toLowerCase();
       content={t.postsIndex.metaDescription}
     />
     <title>{t.postsIndex.title}</title>
+    <ThemeStyle surface="home" />
   </head>
   <body>
     <div id="top" class="paper-grid min-h-screen overflow-x-hidden">
