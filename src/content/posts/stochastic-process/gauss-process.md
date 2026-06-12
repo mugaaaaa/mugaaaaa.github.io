@@ -245,3 +245,53 @@ f_{\mathbf{X}}(\mathbf{x}_1, \mathbf{x}_2) &= \frac{e^{-\frac{1}{2} [(\mathbf{x}
 \end{aligned}
 $$
 （即联合密度函数等于边缘密度函数的乘积，故 $\mathbf{X}_1, \mathbf{X}_2$ 独立。）
+
+# 例题
+> 陆大絟第三章
+
+## 第 6 题
+6．设三维 Gauss 分布随机向量 $\boldsymbol{X} = (X_1, X_2, X_3)^\mathrm{T}$，均值为 $0$，协方差阵为
+$$\boldsymbol{\Sigma} = \begin{pmatrix} \frac{5}{3} & -\frac{1}{3} & -\frac{2}{3} \\ -\frac{1}{3} & \frac{8}{3} & \frac{1}{3} \\ -\frac{2}{3} & \frac{1}{3} & \frac{5}{3} \end{pmatrix}$$
+试求矩阵 $\boldsymbol{A}$，使得对 $\boldsymbol{X}$ 作线性变换 $\boldsymbol{Y} = \boldsymbol{A}\boldsymbol{X}$ 后，$\boldsymbol{Y}$ 的各个分量统计独立。
+
+> 设 $Y$ 的协方差矩阵为 $\Sigma'$，则 $\Sigma' = A \Sigma A^T$，我们需要找一个 $A$，使得 $\Sigma' = A \Sigma A^T$ 为正交阵。
+> 先求 $\Sigma$ 特征值：
+> $$|\lambda I - \Sigma| = \begin{vmatrix} \lambda - \frac{5}{3} & \frac{1}{3} & \frac{2}{3} \\ \frac{1}{3} & \lambda - \frac{5}{3} & -\frac{1}{3} \\ \frac{2}{3} & -\frac{1}{3} & \lambda - \frac{5}{3} \end{vmatrix} = 0$$
+
+> 简化简得 $(\lambda - 1)(\lambda - 2)(\lambda - 3) = 0$
+> 故 $\lambda_1 = 1, \lambda_2 = 2, \lambda_3 = 3$
+
+> 代回解得特征向量：
+> $\vec{\nu}_1 = \frac{1}{\sqrt{2}} \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix}$， $\vec{\nu}_2 = \frac{1}{\sqrt{3}} \begin{pmatrix} 1 \\ 1 \\ -1 \end{pmatrix}$， $\vec{\nu}_3 = \frac{1}{\sqrt{6}} \begin{pmatrix} -1 \\ 2 \\ 1 \end{pmatrix}$
+
+> 则 $Q^T \Sigma Q = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 3 \end{pmatrix}$，其中 $Q = \begin{pmatrix} \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{3}} & -\frac{1}{\sqrt{6}} \\ 0 & \frac{1}{\sqrt{3}} & \frac{2}{\sqrt{6}} \\ \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{3}} & \frac{1}{\sqrt{6}} \end{pmatrix}$
+
+> 取 $A = Q^T = \begin{pmatrix} \frac{1}{\sqrt{2}} & 0 & \frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{3}} & \frac{1}{\sqrt{3}} & -\frac{1}{\sqrt{3}} \\ -\frac{1}{\sqrt{6}} & \frac{2}{\sqrt{6}} & \frac{1}{\sqrt{6}} \end{pmatrix}$ 即可让
+
+> $\Sigma' = A \Sigma A^T$ 成为对角阵，即 $Y$ 的各各分量独立
+
+
+## 第 7 题
+7．设三维 Gauss 分布随机向量 $\boldsymbol{X} = (X_1, X_2, X_3)^\mathrm{T}$，均值为 $0$，协方差阵为
+$$\boldsymbol{\Sigma} = \begin{pmatrix} 4 & 2 & 2 \\ 2 & 1 & 1 \\ 2 & 1 & 1 \end{pmatrix}$$
+问 $\boldsymbol{X}$ 的三个分量间是否有线性相关性？如果有，求出线性相关的表达式及其退化形式的概率密度。
+
+> $|\Sigma| = \begin{vmatrix} 4 & 2 & 2 \\ 2 & 1 & 1 \\ 2 & 1 & 1 \end{vmatrix} = 0$，故为线性相关性
+>
+> 下面找线性相关关系式：
+> 找一组非零常数 $c_1, c_2, c_3$，使得 $Var(c_1 X_1 + c_2 X_2 + c_3 X_3) = 0$。
+> 令 $\vec{c} = (c_1, c_2, c_3)^T \in \mathbb{R}^3$，这写成 $Var(\vec{c}^T X) = 0$。
+> $$Var(\vec{c}^T X) = \vec{c}^T \Sigma \vec{c} = 0 \Rightarrow \vec{c}^T \Sigma \vec{c} = \vec{0}$$
+> 即 $\Sigma \vec{c} = 0$
+> 
+> 解得 $\begin{cases} X_1 = 2 X_3 \\ X_2 = 2 X_3 \end{cases}$
+> 
+> 退化形式概率密度
+> 用 $X_3$ 表示：
+> 
+> $E[X_3] = 0$, $Var(X_3) = \Sigma_{33} = 1$
+> $$f_{X_3}(x_3) = \frac{1}{\sqrt{2\pi}} e^{-x_3^2 / 2}$$
+> 
+> 由于 $\begin{cases} X_1 = 2X_3 \\ X_2 = X_3 \end{cases}$ ，将确定性的约束转化为 $\delta$ 函数：
+> 
+> $$f(x_1, x_2, x_3) = \frac{1}{\sqrt{2\pi}} e^{-x_3^2 / 2} \cdot \delta(x_1 - 2x_3) \cdot \delta(x_2 - x_3)$$
