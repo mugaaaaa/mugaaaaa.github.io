@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
+import remarkGfm from 'remark-gfm';
 import astroConfig from '../../astro.config.mjs';
 
 const applyRemarkPlugins = (processor, plugins) => {
@@ -18,8 +19,9 @@ const applyRemarkPlugins = (processor, plugins) => {
 };
 
 const parseMarkdownWithAstroRemarkPlugins = async (source) => {
+  // Astro enables GFM by default and registers it before user remark plugins.
   const processor = applyRemarkPlugins(
-    unified().use(remarkParse),
+    unified().use(remarkParse).use(remarkGfm),
     astroConfig.markdown.remarkPlugins,
   );
   const tree = processor.parse(source);
@@ -208,16 +210,39 @@ describe('LaTeX math delimiters in Markdown', () => {
     assert.equal(paragraph.children[1].value, 'E = mc^2');
   });
 
-  it('splits display math from lazy continuation lines inside list items', async () => {
+  it('renders display math after a list when it is unindented (CommonMark block boundary)', async () => {
     const tree = await parseMarkdownWithAstroRemarkPlugins('- 其他内容\n\\[\na^2 + b^2 = c^2\n\\]');
-    const listItem = tree.children[0].children[0];
 
     assert.deepEqual(
-      listItem.children.map((child) => child.type),
-      ['paragraph', 'math'],
+      tree.children.map((child) => child.type),
+      ['list', 'math'],
     );
-    assert.equal(listItem.children[0].children[0].value, '其他内容');
-    assert.equal(listItem.children[1].value, 'a^2 + b^2 = c^2');
+    assert.equal(tree.children[0].children[0].children[0].children[0].value, '其他内容');
+    assert.equal(tree.children[1].value, 'a^2 + b^2 = c^2');
+  });
+
+  it('treats \\(...\\) as inline math inside table cells', async () => {
+    const tree = await parseMarkdownWithAstroRemarkPlugins(
+      '| 符号 | 含义 |\n| --- | --- |\n| \\(\\sum_i a_i\\) | 求和 |',
+    );
+    const cell = tree.children[0].children[1].children[0];
+
+    assert.deepEqual(
+      cell.children.map((child) => child.type),
+      ['inlineMath'],
+    );
+    assert.equal(cell.children[0].value, '\\sum_i a_i');
+  });
+
+  it('leaves delimiters inside inline code untouched', async () => {
+    const tree = await parseMarkdownWithAstroRemarkPlugins('行内代码 `\\(x\\)` 不应渲染为公式。');
+    const paragraph = tree.children[0];
+
+    assert.deepEqual(
+      paragraph.children.map((child) => child.type),
+      ['text', 'inlineCode', 'text'],
+    );
+    assert.equal(paragraph.children[1].value, '\\(x\\)');
   });
 
   it('treats \\(...\\) as inline math inside blockquote list items', async () => {

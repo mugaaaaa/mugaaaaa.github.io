@@ -47,7 +47,7 @@ export function monthId(date: Date) {
 }
 
 export function readingTime(post: Pick<BlogPost, 'body'>) {
-  const words = post.body
+  const words = (post.body ?? '')
     .replace(/```[\s\S]*?```/g, '')
     .replace(/<[^>]+>/g, '')
     .trim()
