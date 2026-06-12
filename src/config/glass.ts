@@ -25,23 +25,23 @@ const TINT = 'var(--glass-tint)';
 
 export const glassPresets = {
   // FloatingGlass — top toolbar (search / theme / language)
-  toolbar: { chroma: 0.38, blur: 2.4, distort: 28, bezelRatio: 0.86, saturate: 155, tintColor: TINT, tintAlpha: 0.08 },
+  toolbar: { chroma: 0.38, blur: 1.6, distort: 28, bezelRatio: 0.76, saturate: 155, tintColor: TINT, tintAlpha: 0.08 },
   // FloatingGlass — left vertical rail (desktop)
-  sideRail: { chroma: 0.34, blur: 2, distort: 30, bezelRatio: 0.88, saturate: 150, tintColor: TINT, tintAlpha: 0.16 },
+  sideRail: { chroma: 0.34, blur: 1.6, distort: 30, bezelRatio: 0.88, saturate: 150, tintColor: TINT, tintAlpha: 0.16 },
   // FloatingGlass — language + mobile dropdown popovers
   menu: { chroma: 0.46, blur: 2.8, distort: 36, bezelRatio: 0.8, saturate: 170, tintColor: TINT, tintAlpha: 0.3 },
   // CommandPalette — ⌘K search modal
   commandPalette: { chroma: 0.36, blur: 2.8, distort: 32, bezelRatio: 0.82, saturate: 155, tintColor: TINT, tintAlpha: 0.3 },
   // NowQueueGlass — bottom-right "now drafting" card
-  nowQueue: { chroma: 0.38, blur: 2.5, distort: 30, bezelRatio: 2, saturate: 160, tintColor: TINT, tintAlpha: 0.2 },
+  nowQueue: { chroma: 0.38, blur: 2.2, distort: 30, bezelRatio: 4, saturate: 160, tintColor: TINT, tintAlpha: 0.2 },
   // PostFilterGlass — sticky tag-filter bar
   postFilter: { chroma: 0.34, blur: 2.2, distort: 26, bezelRatio: 0.88, saturate: 155, tintColor: TINT, tintAlpha: 0.3 },
   // MobileGlassDock — bottom floating dock (mobile)
-  mobileDock: { chroma: 0.36, blur: 2.4, distort: 28, bezelRatio: 0.86, saturate: 160, tintColor: TINT, tintAlpha: 0.1 },
+  mobileDock: { chroma: 0.36, blur: 1.6, distort: 28, bezelRatio: 0.86, saturate: 160, tintColor: TINT, tintAlpha: 0.1 },
   // HeroGlass — homepage hero side card
   hero: { chroma: 0.42, blur: 2.2, distort: 30, bezelRatio: 0.84, saturate: 160, tintColor: TINT, tintAlpha: 0.3 },
   // ProgressGlass — right-side reading-progress rail
-  progress: { chroma: 0.36, blur: 2.4, distort: 50, bezelRatio: 2, saturate: 155, tintColor: TINT, tintAlpha: 0.2 },
+  progress: { chroma: 0.36, blur: 2.2, distort: 50, bezelRatio: 4, saturate: 155, tintColor: TINT, tintAlpha: 0.2 },
 
   // HomePage — hero carousel arrows + volume pager buttons (shared look)
   carousel: { chroma: 0.34, blur: 2.4, distort: 30, bezelRatio: 0.88, saturate: 150, tintColor: TINT, tintAlpha: 0.3 },
