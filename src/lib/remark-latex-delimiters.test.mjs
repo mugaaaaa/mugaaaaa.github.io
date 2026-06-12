@@ -234,6 +234,14 @@ describe('LaTeX math delimiters in Markdown', () => {
     assert.equal(cell.children[0].value, '\\sum_i a_i');
   });
 
+  it('keeps two directly adjacent inline math spans separate', async () => {
+    const tree = await parseMarkdownWithAstroRemarkPlugins('紧邻的两个公式：\\(a\\)\\(b\\)。');
+    const paragraph = tree.children[0];
+    const maths = paragraph.children.filter((child) => child.type === 'inlineMath');
+
+    assert.deepEqual(maths.map((m) => m.value), ['a', 'b']);
+  });
+
   it('leaves delimiters inside inline code untouched', async () => {
     const tree = await parseMarkdownWithAstroRemarkPlugins('行内代码 `\\(x\\)` 不应渲染为公式。');
     const paragraph = tree.children[0];
