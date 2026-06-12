@@ -12,6 +12,7 @@ import type {
 } from 'react';
 import {
   forwardRef,
+  useEffect,
   useId,
   useLayoutEffect,
   useMemo,
@@ -333,6 +334,33 @@ export const LiquidGlass = forwardRef<HTMLDivElement, LiquidGlassProps>(function
     };
   }, [size.W, size.H, size.R, surface, bezelRatio, lightAngle, specular]);
 
+  // Gate the SVG refraction behind the maps being *decoded*, not just generated.
+  // Until then the backdrop-filter omits url(#…) and falls back to clean frosted
+  // glass — referencing an incomplete/unloaded filter graph is what renders the
+  // degraded look while the page's images are still streaming in.
+  const [refractionReady, setRefractionReady] = useState(false);
+  useEffect(() => {
+    if (!mapUrl) {
+      setRefractionReady(false);
+      return;
+    }
+    let cancelled = false;
+    // Data-URL decode runs off the network path, so this isn't throttled behind
+    // <img> downloads; it also warms the cache so feImage paints instantly.
+    const decode = (src: string) => {
+      if (!src) return Promise.resolve();
+      const img = new Image();
+      img.src = src;
+      return img.decode().catch(() => undefined);
+    };
+    void Promise.all([decode(mapUrl), decode(specUrl)]).then(() => {
+      if (!cancelled) setRefractionReady(true);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [mapUrl, specUrl]);
+
   const useSplit = chroma > 0;
   const baseScale = distort * 2.0;
   const spread = useSplit ? baseScale * chroma * 0.15 : 0;
@@ -342,7 +370,9 @@ export const LiquidGlass = forwardRef<HTMLDivElement, LiquidGlassProps>(function
     tintAlpha > 0
       ? `color-mix(in srgb, ${tintColor} ${Math.round(tintAlpha * 1000) / 10}%, transparent)`
       : undefined;
-  const cssFilter = `blur(${blur}px) saturate(${saturate}%) url(#${filterId})`;
+  const cssFilter = refractionReady
+    ? `blur(${blur}px) saturate(${saturate}%) url(#${filterId})`
+    : `blur(${blur}px) saturate(${saturate}%)`;
 
   // SVG <defs> renders next to the glass div; #filterId is global so both find each other
   return (
