@@ -150,6 +150,10 @@ const copiedCodeLabel = t.postDetail.copiedCode;
             return;
           }
 
+          if (pre.dataset.language === 'mermaid') {
+            return;
+          }
+
           const button = document.createElement('button');
           button.type = 'button';
           button.className = 'copy-code-button';
@@ -554,6 +558,84 @@ const copiedCodeLabel = t.postDetail.copiedCode;
       document.addEventListener('astro:page-load', enhanceKanbunSources);
       document.addEventListener('astro:page-load', enhanceCodeBlocks);
       document.addEventListener('astro:page-load', enhanceVerticalKeyboardScroll);
+    </script>
+    <script>
+      let mermaidRenderCount = 0;
+
+      const showMermaidError = (container, source, error) => {
+        container.classList.add('mermaid-diagram-error');
+        container.textContent = '';
+
+        const fallback = document.createElement('pre');
+        const code = document.createElement('code');
+        code.textContent = source;
+        fallback.append(code);
+        container.append(fallback);
+        container.setAttribute('data-mermaid-ready', 'error');
+
+        console.error('Unable to render Mermaid diagram.', error);
+      };
+
+      const enhanceMermaidDiagrams = async () => {
+        const blocks = Array.from(
+          document.querySelectorAll('.prose-content pre[data-language="mermaid"] > code'),
+        );
+        if (blocks.length === 0) {
+          return;
+        }
+
+        let mermaid;
+        try {
+          ({ default: mermaid } = await import('mermaid'));
+          mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: 'strict',
+            theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default',
+          });
+        } catch (error) {
+          blocks.forEach((code) => {
+            const pre = code.parentElement;
+            if (!pre) {
+              return;
+            }
+
+            const container = document.createElement('div');
+            container.className = 'mermaid-diagram';
+            pre.replaceWith(container);
+            showMermaidError(container, code.textContent ?? '', error);
+          });
+          return;
+        }
+
+        for (const code of blocks) {
+          const pre = code.parentElement;
+          if (!pre) {
+            continue;
+          }
+
+          const source = code.textContent ?? '';
+          const container = document.createElement('div');
+          container.className = 'mermaid-diagram';
+          container.setAttribute('data-mermaid-ready', 'pending');
+          pre.replaceWith(container);
+
+          try {
+            mermaidRenderCount += 1;
+            const { svg, bindFunctions } = await mermaid.render(
+              `mermaid-diagram-${mermaidRenderCount}`,
+              source,
+            );
+            container.innerHTML = svg;
+            bindFunctions?.(container);
+            container.setAttribute('data-mermaid-ready', 'true');
+          } catch (error) {
+            showMermaidError(container, source, error);
+          }
+        }
+      };
+
+      enhanceMermaidDiagrams();
+      document.addEventListener('astro:page-load', enhanceMermaidDiagrams);
     </script>
   </body>
 </html>

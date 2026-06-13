@@ -410,6 +410,34 @@ img {
   background: rgba(255, 248, 236, 0.2);
 }
 
+.prose-content .mermaid-diagram {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 1rem;
+}
+
+.prose-content .mermaid-diagram svg {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  max-width: none;
+}
+
+.prose-content .mermaid-diagram-error {
+  border-color: var(--red);
+  padding: 0;
+}
+
+.prose-content .mermaid-diagram-error pre {
+  margin: 0;
+}
+
 .prose-content .katex-display {
   overflow-x: auto;
   overflow-y: hidden;
@@ -532,6 +560,11 @@ img {
   max-width: min(42rem, calc(100vw - 3rem));
   max-height: none;
   overflow-x: auto;
+  writing-mode: horizontal-tb;
+}
+
+.prose-content-vertical-page .mermaid-diagram {
+  max-width: min(52rem, calc(100vw - 3rem));
   writing-mode: horizontal-tb;
 }
 
