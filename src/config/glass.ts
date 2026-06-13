@@ -33,7 +33,7 @@ export const glassPresets = {
   // CommandPalette — ⌘K search modal
   commandPalette: { chroma: 0.36, blur: 2.8, distort: 32, bezelRatio: 0.82, saturate: 155, tintColor: TINT, tintAlpha: 0.3 },
   // NowQueueGlass — bottom-right "now drafting" card
-  nowQueue: { chroma: 0.38, blur: 2.2, distort: 30, bezelRatio: 4, saturate: 160, tintColor: TINT, tintAlpha: 0.2 },
+  nowQueue: { chroma: 0.38, blur: 2.2, distort: 30, bezelRatio: 4, saturate: 220, tintColor: TINT, tintAlpha: 0.2 },
   // PostFilterGlass — sticky tag-filter bar
   postFilter: { chroma: 0.34, blur: 2.2, distort: 26, bezelRatio: 0.88, saturate: 155, tintColor: TINT, tintAlpha: 0.3 },
   // MobileGlassDock — bottom floating dock (mobile)
