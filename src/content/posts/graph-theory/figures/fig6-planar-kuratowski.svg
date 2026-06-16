@@ -1,0 +1,127 @@
+<svg width="720" height="420" viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="420" fill="#f8fafc" rx="8"/>
+  <text x="360" y="26" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="15" font-weight="bold" fill="#0f172a">库拉托斯基定理应用：证明图 G 是非平面图</text>
+  <text x="360" y="44" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#475569">策略：在 G 中找到一个与 K₅ 或 K₃,₃ 同胚的子图</text>
+
+  <!-- Step 1: Original G (a simple non-planar graph, like Petersen-like box) -->
+  <!-- I'll draw a simple version: K3,3 "hidden" in a graph -->
+  <!-- Use the 3-house graph: u1(top), v1(left), w1(bot-left), x1(bot-right), y1(right), with internal nodes u2,v2,w2,x2,y2 -->
+  <!-- Simplified: draw the key example from slides: the box with X inside -->
+  <!-- n=8 vertices, like a prism with diagonals -->
+
+  <!-- ══ Step 1: G with some highlighted subgraph ══ -->
+  <text x="180" y="65" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" font-weight="bold" fill="#0f172a">Step 1: 原图 G</text>
+  <text x="180" y="80" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#64748b">（蓝色边 = 取出的子图）</text>
+
+  <!-- Graph G: vertices u1(80,110),u2(180,130),v1(80,200),v2(180,200),w1(80,280),w2(180,280),x1(280,200),y1(280,110) -->
+  <!-- Gray "other" edges -->
+  <line x1="80"  y1="200" x2="80"  y2="280" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="180" y1="200" x2="180" y2="280" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="80"  y1="280" x2="180" y2="280" stroke="#94a3b8" stroke-width="1.5"/>
+
+  <!-- Blue subgraph edges (will form K3,3 after collapsing 2-degree vertices) -->
+  <!-- A rough analogy: 3 "top" nodes connected to 3 "bottom" nodes via paths -->
+  <!-- Top group A={u1,u2,y1}, Bottom group B={v1,w2,x1} conceptually -->
+  <!-- u1-v1, u1-w2, u1-x1 (paths) -->
+  <!-- u2-v1, u2-w2, u2-x1 (paths) -->
+  <!-- y1-v1, y1-w2, y1-x1 (paths) -->
+  <!-- For simplicity draw a recognizable K3,3 embedded in G: -->
+  <!-- Top: A(130,100), B(200,100), C(270,100); Bottom: D(130,280), E(200,280), F(270,280) -->
+  <!-- with 2-degree vertices on some paths -->
+
+  <!-- Let me draw a concrete small example:
+       Top vertices: P1=(100,110), P2=(200,110), P3=(300,110)
+       Bot vertices: Q1=(100,265), Q2=(200,265), Q3=(300,265)
+       Extra "relay" vertex R on path P1-Q2: at (130,190)
+
+       Blue edges: P1-R, R-Q2 (path with relay), P1-Q1, P1-Q3, P2-Q1, P2-Q2, P2-Q3, P3-Q1, P3-Q2, P3-Q3
+  -->
+
+  <!-- All edges of G first in gray -->
+  <line x1="100" y1="122" x2="100" y2="253" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="200" y1="122" x2="200" y2="253" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="300" y1="122" x2="300" y2="253" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="100" y1="110" x2="300" y2="110" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="100" y1="265" x2="300" y2="265" stroke="#94a3b8" stroke-width="1.5"/>
+
+  <!-- Blue subgraph: K3,3 with a relay node on one path -->
+  <!-- P1→relay→Q2 (blue path) -->
+  <line x1="100" y1="122" x2="148" y2="190" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="148" y1="190" x2="200" y2="253" stroke="#2563eb" stroke-width="2.5"/>
+  <!-- other direct K3,3 edges in blue -->
+  <line x1="100" y1="122" x2="100" y2="253" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="100" y1="122" x2="300" y2="253" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="200" y1="122" x2="100" y2="253" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="200" y1="122" x2="200" y2="253" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="200" y1="122" x2="300" y2="253" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="300" y1="122" x2="100" y2="253" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="300" y1="122" x2="200" y2="253" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="300" y1="122" x2="300" y2="253" stroke="#2563eb" stroke-width="2.5"/>
+
+  <!-- Relay vertex R (2-degree, in blue subgraph) -->
+  <circle cx="148" cy="190" r="9" fill="#f97316" stroke="white" stroke-width="2"/>
+  <text x="148" y="190" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="9" fill="white">R</text>
+  <text x="162" y="188" font-family="STSong,SimSun,serif" font-size="9" fill="#f97316">2度点</text>
+
+  <!-- Top vertices P1,P2,P3 -->
+  <circle cx="100" cy="110" r="11" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="200" cy="110" r="11" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="300" cy="110" r="11" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <text x="100" y="110" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">P₁</text>
+  <text x="200" y="110" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">P₂</text>
+  <text x="300" y="110" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">P₃</text>
+
+  <!-- Bottom vertices Q1,Q2,Q3 -->
+  <circle cx="100" cy="265" r="11" fill="#ea580c" stroke="white" stroke-width="1.5"/>
+  <circle cx="200" cy="265" r="11" fill="#ea580c" stroke="white" stroke-width="1.5"/>
+  <circle cx="300" cy="265" r="11" fill="#ea580c" stroke="white" stroke-width="1.5"/>
+  <text x="100" y="265" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">Q₁</text>
+  <text x="200" y="265" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">Q₂</text>
+  <text x="300" y="265" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">Q₃</text>
+
+  <!-- Arrow to step 2 -->
+  <line x1="336" y1="188" x2="376" y2="188" stroke="#16a34a" stroke-width="2.5"/>
+  <polygon points="373,183 386,188 373,193" fill="#16a34a"/>
+  <text x="355" y="177" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#16a34a">收缩</text>
+  <text x="355" y="191" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#16a34a">2度点</text>
+  <text x="355" y="205" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#16a34a">R → P₁Q₂</text>
+
+  <!-- ══ Step 2: After collapsing R → K3,3 ══ -->
+  <text x="560" y="65" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" font-weight="bold" fill="#0f172a">Step 2: 子图同胚于 K₃,₃</text>
+  <text x="560" y="80" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#64748b">收缩 2 度中间顶点后</text>
+
+  <!-- K3,3 drawn cleanly -->
+  <!-- Top: P1(470,120), P2(560,120), P3(650,120) -->
+  <!-- Bot: Q1(470,270), Q2(560,270), Q3(650,270) -->
+  <line x1="470" y1="132" x2="470" y2="258" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="470" y1="132" x2="560" y2="258" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="470" y1="132" x2="650" y2="258" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="560" y1="132" x2="470" y2="258" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="560" y1="132" x2="560" y2="258" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="560" y1="132" x2="650" y2="258" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="650" y1="132" x2="470" y2="258" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="650" y1="132" x2="560" y2="258" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="650" y1="132" x2="650" y2="258" stroke="#2563eb" stroke-width="2.5"/>
+
+  <circle cx="470" cy="120" r="13" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="560" cy="120" r="13" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="650" cy="120" r="13" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="470" cy="270" r="13" fill="#ea580c" stroke="white" stroke-width="1.5"/>
+  <circle cx="560" cy="270" r="13" fill="#ea580c" stroke="white" stroke-width="1.5"/>
+  <circle cx="650" cy="270" r="13" fill="#ea580c" stroke="white" stroke-width="1.5"/>
+  <text x="470" y="120" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">P₁</text>
+  <text x="560" y="120" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">P₂</text>
+  <text x="650" y="120" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">P₃</text>
+  <text x="470" y="270" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">Q₁</text>
+  <text x="560" y="270" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">Q₂</text>
+  <text x="650" y="270" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">Q₃</text>
+
+  <text x="560" y="305" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#2563eb">≅ K₃,₃</text>
+  <text x="560" y="323" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#475569">二部划分：{P₁,P₂,P₃} 和 {Q₁,Q₂,Q₃}</text>
+
+  <!-- Final conclusion -->
+  <rect x="20" y="355" width="680" height="56" fill="#fee2e2" stroke="#fca5a5" rx="5"/>
+  <text x="360" y="373" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#dc2626">结论：G 含与 K₃,₃ 同胚的子图（蓝色边集 + 收缩 2 度点 R）</text>
+  <text x="360" y="391" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#b91c1c">由库拉托斯基定理 → G 是非可平面图  ∎</text>
+  <text x="360" y="406" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#64748b">（实战步骤：猜测 K₃,₃ 二部划分 → 找路径连接 → 验证 9 条路两两不共内部点）</text>
+</svg>

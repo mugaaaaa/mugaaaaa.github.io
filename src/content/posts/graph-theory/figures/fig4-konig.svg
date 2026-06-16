@@ -1,0 +1,90 @@
+<svg width="720" height="510" viewBox="0 0 720 510" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="510" fill="#f8fafc" rx="8"/>
+  <text x="360" y="27" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="16" font-weight="bold" fill="#0f172a">哥尼定理：K* = (X − S) ∪ T 是最小点覆盖</text>
+  <text x="360" y="44" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#475569">偶图中  最大匹配边数 = 最小覆盖点数  |K*| = |M*|</text>
+
+  <!-- ── Region pills ── -->
+  <!-- S = {u, x1}: blue, X-row y=140 -->
+  <rect x="32"  y="112" width="195" height="56" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5" rx="28"/>
+  <!-- X-S = {x2, x3}: gray -->
+  <rect x="355" y="112" width="235" height="56" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" rx="28"/>
+  <!-- T = {y1, y2}: orange -->
+  <rect x="75"  y="292" width="200" height="56" fill="#fed7aa" stroke="#fb923c" stroke-width="1.5" rx="28"/>
+  <!-- Y-T = {y3, y4}: gray -->
+  <rect x="395" y="292" width="240" height="56" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" rx="28"/>
+
+  <!-- Region labels -->
+  <text x="130"  y="100" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#1d4ed8">S = X ∩ Z</text>
+  <text x="472"  y="100" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#64748b">X − S  （∈ K*）</text>
+  <text x="175"  y="282" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#c2410c">T = Y ∩ Z  （∈ K*）</text>
+  <text x="515"  y="282" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#64748b">Y − T</text>
+
+  <!-- ── M* matching edges (blue thick) ── -->
+  <!-- x1(175,140)↔y1(130,320), x2(400,140)↔y3(450,320), x3(550,140)↔y4(590,320) -->
+  <line x1="175" y1="168" x2="130" y2="292" stroke="#2563eb" stroke-width="6"/>
+  <line x1="400" y1="168" x2="450" y2="292" stroke="#2563eb" stroke-width="6"/>
+  <line x1="550" y1="168" x2="590" y2="292" stroke="#2563eb" stroke-width="6"/>
+
+  <!-- ── Non-M* edges in S → T ── -->
+  <!-- u(70,140)→y1, u→y2, x1→y2 -->
+  <line x1="70"  y1="168" x2="130" y2="292" stroke="#334155" stroke-width="2"/>
+  <line x1="70"  y1="168" x2="255" y2="292" stroke="#334155" stroke-width="2"/>
+  <line x1="175" y1="168" x2="255" y2="292" stroke="#334155" stroke-width="2"/>
+
+  <!-- ── NO edges from S → Y-T (dashed red) ── -->
+  <line x1="70"  y1="168" x2="450" y2="292" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="7,4" opacity="0.4"/>
+  <line x1="175" y1="168" x2="590" y2="292" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="7,4" opacity="0.4"/>
+  <text x="305" y="235" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#dc2626" transform="rotate(20,305,235)">N(S)=T，无此类边</text>
+
+  <!-- ── Vertices ── -->
+  <!-- u: hollow red -->
+  <circle cx="70"  cy="140" r="14" fill="white"  stroke="#dc2626" stroke-width="3"/>
+  <text x="70"  y="140" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="15" fill="#dc2626">u</text>
+  <text x="70"  y="180" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#dc2626">非饱和</text>
+
+  <!-- x1 in S: blue -->
+  <circle cx="175" cy="140" r="14" fill="#2563eb"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="175" y="140" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">x₁</text>
+
+  <!-- x2, x3 in X-S → in K*: green -->
+  <circle cx="400" cy="140" r="14" fill="#16a34a"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="400" y="140" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">x₂</text>
+
+  <circle cx="550" cy="140" r="14" fill="#16a34a"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="550" y="140" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">x₃</text>
+
+  <!-- y1, y2 in T → in K*: green -->
+  <circle cx="130" cy="320" r="14" fill="#16a34a"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="130" y="320" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">y₁</text>
+
+  <circle cx="255" cy="320" r="14" fill="#16a34a"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="255" y="320" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">y₂</text>
+
+  <!-- y3, y4 in Y-T: gray -->
+  <circle cx="450" cy="320" r="14" fill="#94a3b8"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="450" y="320" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">y₃</text>
+
+  <circle cx="590" cy="320" r="14" fill="#94a3b8"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="590" y="320" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">y₄</text>
+
+  <!-- K* label box -->
+  <rect x="268" y="120" width="62" height="30" fill="#dcfce7" stroke="#86efac" rx="5"/>
+  <text x="299" y="135" text-anchor="middle" dominant-baseline="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#166534">K* ∈ 此列</text>
+
+  <!-- ── Coverage Analysis ── -->
+  <line x1="28" y1="376" x2="692" y2="376" stroke="#e2e8f0" stroke-width="1"/>
+
+  <text x="360" y="396" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#0f172a">K* = (X − S) ∪ T = { x₂, x₃, y₁, y₂ }  覆盖所有边：</text>
+
+  <rect x="36"  y="408" width="305" height="58" fill="#dcfce7" stroke="#86efac" rx="5"/>
+  <text x="188" y="425" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#166534">一端在 X − S（如 x₂y₃, x₃y₄）：</text>
+  <text x="188" y="443" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#15803d">X − S ⊆ K* 直接覆盖  ✓</text>
+  <text x="188" y="460" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#15803d">（与另一端无关）</text>
+
+  <rect x="365" y="408" width="320" height="58" fill="#dcfce7" stroke="#86efac" rx="5"/>
+  <text x="525" y="425" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#166534">一端在 S（如 u-y₁, x₁-y₂）：</text>
+  <text x="525" y="443" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#15803d">因 N(S)=T，另一端必在 T ⊆ K*  ✓</text>
+  <text x="525" y="460" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#15803d">（S 到 Y−T 无边，无漏覆盖的边）</text>
+
+  <text x="360" y="490" text-anchor="middle" font-family="serif" font-size="13" fill="#7c3aed">|K*| = |X−S| + |T| = 2 + 2 = 4 = |M*|  →  由引理 M* 是最大匹配，K* 是最小覆盖  ✓</text>
+</svg>

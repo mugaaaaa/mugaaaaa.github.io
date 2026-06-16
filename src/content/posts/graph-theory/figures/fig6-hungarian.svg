@@ -1,0 +1,107 @@
+<svg width="760" height="470" viewBox="0 0 760 470" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="470" fill="#f8fafc" rx="8"/>
+  <text x="380" y="27" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="16" font-weight="bold" fill="#0f172a">匈牙利算法：交错树的两种终止情形</text>
+  <text x="380" y="44" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#475569">从非饱和点 u 生长 M-交错树 H，S = V(H)∩X，T = V(H)∩Y</text>
+
+  <!-- Divider -->
+  <line x1="380" y1="56" x2="380" y2="465" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- ══ LEFT: Case 1 — no augmenting path ══ -->
+  <rect x="18" y="58" width="340" height="34" fill="#fee2e2" stroke="#fca5a5" rx="6"/>
+  <text x="188" y="80" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#dc2626">情形 1：N(S) = T，无可扩路</text>
+
+  <!-- M* edges -->
+  <line x1="210" y1="188" x2="80"  y2="298" stroke="#2563eb" stroke-width="5"/>
+  <line x1="300" y1="188" x2="255" y2="298" stroke="#2563eb" stroke-width="5"/>
+
+  <!-- Tree exploration edges (orange dashed) -->
+  <line x1="115" y1="188" x2="80"  y2="298" stroke="#f97316" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <line x1="115" y1="188" x2="168" y2="298" stroke="#f97316" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <line x1="210" y1="188" x2="168" y2="298" stroke="#f97316" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <line x1="300" y1="188" x2="168" y2="298" stroke="#f97316" stroke-width="2" stroke-dasharray="4,4" opacity="0.6"/>
+
+  <!-- Vertices X-layer -->
+  <circle cx="115" cy="165" r="14" fill="white"  stroke="#dc2626" stroke-width="3"/>
+  <text x="115" y="165" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="15" fill="#dc2626">u</text>
+  <text x="115" y="188" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#dc2626">非饱和根</text>
+
+  <circle cx="210" cy="165" r="14" fill="#2563eb"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="210" y="165" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">x₁</text>
+
+  <circle cx="300" cy="165" r="14" fill="#2563eb"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="300" y="165" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">x₂</text>
+
+  <!-- Vertices Y-layer -->
+  <circle cx="80"  cy="298" r="14" fill="#ea580c"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="80"  y="298" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">y₁</text>
+
+  <circle cx="168" cy="298" r="14" fill="#ea580c"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="168" y="298" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">y₂</text>
+
+  <circle cx="255" cy="298" r="14" fill="#ea580c"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="255" y="298" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">y₃</text>
+
+  <!-- Set labels -->
+  <text x="205" y="148" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#1d4ed8">S = {u, x₁, x₂}</text>
+  <text x="168" y="336" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#c2410c">T = {y₁, y₂, y₃}</text>
+
+  <!-- Result box -->
+  <rect x="20" y="356" width="332" height="64" fill="#fee2e2" stroke="#fca5a5" rx="5"/>
+  <text x="186" y="374" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#dc2626">N(S) = T，|N(S)| = 3 = |S| − 1 ＜ |S|</text>
+  <text x="186" y="392" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#b91c1c">由 Hall 定理逆命题：G 不存在完美匹配</text>
+  <text x="186" y="410" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#991b1b">算法输出"无完美匹配"并停止</text>
+
+  <!-- ══ RIGHT: Case 2 — augmenting path found ══ -->
+  <rect x="395" y="58" width="340" height="34" fill="#dcfce7" stroke="#86efac" rx="6"/>
+  <text x="565" y="80" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#16a34a">情形 2：发现非饱和点，找到可扩路</text>
+
+  <!-- M* edge: x1-y1 -->
+  <line x1="570" y1="188" x2="512" y2="298" stroke="#2563eb" stroke-width="5"/>
+
+  <!-- Tree: u-y1 (non-M), x1-y2 (non-M, y2 is unsaturated) -->
+  <line x1="460" y1="188" x2="512" y2="298" stroke="#f97316" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <line x1="570" y1="188" x2="625" y2="298" stroke="#f97316" stroke-width="2.5" stroke-dasharray="6,3"/>
+
+  <!-- Vertices -->
+  <circle cx="460" cy="165" r="14" fill="white"  stroke="#dc2626" stroke-width="3"/>
+  <text x="460" y="165" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="15" fill="#dc2626">u</text>
+  <text x="460" y="188" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#dc2626">非饱和根</text>
+
+  <circle cx="570" cy="165" r="14" fill="#2563eb"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="570" y="165" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">x₁</text>
+
+  <circle cx="512" cy="298" r="14" fill="#ea580c"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="512" y="298" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="white">y₁</text>
+
+  <!-- y2: UNSATURATED (hollow green) — key! -->
+  <circle cx="625" cy="298" r="14" fill="white"  stroke="#16a34a" stroke-width="3"/>
+  <text x="625" y="298" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="14" fill="#16a34a">y₂</text>
+  <text x="625" y="320" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#16a34a">非饱和！</text>
+
+  <!-- Augmenting path label -->
+  <text x="545" y="148" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#16a34a">可扩路 P : u → y₁ → x₁ → y₂</text>
+
+  <!-- Arrow + flip -->
+  <line x1="545" y1="336" x2="545" y2="356" stroke="#16a34a" stroke-width="2"/>
+  <polygon points="538,356 552,356 545,368" fill="#16a34a"/>
+  <text x="605" y="352" dominant-baseline="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#16a34a">沿 P 翻转 M</text>
+
+  <!-- After flip: M' edges = {u-y1, x1-y2} -->
+  <line x1="460" y1="395" x2="512" y2="435" stroke="#16a34a" stroke-width="6"/>
+  <line x1="570" y1="395" x2="625" y2="435" stroke="#16a34a" stroke-width="6"/>
+  <line x1="570" y1="395" x2="512" y2="435" stroke="#94a3b8" stroke-width="2"/>
+
+  <circle cx="460" cy="395" r="12" fill="#16a34a" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="460" y="395" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">u</text>
+
+  <circle cx="570" cy="395" r="12" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="570" y="395" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">x₁</text>
+
+  <circle cx="512" cy="435" r="12" fill="#16a34a" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="512" y="435" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">y₁</text>
+
+  <circle cx="625" cy="435" r="12" fill="#16a34a" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="625" y="435" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">y₂</text>
+
+  <text x="545" y="460" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#16a34a">翻转后 |M|+1，返回步骤 (a) 继续</text>
+</svg>

@@ -1,0 +1,75 @@
+<svg width="720" height="340" viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="340" fill="#f8fafc" rx="8"/>
+  <text x="360" y="26" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="15" font-weight="bold" fill="#0f172a">边收缩运算（初等收缩）与瓦格纳定理</text>
+  <text x="360" y="44" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#475569">去掉边 uv，将 u 和 v 合并为一个新顶点 w；删除由此产生的环和重边</text>
+
+  <!-- ══ Edge contraction illustration ══ -->
+
+  <!-- G: graph before contraction -->
+  <text x="140" y="72" text-anchor="middle" font-family="serif" font-size="13" font-weight="bold" fill="#0f172a">G（收缩前）</text>
+
+  <!-- Edge uv highlighted in red/thick -->
+  <!-- u=(110,170), v=(220,170), and extra neighbors: a=(60,250), b=(165,270), c=(280,250), d=(280,100), e=(60,100) -->
+  <line x1="110" y1="170" x2="60"  y2="250" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="110" y1="170" x2="60"  y2="100" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="220" y1="170" x2="165" y2="270" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="220" y1="170" x2="280" y2="250" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="220" y1="170" x2="280" y2="100" stroke="#94a3b8" stroke-width="2"/>
+  <!-- The contracted edge uv -->
+  <line x1="110" y1="170" x2="220" y2="170" stroke="#dc2626" stroke-width="4"/>
+  <text x="165" y="160" text-anchor="middle" font-family="serif" font-size="11" fill="#dc2626">收缩此边</text>
+
+  <!-- Vertices -->
+  <circle cx="110" cy="170" r="13" fill="#dc2626" stroke="white" stroke-width="2"/>
+  <circle cx="220" cy="170" r="13" fill="#dc2626" stroke="white" stroke-width="2"/>
+  <circle cx="60"  cy="250" r="10" fill="#475569" stroke="white" stroke-width="1.5"/>
+  <circle cx="60"  cy="100" r="10" fill="#475569" stroke="white" stroke-width="1.5"/>
+  <circle cx="165" cy="270" r="10" fill="#475569" stroke="white" stroke-width="1.5"/>
+  <circle cx="280" cy="250" r="10" fill="#475569" stroke="white" stroke-width="1.5"/>
+  <circle cx="280" cy="100" r="10" fill="#475569" stroke="white" stroke-width="1.5"/>
+
+  <text x="110" y="170" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">u</text>
+  <text x="220" y="170" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">v</text>
+  <text x="60"  y="250" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">a</text>
+  <text x="60"  y="100" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">e</text>
+  <text x="165" y="270" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">b</text>
+  <text x="280" y="250" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">c</text>
+  <text x="280" y="100" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">d</text>
+
+  <!-- Arrow -->
+  <line x1="315" y1="180" x2="365" y2="180" stroke="#16a34a" stroke-width="2.5"/>
+  <polygon points="362,175 375,180 362,185" fill="#16a34a"/>
+  <text x="340" y="170" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#16a34a">收缩</text>
+  <text x="340" y="196" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#475569">uv → w</text>
+
+  <!-- G/uv: graph after contraction -->
+  <text x="530" y="72" text-anchor="middle" font-family="serif" font-size="13" font-weight="bold" fill="#0f172a">G · uv（收缩后）</text>
+
+  <!-- w=(450,175); neighbors: a,e from u; b,c,d from v (loop a-a impossible since u-v were not adjacent to same neighbor here) -->
+  <!-- w=(450,175), a=(395,255), e=(395,100), b=(540,270), c=(545,255), d=(545,100) -->
+  <!-- Note: if u and v had a common neighbor, we'd get parallel edges → delete them -->
+  <line x1="450" y1="175" x2="395" y2="255" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="450" y1="175" x2="395" y2="100" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="450" y1="175" x2="540" y2="265" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="450" y1="175" x2="580" y2="250" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="450" y1="175" x2="580" y2="100" stroke="#94a3b8" stroke-width="2"/>
+
+  <circle cx="450" cy="175" r="14" fill="#16a34a" stroke="white" stroke-width="2"/>
+  <circle cx="395" cy="255" r="10" fill="#475569" stroke="white" stroke-width="1.5"/>
+  <circle cx="395" cy="100" r="10" fill="#475569" stroke="white" stroke-width="1.5"/>
+  <circle cx="540" cy="265" r="10" fill="#475569" stroke="white" stroke-width="1.5"/>
+  <circle cx="580" cy="250" r="10" fill="#475569" stroke="white" stroke-width="1.5"/>
+  <circle cx="580" cy="100" r="10" fill="#475569" stroke="white" stroke-width="1.5"/>
+
+  <text x="450" y="175" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">w</text>
+  <text x="395" y="255" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">a</text>
+  <text x="395" y="100" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">e</text>
+  <text x="540" y="265" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">b</text>
+  <text x="580" y="250" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">c</text>
+  <text x="580" y="100" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">d</text>
+
+  <!-- Wagner theorem box -->
+  <rect x="20" y="296" width="680" height="36" fill="#ede9fe" stroke="#c4b5fd" rx="5"/>
+  <text x="360" y="311" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#6d28d9">瓦格纳定理（Wagner, 1937）</text>
+  <text x="360" y="326" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#7c3aed">简单图 G 是可平面图  ⟺  G 不含可收缩到 K₅ 或 K₃,₃ 的子图</text>
+</svg>

@@ -1,0 +1,99 @@
+<svg width="720" height="340" viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="340" fill="#f8fafc" rx="8"/>
+  <text x="360" y="26" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="15" font-weight="bold" fill="#0f172a">同胚图（Homeomorphic Graphs）</text>
+  <text x="360" y="44" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#475569">在边上插入 2 度顶点（或收缩 2 度顶点）不改变图的同胚类</text>
+
+  <!-- ══ G1: diamond (K4 minus one edge) ══ -->
+  <!-- vertices: a(180,90), b(100,180), c(260,180), d(180,270) -->
+  <!-- edges: a-b, a-c, b-c, b-d, c-d  (NO a-d edge) -->
+  <text x="180" y="68" text-anchor="middle" font-family="serif" font-size="13" font-weight="bold" fill="#2563eb">G₁</text>
+  <line x1="180" y1="101" x2="100" y2="168" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="180" y1="101" x2="260" y2="168" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="112" y1="180" x2="248" y2="180" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="100" y1="192" x2="168" y2="259" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="260" y1="192" x2="192" y2="259" stroke="#2563eb" stroke-width="2.5"/>
+
+  <circle cx="180" cy="90"  r="12" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="100" cy="180" r="12" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="260" cy="180" r="12" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="180" cy="270" r="12" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <text x="180" y="90"  text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">a</text>
+  <text x="100" y="180" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">b</text>
+  <text x="260" y="180" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">c</text>
+  <text x="180" y="270" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">d</text>
+  <!-- edge labels for reference -->
+  <text x="133" y="128" text-anchor="middle" font-family="serif" font-size="9" fill="#64748b">ab</text>
+  <text x="227" y="128" text-anchor="middle" font-family="serif" font-size="9" fill="#64748b">ac</text>
+  <text x="180" y="173" text-anchor="middle" font-family="serif" font-size="9" fill="#64748b">bc</text>
+  <text x="133" y="233" text-anchor="middle" font-family="serif" font-size="9" fill="#64748b">bd</text>
+  <text x="227" y="233" text-anchor="middle" font-family="serif" font-size="9" fill="#64748b">cd</text>
+
+  <!-- Arrow G1 → G2 -->
+  <line x1="285" y1="180" x2="325" y2="180" stroke="#16a34a" stroke-width="1.5"/>
+  <polygon points="322,176 333,180 322,184" fill="#16a34a"/>
+  <text x="308" y="168" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#16a34a">在 bc 上</text>
+  <text x="308" y="182" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#16a34a">插入 w</text>
+
+  <!-- ══ G2: G1 + 2-degree vertex w on edge b-c ══ -->
+  <!-- vertices: a(420,90), b(340,180), w(420,180), c(500,180), d(420,270) -->
+  <!-- edges: a-b, a-c, b-w, w-c, b-d, c-d -->
+  <text x="420" y="68" text-anchor="middle" font-family="serif" font-size="13" font-weight="bold" fill="#2563eb">G₂</text>
+  <line x1="420" y1="101" x2="340" y2="168" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="420" y1="101" x2="500" y2="168" stroke="#2563eb" stroke-width="2.5"/>
+  <!-- b-w-c path (red = inserted vertex) -->
+  <line x1="352" y1="180" x2="408" y2="180" stroke="#dc2626" stroke-width="2.5"/>
+  <line x1="432" y1="180" x2="488" y2="180" stroke="#dc2626" stroke-width="2.5"/>
+  <line x1="340" y1="192" x2="408" y2="259" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="500" y1="192" x2="432" y2="259" stroke="#2563eb" stroke-width="2.5"/>
+
+  <circle cx="420" cy="90"  r="12" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="340" cy="180" r="12" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="500" cy="180" r="12" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="420" cy="270" r="12" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="420" cy="180" r="11" fill="#dc2626" stroke="white" stroke-width="2"/>
+  <text x="420" y="90"  text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">a</text>
+  <text x="340" y="180" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">b</text>
+  <text x="500" y="180" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">c</text>
+  <text x="420" y="270" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">d</text>
+  <text x="420" y="180" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">w</text>
+  <text x="420" y="198" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="9" fill="#dc2626">新 2 度点</text>
+
+  <!-- Arrow G2 → G3 -->
+  <line x1="525" y1="180" x2="565" y2="180" stroke="#16a34a" stroke-width="1.5"/>
+  <polygon points="562,176 573,180 562,184" fill="#16a34a"/>
+  <text x="548" y="168" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#16a34a">在 bd 上</text>
+  <text x="548" y="182" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#16a34a">插入 x</text>
+
+  <!-- ══ G3: G2 + 2-degree vertex x on edge b-d ══ -->
+  <!-- vertices: a(640,90), b(565,175), c(695,175), d(640,265), w(640,175), x(595,230) -->
+  <!-- edges: a-b, a-c, b-w, w-c, b-x, x-d, c-d -->
+  <text x="635" y="68" text-anchor="middle" font-family="serif" font-size="13" font-weight="bold" fill="#2563eb">G₃</text>
+  <line x1="640" y1="101" x2="572" y2="163" stroke="#2563eb" stroke-width="2.5"/>
+  <line x1="640" y1="101" x2="695" y2="163" stroke="#2563eb" stroke-width="2.5"/>
+  <!-- b-w-c path (red) -->
+  <line x1="577" y1="175" x2="628" y2="175" stroke="#dc2626" stroke-width="2.5"/>
+  <line x1="652" y1="175" x2="695" y2="175" stroke="#dc2626" stroke-width="2.5"/>
+  <!-- b-x-d path (purple = second inserted vertex) -->
+  <line x1="569" y1="185" x2="590" y2="218" stroke="#7c3aed" stroke-width="2.5"/>
+  <line x1="595" y1="242" x2="632" y2="257" stroke="#7c3aed" stroke-width="2.5"/>
+  <!-- c-d -->
+  <line x1="695" y1="187" x2="648" y2="257" stroke="#2563eb" stroke-width="2.5"/>
+
+  <circle cx="640" cy="90"  r="12" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="565" cy="175" r="12" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="695" cy="175" r="12" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="640" cy="265" r="12" fill="#2563eb" stroke="white" stroke-width="1.5"/>
+  <circle cx="640" cy="175" r="11" fill="#dc2626" stroke="white" stroke-width="2"/>
+  <circle cx="595" cy="230" r="11" fill="#7c3aed" stroke="white" stroke-width="2"/>
+  <text x="640" y="90"  text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">a</text>
+  <text x="565" y="175" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">b</text>
+  <text x="695" y="175" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">c</text>
+  <text x="640" y="265" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">d</text>
+  <text x="640" y="175" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">w</text>
+  <text x="595" y="230" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="10" fill="white">x</text>
+
+  <!-- Bottom conclusion box -->
+  <rect x="20" y="292" width="680" height="40" fill="#dcfce7" stroke="#86efac" rx="5"/>
+  <text x="360" y="309" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#166534">G₁, G₂, G₃ 是同胚图（n,m 各不同，但属同一同胚类）</text>
+  <text x="360" y="326" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#15803d">库拉托斯基定理：G 非平面  ⟺  G 含与 K₅ 或 K₃,₃ 同胚的子图</text>
+</svg>

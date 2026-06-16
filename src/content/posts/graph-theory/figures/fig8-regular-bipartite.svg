@@ -1,0 +1,85 @@
+<svg width="720" height="440" viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="440" fill="#f8fafc" rx="8"/>
+  <text x="360" y="27" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="16" font-weight="bold" fill="#0f172a">推论：k-正则偶图（k＞0）必有完美匹配</text>
+  <text x="360" y="44" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#475569">用 Hall 定理证明：对任意 S ⊆ X，k|S| ≤ k|N(S)| → |N(S)| ≥ |S|</text>
+
+  <!-- ══ Main bipartite diagram ══ -->
+  <!-- X row y=160: x1(120), x2(240), x3(360) -->
+  <!-- Y row y=290: y1(100), y2(200), y3(300), y4(400) (more than |X| for illustration) -->
+  <!-- Actually let's use |X|=|Y|=3 (k-regular means |X|=|Y|) -->
+  <!-- X: (120,160), (280,160), (440,160) -->
+  <!-- Y: (120,300), (280,300), (440,300) -->
+  <!-- For k=2-regular: each X vertex connects to 2 Y-vertices -->
+
+  <!-- Region background -->
+  <rect x="65"  y="138" width="430" height="44" fill="#dbeafe" stroke="#93c5fd" stroke-width="1" rx="22"/>
+  <rect x="65"  y="278" width="430" height="44" fill="#fed7aa" stroke="#fb923c" stroke-width="1" rx="22"/>
+
+  <text x="36"  y="165" text-anchor="end" font-family="STSong,SimSun,serif" font-size="13" fill="#1d4ed8">X</text>
+  <text x="36"  y="305" text-anchor="end" font-family="STSong,SimSun,serif" font-size="13" fill="#c2410c">Y</text>
+
+  <!-- Edges: 2-regular bipartite (each vertex degree 2) -->
+  <!-- x1→y1, x1→y2; x2→y2, x2→y3; x3→y1, x3→y3 -->
+  <line x1="120" y1="182" x2="120" y2="278" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="120" y1="182" x2="280" y2="278" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="280" y1="182" x2="280" y2="278" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="280" y1="182" x2="440" y2="278" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="440" y1="182" x2="120" y2="278" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="440" y1="182" x2="440" y2="278" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- Highlight a subset S = {x1, x2} and its neighbors N(S) = {y1, y2, y3} -->
+  <!-- S background -->
+  <rect x="72" y="138" width="255" height="44" fill="#2563eb" fill-opacity="0.15" stroke="#2563eb" stroke-width="2" rx="22"/>
+  <text x="200" y="132" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#1d4ed8">S ⊆ X</text>
+
+  <!-- N(S) background -->
+  <rect x="72" y="278" width="415" height="44" fill="#ea580c" fill-opacity="0.15" stroke="#ea580c" stroke-width="2" rx="22"/>
+  <text x="278" y="340" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#c2410c">N(S) ⊇ |S| 个邻点</text>
+
+  <!-- E1 edges (from S, thick blue): x1-y1, x1-y2, x2-y2, x2-y3 -->
+  <line x1="120" y1="182" x2="120" y2="278" stroke="#2563eb" stroke-width="4"/>
+  <line x1="120" y1="182" x2="280" y2="278" stroke="#2563eb" stroke-width="4"/>
+  <line x1="280" y1="182" x2="280" y2="278" stroke="#2563eb" stroke-width="4"/>
+  <line x1="280" y1="182" x2="440" y2="278" stroke="#2563eb" stroke-width="4"/>
+
+  <!-- Vertices -->
+  <circle cx="120" cy="160" r="14" fill="#2563eb"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="120" y="160" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">x₁</text>
+
+  <circle cx="280" cy="160" r="14" fill="#2563eb"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="280" y="160" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">x₂</text>
+
+  <circle cx="440" cy="160" r="14" fill="#94a3b8"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="440" y="160" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">x₃</text>
+
+  <circle cx="120" cy="300" r="14" fill="#ea580c"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="120" y="300" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">y₁</text>
+
+  <circle cx="280" cy="300" r="14" fill="#ea580c"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="280" y="300" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">y₂</text>
+
+  <circle cx="440" cy="300" r="14" fill="#ea580c"  stroke="#0f172a" stroke-width="1.5"/>
+  <text x="440" y="300" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">y₃</text>
+
+  <!-- E1 / E2 labels -->
+  <text x="560" y="210" font-family="STSong,SimSun,serif" font-size="12" fill="#2563eb">E₁ = 与 S 关联的边集</text>
+  <text x="560" y="228" font-family="STSong,SimSun,serif" font-size="12" fill="#2563eb">|E₁| = k|S|</text>
+  <line x1="548" y1="220" x2="390" y2="230" stroke="#2563eb" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <text x="560" y="255" font-family="STSong,SimSun,serif" font-size="12" fill="#ea580c">E₂ = 与 N(S) 关联的边集</text>
+  <text x="560" y="273" font-family="STSong,SimSun,serif" font-size="12" fill="#ea580c">|E₂| = k|N(S)|</text>
+  <line x1="548" y1="267" x2="440" y2="290" stroke="#ea580c" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Containment arrow -->
+  <text x="560" y="238" font-family="serif" font-size="20" fill="#16a34a">⊆</text>
+  <text x="600" y="242" dominant-baseline="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#16a34a">E₁⊆E₂</text>
+
+  <!-- ── Proof steps ── -->
+  <line x1="28" y1="360" x2="692" y2="360" stroke="#e2e8f0" stroke-width="1"/>
+
+  <text x="360" y="378" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#0f172a">关键推导（k-正则 ⟹ Hall 条件）：</text>
+
+  <rect x="40" y="388" width="630" height="42" fill="#dcfce7" stroke="#86efac" rx="5"/>
+  <text x="355" y="404" text-anchor="middle" font-family="serif" font-size="14" fill="#166534">E₁ ⊆ E₂  ⟹  k|S| = |E₁| ≤ |E₂| = k|N(S)|  ⟹  |N(S)| ≥ |S|</text>
+  <text x="355" y="422" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#15803d">对所有 S ⊆ X 成立 → Hall 条件满足 → 存在由 X 到 Y 的匹配 → 又 |X|=|Y|（k-正则）→ 完美匹配  ✓</text>
+</svg>

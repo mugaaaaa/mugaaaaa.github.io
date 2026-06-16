@@ -1,0 +1,84 @@
+<svg width="720" height="470" viewBox="0 0 720 470" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="470" fill="#f8fafc" rx="8"/>
+  <text x="360" y="25" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="14" font-weight="bold" fill="#0f172a">割边在面次数中计两次  vs  2-连通平面图（定理3）</text>
+
+  <!-- Vertical divider -->
+  <line x1="360" y1="35" x2="360" y2="405" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+  <!-- ══ LEFT PANEL: graph with bridge ══ -->
+  <text x="165" y="50" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" font-weight="bold" fill="#dc2626">非 2-连通：含割边（桥）</text>
+  <text x="165" y="65" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#64748b">n=4, m=4, φ=2；  4−4+2=2 ✓</text>
+
+  <!-- Triangle edges v1-v2-v3 -->
+  <line x1="165" y1="101" x2="270" y2="196" stroke="#475569" stroke-width="2"/>
+  <line x1="258" y1="208" x2="72" y2="208" stroke="#475569" stroke-width="2"/>
+  <line x1="60" y1="196" x2="165" y2="101" stroke="#475569" stroke-width="2"/>
+  <!-- Bridge v3-v4 in red -->
+  <line x1="60" y1="221" x2="60" y2="289" stroke="#dc2626" stroke-width="3.5"/>
+  <text x="36" y="258" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#dc2626">割边</text>
+
+  <!-- Vertices -->
+  <circle cx="165" cy="89"  r="13" fill="#1e293b" stroke="white" stroke-width="1.5"/>
+  <circle cx="282" cy="208" r="13" fill="#1e293b" stroke="white" stroke-width="1.5"/>
+  <circle cx="60"  cy="208" r="13" fill="#1e293b" stroke="white" stroke-width="1.5"/>
+  <circle cx="60"  cy="302" r="13" fill="#1e293b" stroke="white" stroke-width="1.5"/>
+  <text x="165" y="89"  text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">v₁</text>
+  <text x="282" y="208" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">v₂</text>
+  <text x="60"  y="208" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">v₃</text>
+  <text x="60"  y="302" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">v₄</text>
+
+  <!-- Face labels -->
+  <text x="162" y="178" text-anchor="middle" font-family="serif" font-size="16" fill="#2563eb">f₁</text>
+  <text x="222" y="260" text-anchor="middle" font-family="serif" font-size="16" fill="#ea580c">f₂</text>
+  <text x="222" y="278" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#ea580c">(外部面)</text>
+
+  <!-- Details box LEFT — starts BELOW v4 circle bottom (y=315) -->
+  <rect x="22" y="320" width="320" height="82" fill="#fee2e2" stroke="#fca5a5" rx="4"/>
+  <text x="182" y="337" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" font-weight="bold" fill="#dc2626">面次数验证</text>
+  <text x="35" y="354" font-family="serif" font-size="11" fill="#0f172a">deg(f₁) = 3：边界 v₁−v₂−v₃−v₁（三角圈）</text>
+  <text x="35" y="371" font-family="serif" font-size="11" fill="#0f172a">deg(f₂) = 5：v₁−v₂−v₃−v₄−v₃−v₁（外部）</text>
+  <text x="50" y="387" font-family="STSong,SimSun,serif" font-size="10" fill="#dc2626">↑ 割边 v₃v₄ 在 f₂ 边界经过两次</text>
+  <text x="35" y="400" font-family="serif" font-size="11" fill="#166534">Σ deg = 3+5 = 8 = 2×4 = 2m  ✓</text>
+
+  <!-- ══ RIGHT PANEL: 2-connected graph ══ -->
+  <text x="540" y="50" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" font-weight="bold" fill="#16a34a">2-连通：每个面边界均为圈</text>
+  <text x="540" y="65" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#64748b">n=4, m=5, φ=3；  4−5+3=2 ✓</text>
+
+  <!-- Square a-b-c-d + diagonal a-c -->
+  <!-- a(415,90), b(620,90), c(620,215), d(415,215) -->
+  <line x1="428" y1="90"  x2="607" y2="90"  stroke="#475569" stroke-width="2"/>
+  <line x1="620" y1="103" x2="620" y2="202" stroke="#475569" stroke-width="2"/>
+  <line x1="607" y1="215" x2="428" y2="215" stroke="#475569" stroke-width="2"/>
+  <line x1="415" y1="202" x2="415" y2="103" stroke="#475569" stroke-width="2"/>
+  <line x1="428" y1="101" x2="607" y2="204" stroke="#475569" stroke-width="2"/>
+
+  <circle cx="415" cy="90"  r="13" fill="#1e293b" stroke="white" stroke-width="1.5"/>
+  <circle cx="620" cy="90"  r="13" fill="#1e293b" stroke="white" stroke-width="1.5"/>
+  <circle cx="620" cy="215" r="13" fill="#1e293b" stroke="white" stroke-width="1.5"/>
+  <circle cx="415" cy="215" r="13" fill="#1e293b" stroke="white" stroke-width="1.5"/>
+  <text x="415" y="90"  text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">a</text>
+  <text x="620" y="90"  text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">b</text>
+  <text x="620" y="215" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">c</text>
+  <text x="415" y="215" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">d</text>
+
+  <!-- Face labels -->
+  <text x="558" y="140" text-anchor="middle" font-family="serif" font-size="15" fill="#2563eb">f₁</text>
+  <text x="472" y="178" text-anchor="middle" font-family="serif" font-size="15" fill="#2563eb">f₂</text>
+  <text x="517" y="255" text-anchor="middle" font-family="serif" font-size="15" fill="#ea580c">f₃</text>
+  <text x="517" y="272" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#ea580c">(外部面)</text>
+
+  <!-- Details box RIGHT — starts below f3 label (y=282) -->
+  <rect x="370" y="285" width="330" height="110" fill="#dcfce7" stroke="#86efac" rx="4"/>
+  <text x="535" y="303" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" font-weight="bold" fill="#166534">每个面边界均为简单圈（无割边）</text>
+  <text x="383" y="320" font-family="serif" font-size="11" fill="#0f172a">f₁(3)：圈 a−b−c（右上三角形）</text>
+  <text x="383" y="337" font-family="serif" font-size="11" fill="#0f172a">f₂(3)：圈 a−c−d（左下三角形）</text>
+  <text x="383" y="354" font-family="serif" font-size="11" fill="#0f172a">f₃(4)：圈 a−b−c−d（外部矩形）</text>
+  <text x="383" y="371" font-family="serif" font-size="11" fill="#166534">Σ deg = 3+3+4 = 10 = 2×5 = 2m  ✓</text>
+  <text x="383" y="388" font-family="STSong,SimSun,serif" font-size="10" fill="#16a34a">无割边 → 不存在同一面出现两次的边</text>
+
+  <!-- Theorem box — below BOTH details boxes (left ends y=402, right ends y=395) -->
+  <rect x="20" y="412" width="680" height="50" fill="#ede9fe" stroke="#c4b5fd" rx="5"/>
+  <text x="360" y="430" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#6d28d9">定理3</text>
+  <text x="360" y="448" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#7c3aed">连通平面图 G 是 2-连通  ⟺  G 的每个面的边界都是圈</text>
+  <text x="360" y="463" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#475569">（含割边 → 割边在同一面边界两次出现 → 面边界不是简单圈）</text>
+</svg>

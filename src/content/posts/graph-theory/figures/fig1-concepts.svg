@@ -1,0 +1,121 @@
+<svg width="700" height="430" viewBox="0 0 700 430" xmlns="http://www.w3.org/2000/svg">
+  <rect width="700" height="430" fill="#f8fafc" rx="8"/>
+  <text x="350" y="28" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="16" font-weight="bold" fill="#0f172a">匹配基本概念：M-交错路 与 M-可扩路</text>
+
+  <!-- Legend -->
+  <circle cx="568" cy="50" r="9" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="582" y="50" dominant-baseline="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#475569">M-饱和点</text>
+  <circle cx="568" cy="70" r="9" fill="white" stroke="#0f172a" stroke-width="2.5"/>
+  <text x="582" y="70" dominant-baseline="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#475569">M-非饱和点</text>
+  <line x1="548" y1="88" x2="570" y2="88" stroke="#2563eb" stroke-width="5"/>
+  <text x="582" y="88" dominant-baseline="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#475569">M 中的边</text>
+
+  <!-- TOP: graph G -->
+  <text x="280" y="54" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" fill="#334155">图 G，匹配 M = { v₂v₃, v₄v₅ }（蓝色粗边）</text>
+
+  <line x1="60"  y1="125" x2="150" y2="125" stroke="#334155" stroke-width="2"/>
+  <line x1="150" y1="125" x2="240" y2="125" stroke="#2563eb" stroke-width="6"/>
+  <line x1="240" y1="125" x2="330" y2="125" stroke="#334155" stroke-width="2"/>
+  <line x1="330" y1="125" x2="420" y2="125" stroke="#2563eb" stroke-width="6"/>
+  <line x1="420" y1="125" x2="510" y2="125" stroke="#334155" stroke-width="2"/>
+
+  <circle cx="60"  cy="125" r="12" fill="white"   stroke="#0f172a" stroke-width="2.5"/>
+  <circle cx="150" cy="125" r="12" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="240" cy="125" r="12" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="330" cy="125" r="12" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="420" cy="125" r="12" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="510" cy="125" r="12" fill="white"   stroke="#0f172a" stroke-width="2.5"/>
+
+  <text x="60"  y="125" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="#334155">v₁</text>
+  <text x="150" y="125" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">v₂</text>
+  <text x="240" y="125" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">v₃</text>
+  <text x="330" y="125" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">v₄</text>
+  <text x="420" y="125" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">v₅</text>
+  <text x="510" y="125" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="#334155">v₆</text>
+
+  <!-- dividers -->
+  <line x1="30" y1="168" x2="670" y2="168" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="5,4"/>
+  <line x1="350" y1="168" x2="350" y2="428" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="5,4"/>
+
+  <!-- ─── LEFT: non-augmenting ─── -->
+  <text x="175" y="190" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#334155">M-交错路（非可扩路）</text>
+  <text x="175" y="208" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#64748b">路 v₂ → v₃ → v₄ → v₅</text>
+
+  <line x1="60"  y1="280" x2="155" y2="280" stroke="#2563eb" stroke-width="6"/>
+  <line x1="155" y1="280" x2="245" y2="280" stroke="#334155" stroke-width="2"/>
+  <line x1="245" y1="280" x2="340" y2="280" stroke="#2563eb" stroke-width="6"/>
+
+  <circle cx="60"  cy="280" r="13" fill="#1e293b" stroke="#dc2626" stroke-width="3"/>
+  <circle cx="155" cy="280" r="13" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="245" cy="280" r="13" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="340" cy="280" r="13" fill="#1e293b" stroke="#dc2626" stroke-width="3"/>
+
+  <text x="60"  y="280" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">v₂</text>
+  <text x="155" y="280" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">v₃</text>
+  <text x="245" y="280" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">v₄</text>
+  <text x="340" y="280" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">v₅</text>
+
+  <text x="60"  y="304" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#dc2626">饱和</text>
+  <text x="340" y="304" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#dc2626">饱和</text>
+
+  <rect x="30" y="318" width="300" height="40" fill="#fee2e2" stroke="#fca5a5" rx="5"/>
+  <text x="180" y="334" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#dc2626">起点 v₂、终点 v₅ 均为 M-饱和点</text>
+  <text x="180" y="350" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#b91c1c">✗ 无法通过翻转来扩大 |M|</text>
+
+  <!-- ─── RIGHT: augmenting path + flip ─── -->
+  <text x="520" y="190" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#334155">M-可扩路（M-augmenting path）</text>
+  <text x="520" y="208" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#64748b">路 v₁ → v₂ → v₃ → v₄ → v₅ → v₆</text>
+
+  <!-- before flip -->
+  <line x1="368" y1="265" x2="415" y2="265" stroke="#334155" stroke-width="2"/>
+  <line x1="415" y1="265" x2="462" y2="265" stroke="#2563eb" stroke-width="6"/>
+  <line x1="462" y1="265" x2="509" y2="265" stroke="#334155" stroke-width="2"/>
+  <line x1="509" y1="265" x2="556" y2="265" stroke="#2563eb" stroke-width="6"/>
+  <line x1="556" y1="265" x2="603" y2="265" stroke="#334155" stroke-width="2"/>
+
+  <circle cx="368" cy="265" r="13" fill="white"   stroke="#16a34a" stroke-width="3"/>
+  <circle cx="415" cy="265" r="13" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="462" cy="265" r="13" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="509" cy="265" r="13" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="556" cy="265" r="13" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="603" cy="265" r="13" fill="white"   stroke="#16a34a" stroke-width="3"/>
+
+  <text x="368" y="265" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="#16a34a">v₁</text>
+  <text x="415" y="265" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">v₂</text>
+  <text x="462" y="265" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">v₃</text>
+  <text x="509" y="265" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">v₄</text>
+  <text x="556" y="265" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="white">v₅</text>
+  <text x="603" y="265" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="13" fill="#16a34a">v₆</text>
+
+  <text x="368" y="289" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#16a34a">非饱和</text>
+  <text x="603" y="289" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#16a34a">非饱和</text>
+
+  <!-- arrow -->
+  <line x1="486" y1="302" x2="486" y2="318" stroke="#16a34a" stroke-width="2"/>
+  <polygon points="479,318 493,318 486,330" fill="#16a34a"/>
+  <text x="540" y="314" dominant-baseline="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#16a34a">翻转 M-边与非M-边</text>
+
+  <!-- after flip -->
+  <line x1="368" y1="360" x2="415" y2="360" stroke="#16a34a" stroke-width="6"/>
+  <line x1="415" y1="360" x2="462" y2="360" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="462" y1="360" x2="509" y2="360" stroke="#16a34a" stroke-width="6"/>
+  <line x1="509" y1="360" x2="556" y2="360" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="556" y1="360" x2="603" y2="360" stroke="#16a34a" stroke-width="6"/>
+
+  <circle cx="368" cy="360" r="12" fill="#16a34a" stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="415" cy="360" r="12" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="462" cy="360" r="12" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="509" cy="360" r="12" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="556" cy="360" r="12" fill="#1e293b"  stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="603" cy="360" r="12" fill="#16a34a" stroke="#0f172a" stroke-width="1.5"/>
+
+  <text x="368" y="360" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">v₁</text>
+  <text x="415" y="360" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">v₂</text>
+  <text x="462" y="360" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">v₃</text>
+  <text x="509" y="360" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">v₄</text>
+  <text x="556" y="360" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">v₅</text>
+  <text x="603" y="360" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="white">v₆</text>
+
+  <text x="486" y="392" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#16a34a">M' = {v₁v₂, v₃v₄, v₅v₆}，|M'| = 3 ＞ |M| = 2  ✓</text>
+  <text x="486" y="412" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#15803d">全部顶点饱和 → 完美匹配！</text>
+</svg>

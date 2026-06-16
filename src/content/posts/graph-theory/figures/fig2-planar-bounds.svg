@@ -1,0 +1,63 @@
+<svg width="720" height="390" viewBox="0 0 720 390" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="390" fill="#f8fafc" rx="8"/>
+  <text x="360" y="26" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="15" font-weight="bold" fill="#0f172a">m ≤ 3n − 6 的推导（简单可平面图）</text>
+
+  <!-- ══ Step chain: left to right ══ -->
+  <!-- Step 1 box -->
+  <rect x="20" y="50" width="180" height="80" fill="#dbeafe" stroke="#93c5fd" rx="6"/>
+  <text x="110" y="72" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" font-weight="bold" fill="#1d4ed8">前提</text>
+  <text x="110" y="90" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#1e40af">简单图：无环、无重边</text>
+  <text x="110" y="108" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#1e40af">→ 每个面次数 ≥ 3</text>
+  <text x="110" y="124" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#3b82f6">（最短圈长度 ≥ 3）</text>
+
+  <!-- Arrow 1 -->
+  <line x1="200" y1="90" x2="225" y2="90" stroke="#64748b" stroke-width="2"/>
+  <polygon points="222,86 232,90 222,94" fill="#64748b"/>
+
+  <!-- Step 2 box -->
+  <rect x="232" y="50" width="188" height="80" fill="#ede9fe" stroke="#a78bfa" rx="6"/>
+  <text x="326" y="72" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" font-weight="bold" fill="#7c3aed">次数公式</text>
+  <text x="326" y="90" text-anchor="middle" font-family="serif" font-size="13" fill="#6d28d9">Σdeg(f) = 2m</text>
+  <text x="326" y="108" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#7c3aed">deg(f) ≥ 3 → 3φ ≤ 2m</text>
+  <text x="326" y="124" text-anchor="middle" font-family="serif" font-size="12" fill="#6d28d9">φ ≤ 2m/3</text>
+
+  <!-- Arrow 2 -->
+  <line x1="420" y1="90" x2="445" y2="90" stroke="#64748b" stroke-width="2"/>
+  <polygon points="442,86 452,90 442,94" fill="#64748b"/>
+
+  <!-- Step 3 box -->
+  <rect x="452" y="50" width="188" height="80" fill="#dcfce7" stroke="#86efac" rx="6"/>
+  <text x="546" y="72" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" font-weight="bold" fill="#16a34a">代入欧拉公式</text>
+  <text x="546" y="90" text-anchor="middle" font-family="serif" font-size="12" fill="#15803d">n − m + φ = 2</text>
+  <text x="546" y="106" text-anchor="middle" font-family="serif" font-size="11" fill="#15803d">φ = 2 − n + m ≤ 2m/3</text>
+  <text x="546" y="122" text-anchor="middle" font-family="serif" font-size="12" fill="#166534">m ≤ 3(n − 2) = 3n − 6</text>
+
+  <!-- Big result box -->
+  <rect x="20" y="152" width="680" height="50" fill="#fef9c3" stroke="#fde047" rx="6"/>
+  <text x="360" y="171" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#713f12">结论 1（推论3）：简单可平面图（n ≥ 3）满足  m ≤ 3n − 6</text>
+  <text x="360" y="191" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#92400e">等价逆否：m > 3n − 6  ⟹  G 是非可平面图（充分非必要）</text>
+
+  <!-- Divider -->
+  <line x1="20" y1="218" x2="700" y2="218" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- K5 and K3,3 application side by side -->
+  <!-- K5 -->
+  <rect x="20" y="228" width="320" height="148" fill="#fee2e2" stroke="#fca5a5" rx="6"/>
+  <text x="180" y="248" text-anchor="middle" font-family="serif" font-size="14" font-weight="bold" fill="#dc2626">K₅ 是非可平面图</text>
+  <text x="45" y="268" font-family="serif" font-size="13" fill="#475569">n = 5,  m = 10</text>
+  <text x="45" y="288" font-family="serif" font-size="13" fill="#475569">3n − 6 = 3×5 − 6 = 9</text>
+  <text x="45" y="308" font-family="serif" font-size="13" fill="#dc2626">m = 10 > 9 = 3n − 6  ✗</text>
+  <text x="45" y="328" font-family="STSong,SimSun,serif" font-size="11" fill="#b91c1c">→ 违反推论3，K₅ 非平面</text>
+  <text x="45" y="346" font-family="STSong,SimSun,serif" font-size="10" fill="#64748b">注：推论3用 l=3（简单图最短圈）</text>
+  <text x="45" y="362" font-family="STSong,SimSun,serif" font-size="10" fill="#64748b">K₅ 每条边需在三角面？不成立 → 违反</text>
+
+  <!-- K3,3 -->
+  <rect x="360" y="228" width="340" height="148" fill="#fee2e2" stroke="#fca5a5" rx="6"/>
+  <text x="530" y="248" text-anchor="middle" font-family="serif" font-size="14" font-weight="bold" fill="#dc2626">K₃,₃ 是非可平面图</text>
+  <text x="378" y="268" font-family="serif" font-size="13" fill="#475569">n = 6,  m = 9</text>
+  <text x="378" y="288" font-family="STSong,SimSun,serif" font-size="12" fill="#475569">K₃,₃ 是偶图 → 无奇圈 → 面次数 ≥ 4</text>
+  <text x="378" y="308" font-family="serif" font-size="12" fill="#475569">取 l = 4：m ≤ 4/(4−2)×(6−2) = 8</text>
+  <text x="378" y="328" font-family="serif" font-size="13" fill="#dc2626">m = 9 > 8  ✗</text>
+  <text x="378" y="348" font-family="STSong,SimSun,serif" font-size="11" fill="#b91c1c">→ 违反推论2（l=4），K₃,₃ 非平面</text>
+  <text x="378" y="366" font-family="STSong,SimSun,serif" font-size="10" fill="#64748b">注：推论3不够强（m=9≤3×6−6=12），需用 l=4</text>
+</svg>

@@ -1,0 +1,122 @@
+<svg width="740" height="460" viewBox="0 0 740 460" xmlns="http://www.w3.org/2000/svg">
+  <rect width="740" height="460" fill="#f8fafc" rx="8"/>
+  <text x="370" y="27" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="16" font-weight="bold" fill="#0f172a">伯格定理证明：对称差 M₁ΔM 的分解</text>
+  <text x="370" y="44" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#475569">H = M₁ΔM 每条边被恰好一个匹配使用 → 每顶点在 H 中度 ≤ 2 → H 分解为偶环或路</text>
+
+  <!-- Divider -->
+  <line x1="370" y1="52" x2="370" y2="380" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- ═══ LEFT: Even cycle case ═══ -->
+  <rect x="18" y="55" width="330" height="30" fill="#ede9fe" stroke="#a78bfa" rx="6"/>
+  <text x="183" y="75" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#7c3aed">情形 A：偶环分量</text>
+
+  <!-- 6-cycle: v1-v2-v3-v4-v5-v6-v1, alternating M/M1 -->
+  <!-- Positions: hex layout, center (183, 215), radius 80 -->
+  <!-- v1 top, clockwise -->
+  <!-- v1=(183,138), v2=(253,175), v3=(253,255), v4=(183,292), v5=(113,255), v6=(113,175) -->
+
+  <!-- M₁ edges (orange): v1-v2, v3-v4, v5-v6 -->
+  <line x1="183" y1="138" x2="253" y2="175" stroke="#f97316" stroke-width="5"/>
+  <line x1="253" y1="255" x2="183" y2="292" stroke="#f97316" stroke-width="5"/>
+  <line x1="113" y1="255" x2="113" y2="175" stroke="#f97316" stroke-width="5"/>
+
+  <!-- M edges (blue): v2-v3, v4-v5, v6-v1 -->
+  <line x1="253" y1="175" x2="253" y2="255" stroke="#2563eb" stroke-width="5"/>
+  <line x1="183" y1="292" x2="113" y2="255" stroke="#2563eb" stroke-width="5"/>
+  <line x1="113" y1="175" x2="183" y2="138" stroke="#2563eb" stroke-width="5"/>
+
+  <!-- Vertices -->
+  <circle cx="183" cy="138" r="13" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="253" cy="175" r="13" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="253" cy="255" r="13" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="183" cy="292" r="13" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="113" cy="255" r="13" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <circle cx="113" cy="175" r="13" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+
+  <text x="183" y="138" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">v₁</text>
+  <text x="253" y="175" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">v₂</text>
+  <text x="253" y="255" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">v₃</text>
+  <text x="183" y="292" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">v₄</text>
+  <text x="113" y="255" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">v₅</text>
+  <text x="113" y="175" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">v₆</text>
+
+  <!-- Legend -->
+  <line x1="35" y1="317" x2="75" y2="317" stroke="#f97316" stroke-width="4"/>
+  <text x="80" y="321" dominant-baseline="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#f97316">M₁ 的边（3 条）</text>
+  <line x1="35" y1="334" x2="75" y2="334" stroke="#2563eb" stroke-width="4"/>
+  <text x="80" y="338" dominant-baseline="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#2563eb">M  的边（3 条）</text>
+
+  <rect x="18" y="354" width="330" height="32" fill="#ede9fe" stroke="#c4b5fd" rx="5"/>
+  <text x="183" y="368" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#7c3aed">偶环：|M₁ ∩ 环| = |M ∩ 环|，对 |M₁|–|M| 无贡献</text>
+  <text x="183" y="381" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#6d28d9">所有偶环分量抵消；大小差只来自路</text>
+
+  <!-- ═══ RIGHT: Path case ═══ -->
+  <rect x="388" y="55" width="330" height="30" fill="#dcfce7" stroke="#86efac" rx="6"/>
+  <text x="553" y="75" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#16a34a">情形 B：路分量（M₁ 边多一条）</text>
+
+  <!-- Path: u0(M-unsat) - y1 - x1 - y2 - x2 - y3(M1-unsat) -->
+  <!-- Positions: horizontal path left-right -->
+  <!-- u0=420,y=170; y1=480,180; x1=540,170; y2=600,180; x2=655,170; y3=710,180 -->
+  <!-- But width is only 740... let me use vertical path to save space -->
+  <!-- Positions: u0=(435,110) → y1=(435,175) → x1=(435,240) → y2=(570,175) → x2=(570,240) → y3=(570,305) -->
+  <!-- Actually let me do a zig-zag horizontal layout -->
+  <!-- u0=(420,130) → (490,200) → (560,130) → (630,200) → (700,130) → only 5 vertices -->
+  <!-- Let's do 5-vertex path for simplicity -->
+  <!-- P: u-a-x1-b-y1   where u,x1 in X and a,b,y1 in Y -->
+  <!-- u=(420,140), a=(490,220), x1=(560,140), b=(630,220), y1=(700,140) -->
+
+  <!-- M₁ edges: u-a, x1-b (orange) -->
+  <line x1="420" y1="140" x2="490" y2="220" stroke="#f97316" stroke-width="5"/>
+  <line x1="560" y1="140" x2="630" y2="220" stroke="#f97316" stroke-width="5"/>
+
+  <!-- M edge: a-x1, b-y1 (blue) -->
+  <line x1="490" y1="220" x2="560" y2="140" stroke="#2563eb" stroke-width="5"/>
+  <line x1="630" y1="220" x2="700" y2="140" stroke="#2563eb" stroke-width="5"/>
+
+  <!-- Non-matched: y1 endpoint -->
+  <!-- u is M-unsaturated (hollow) and y1 is M1-unsaturated (hollow green) -->
+
+  <!-- Vertices -->
+  <!-- u: M-unsaturated, hollow red -->
+  <circle cx="420" cy="140" r="13" fill="white" stroke="#dc2626" stroke-width="3"/>
+  <text x="420" y="140" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="#dc2626">u</text>
+  <text x="420" y="160" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="9" fill="#dc2626">M-非饱和</text>
+
+  <!-- a: in Y, M-saturated (matched by M1: u-a; and M: a-x1) -->
+  <circle cx="490" cy="220" r="13" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="490" y="220" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">a</text>
+
+  <!-- x1: in X, M-saturated (M matches x1-b) -->
+  <circle cx="560" cy="140" r="13" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="560" y="140" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">x₁</text>
+
+  <!-- b: in Y, M1-saturated (x1-b in M1), M-matched (b-y1 in M) -->
+  <circle cx="630" cy="220" r="13" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="630" y="220" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="11" fill="white">b</text>
+
+  <!-- y1: M1-unsaturated (hollow green) - key endpoint! -->
+  <circle cx="700" cy="140" r="13" fill="white" stroke="#16a34a" stroke-width="3"/>
+  <text x="700" y="140" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="12" fill="#16a34a">v</text>
+  <text x="700" y="160" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="9" fill="#16a34a">M-非饱和</text>
+
+  <!-- Path label -->
+  <text x="560" y="105" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#0f172a">路 P = u — a — x₁ — b — v</text>
+  <text x="560" y="120" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="10" fill="#475569">（交替：M₁, M, M₁, M；两端点均为 M-非饱和）</text>
+
+  <!-- Edge count annotation -->
+  <text x="455" y="248" font-family="serif" font-size="11" fill="#f97316">M₁: 2 条</text>
+  <text x="595" y="248" font-family="serif" font-size="11" fill="#2563eb">M: 2 条</text>
+
+  <!-- |M1 ∩ P| > |M ∩ P| -->
+  <rect x="388" y="268" width="330" height="48" fill="#dcfce7" stroke="#86efac" rx="5"/>
+  <text x="553" y="284" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#15803d">路 P：|M₁ ∩ P| = |M ∩ P| + 1</text>
+  <text x="553" y="300" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#166534">两端点均为 M-非饱和 → P 是 M-可扩路！</text>
+  <text x="553" y="314" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="11" fill="#166534">若 |M₁| ＞ |M|，则 H 中必有这样的路</text>
+
+  <!-- ═══ Bottom conclusion ═══ -->
+  <line x1="28" y1="397" x2="712" y2="397" stroke="#e2e8f0" stroke-width="1"/>
+
+  <rect x="28" y="407" width="684" height="44" fill="#fef9c3" stroke="#fde047" rx="5"/>
+  <text x="370" y="423" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="13" font-weight="bold" fill="#713f12">伯格定理总结：</text>
+  <text x="370" y="440" text-anchor="middle" font-family="STSong,SimSun,serif" font-size="12" fill="#854d0e">若 M₁ 是更大匹配，则 H = M₁ΔM 中必存在 M-可扩路 → 逆否：若无可扩路则 M 已是最大匹配</text>
+</svg>
