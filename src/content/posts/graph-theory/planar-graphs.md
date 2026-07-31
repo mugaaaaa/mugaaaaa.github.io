@@ -4,7 +4,7 @@ published: 2026-06-15
 description: "图论中的平面图：面次数公式、欧拉公式、m≤3n−6 边数上界、5 种正多面体分类、库拉托斯基定理与瓦格纳定理的充要判定。"
 tags: [Graph Theory, Planar Graph, Euler Formula, Kuratowski Theorem, Wagner Theorem, Math]
 category: math
-draft: false
+draft: true
 lang: zh_CN
 ---
 

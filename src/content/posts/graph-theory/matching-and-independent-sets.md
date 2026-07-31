@@ -4,7 +4,7 @@ published: 2026-06-15
 description: "图论中的匹配：Berge 可扩路定理、Hall 婚配定理、König 对偶定理、匈牙利算法、Tutte 完美匹配定理与 Petersen 定理。"
 tags: [Graph Theory, Matching, Independent Set, Hall Theorem, König Theorem, Tutte Theorem, Math]
 category: math
-draft: false
+draft: true
 lang: zh_CN
 ---
 
